@@ -1,0 +1,35 @@
+<%-include('../layout/admin/header.ejs')-%>
+<%-include('../partials/adminnave.ejs')-%>
+
+<div class="row" id="maincontainer">
+    <div class="text-center center-div col-12 col-md-12 container-fluid" id="login">
+        <div class="container border col-12 col-lg-4 py-5 mb-5 container-fluid" id="squarediv">
+            <div class="title text-white pb-5">
+                <h2 class="font-weight-bold " style="color: red;">ADMIN CONTROL</h2>
+                <span style="color: green;"><h3>Edit Catagory</h3></span>
+            </div>
+            <form id="formone" action="/admin/editcatagory" method="POST" class="pt-3" autocomplete="off">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="catagory" name="catagoryname" value="<%-catagories.catagoryname -%>">
+
+                </div>
+                
+                <!-- <div class="form-group">
+                    <input type="email" class="form-control mt-4" placeholder="email" name="email" value="" required>
+                </div> -->
+               <div style="display: flex;justify-content: space-between; margin-top: 38px">
+                <input type="hidden" name="id" value="<%-catagories._id-%>">
+                <a href="/admin/catagory" class="btn btn-danger rounded-pil">cancel</a>
+                <button type="submit" id="subbtn1" class="btn btn-success rounded-pill ">ENTER</button>
+               </div>
+            </form>
+        </div>
+    </div>
+  </div>
+
+
+
+
+
+
+<%-include('../layout/admin/footer.ejs')-%>

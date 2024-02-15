@@ -1,0 +1,64 @@
+<%-include('../layout/admin/header.ejs')-%>
+<%-include('../partials/adminnave.ejs')-%>
+
+<div class="row" id="maincontainer">
+  <div
+    class="text-center center-div col-12 col-md-12 container-fluid"
+    id="login"
+  >
+    <div
+      class="container border col-12 col-lg-4 py-5 mb-5 container-fluid"
+      id="squarediv"
+    >
+      <div class="title text-white pb-5">
+        <h2 class="font-weight-bold" style="color: red">ADMIN CONTROL</h2>
+        <span style="color: green">Add New Catagory</span>
+
+        <span style="color: red;"><%-locals.err?err:""-%></span>
+      </div>
+      <form
+        id="formone"
+        action="/admin/addcatagory"
+        method="POST"
+        class="pt-3"
+        autocomplete="off"
+      >
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Catagoryname"
+            name="catagoryname"
+            required
+          />
+        </div>
+        <!-- <div class="form-group">
+                    <input type="email" class="form-control mt-4" placeholder="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control mt-4" name="password" placeholder="password" required>
+                </div> -->
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            margin-top: 38px;
+          "
+        >
+          <a href="/admin/Catagory" class="btn btn-danger rounded-pill"
+            >CANCEL</a
+          >
+          <button
+            type="submit"
+            id="subbtn1"
+            class="btn btn-success rounded-pill"
+          >
+            ADD NEW
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<%-include('../layout/admin/footer.ejs')-%>

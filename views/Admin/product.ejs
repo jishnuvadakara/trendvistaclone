@@ -1,0 +1,100 @@
+<%-include('../layout/admin/header.ejs')-%>
+<%-include('../partials/adminnave.ejs')-%>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <a href="/admin/addproducts" class="btn btn-primary float-end m-3"
+        >Add Product</a
+      >
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table shadow-sm" id="example">
+        <thead>
+          <tr>
+            <th scope="col">NO</th>
+            <th scope="col">IMAGE</th>
+            <th scope="col">NAME</th>
+            <th scope="col">PRICE</th>
+            <th scope="col">CATEGORY</th>
+            <th scope="col">BRAND</th>
+            <th scope="col">STOCK</th>
+            <th scope="col">BLOCK/UNBLOCK</th>
+            <th scope="col">EDIT</th>
+            <th scope="col">DELETE</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% data.forEach((ele,index)=>{ %>
+          <tr>
+            <td><%- index+1 -%></td>
+            <td>
+              <img
+                src="/productimages/<%=ele.images[0] %>"
+                alt="<%index+1%>"
+                style="width: 80px; height: 80px"
+              />
+            </td>
+            <td><%-ele.productName -%></td>
+            <td><%-ele.Price-%></td>
+            <td><%-ele.catagory.catagoryname-%></td>
+            <td><%-ele.BrandName -%></td>
+            <td><%-ele.AvailableQuantity -%></td>
+            <% if(ele.status=='active'){%>
+            <td>
+              <a href=""
+                ><button
+                  style="
+                    background-color: green;
+                    border-radius: 30px;
+                    border: none;
+                    width: 90px;
+                    height: 25px;
+                  "
+                  onclick="Block('<%-ele._id-%>','<%-ele.status-%>')"
+                >
+                  Block
+                </button></a
+              >
+            </td>
+            <%}else{%>
+            <td>
+              <a href=""
+                ><button
+                  style="
+                    background-color: red;
+                    border-radius: 30px;
+                    border: none;
+                    width: 90px;
+                    height: 25px;
+                  "
+                  onclick="Block('<%-ele._id-%>','<%-ele.status-%>')"
+                >
+                  Unblock
+                </button></a
+              >
+            </td>
+            <%}%>
+            <td>
+              <a href="/admin/editproduct/<%-ele._id-%>">EDIT</a>
+            </td>
+            <td>
+              <a
+                href=""
+                class="rounded-pill"
+                onclick="removeProduct('<%-ele._id-%>','<%-ele.productName-%>')"
+                ><i class="fa-solid fa-trash" style="color: #0033ff"></i
+              ></a>
+            </td>
+          </tr>
+          <%})%>
+        </tbody>
+      </table>
+
+      <%-include('../layout/admin/footer.ejs')-%>
+    </div>
+  </div>
+</div>

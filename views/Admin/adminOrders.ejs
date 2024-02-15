@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href=" https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    />
+    <link
+      rel="stylesheet"
+      href=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+    <link
+      href="https://demo.dashboardpack.com/architectui-html-free/main.css"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href=" https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <!-- <style>
+      @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+      body {
+        background-color: #eee;
+        font-family: "Roboto", sans-serif;
+      }
+
+      .main {
+        border-collapse: separate !important;
+        border-spacing: 0 11px !important;
+      }
+
+      tr {
+        border: 1px solid #eee;
+      }
+
+      .head th {
+        font-weight: 500;
+      }
+
+      tr:nth-child(3) {
+        border: solid thin;
+      }
+
+      .form-check-input:focus {
+        border-color: #8bbafe;
+        outline: 0;
+        box-shadow: none;
+      }
+
+      .btn {
+        height: 27px;
+        line-height: 11px;
+        color: #fff;
+      }
+
+      .form-check-input {
+        width: 1.15em;
+        height: 1.15em;
+        margin-top: 3px;
+      }
+
+      .btn:focus {
+        color: #fff;
+
+        box-shadow: none !important;
+      }
+
+      .order-color {
+        color: blue;
+      }
+    </style> -->
+  </head>
+  <body>
+    <%-include('../layout/admin/header.ejs')-%>
+    <%-include('../partials/adminnave.ejs')-%>
+    <table id="example" class="table table-striped" style="width: 100%">
+      <thead>
+        <tr>
+          <th>Si.No</th>
+          <th>User Name</th>
+          <th>Order Id</th>
+          <th>Purchase Date</th>
+          <th>Payment Method</th>
+          <th>Total Price</th>
+          <th>Order Status</th>
+          <th>Update Status</th>
+          <th>Return Requests</th>
+          <th>View</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% orders.forEach((ele,index)=>{ %>
+        <tr>
+          <td><%-index++-%></td>
+          <td><%-ele.address.name-%></td>
+          <td><%-ele._id-%></td>
+          <td>
+            <%- ele.expectedDeliveryDate.toLocaleString('en-IN', { timeZone:
+            'Asia/Kolkata' , dateStyle: 'short' , timeStyle: 'short' }) -%>
+          </td>
+          <td><%-ele.payementMethod-%></td>
+          <td>$<%-ele.totalAmount-%></td>
+          <td>
+            <% if (ele.orderStatus === 'Order Processing') { %><span
+              class="badge rounded-pill bg-warning"
+              style="font-weight: 400"
+              ><%= ele.orderStatus %></span
+            >
+            <% } else if (ele.orderStatus === 'Order Confirmed') { %>
+            <span class="badge rounded-pill bg-primary" style="font-weight: 400"
+              ><%= ele.orderStatus %></span
+            >
+            <% } else if (ele.orderStatus === 'Order Shipped') { %>
+            <span class="badge rounded-pill bg-info" style="font-weight: 400"
+              ><%= ele.orderStatus %></span
+            ><% } else if (ele.orderStatus === 'Order Delivered') { %>
+            <span class="badge rounded-pill bg-success" style="font-weight: 400"
+              ><%= ele.orderStatus %></span
+            ><% } else if (ele.orderStatus === 'Order Rejected'){ %>
+            <span class="badge rounded-pill bg-danger" style="font-weight: 400"
+              ><%= ele.orderStatus %></span
+            >
+            <% } else if (ele.orderStatus === 'Cancelled'){ %>
+            <span class="badge rounded-pill bg-danger" style="font-weight: 400"
+              >Cancelled</span
+            >
+            <% } %>
+          </td>
+          <td>
+            <% if (ele.orderStatus !== 'Cancelled') { %> <% if (ele.orderStatus
+            === 'Order Processing') { %>
+            <select
+              class="form-select"
+              id="statusSelect<%= ele._id %>"
+              onchange="updateOrderStatus('<%= ele._id %>', this.value)"
+            >
+              <option value="" selected disabled>Select</option>
+              <option value="Order Confirmed">Order Confirmed</option>
+              <option value="Order Rejected">Order Rejected</option>
+            </select>
+            <% } else if (ele.orderStatus === 'Order Confirmed') { %>
+            <select
+              class="form-select"
+              id="statusSelect<%= ele._id %>"
+              onchange="updateOrderStatus('<%-ele._id-%>', this.value)"
+            >
+              <option value="" selected disabled>Select</option>
+              <option value="Order Shipped">Order Shipped</option>
+              <option value="Order Rejected">Order Rejected</option>
+            </select>
+            <% } else if (ele.orderStatus === 'Order Shipped') { %>
+            <select
+              class="form-select"
+              id="statusSelect<%= ele._id %>"
+              onchange="updateOrderStatus('<%= ele._id %>', this.value)"
+            >
+              <option value="" selected disabled>Select</option>
+              <option value="Order Delivered">Order Delivered</option>
+              <option value="Order Rejected">Order Rejected</option>
+            </select>
+            <% } else if (ele.orderStatus === 'Order Delivered') { %>
+            <span style="font-weight: 400; color: green">Success</span>
+            <% } else if (ele.orderStatus === 'Order Rejected') { %>
+            <span style="font-weight: 400; color: red">Rejected</span>
+            <% } %> <% } else { %>
+            <span class="badge rounded-pill bg-danger" style="font-weight: 400"
+              >Cancelled</span
+            >
+            <% } %>
+          </td>
+          <td>
+            <% const requestedProductsCount = ReturnDetail.reduce((count,
+            returnData) => count + (returnData.orderId.toString() ===
+            ele._id.toString() && returnData.status === "Requested" ? 1 : 0),
+            0); %> <% if (requestedProductsCount > 0) { %>
+            <span class="badge bg-warning text-dark" style="font-weight: 400">
+              <%= requestedProductsCount %>: Requested
+            </span>
+            <% } else { %>
+            <span class="text-success" style="font-weight: 400">Not Any</span>
+            <% } %>
+          </td>
+
+          <td>
+            <a href="/Admin/OrderDetails/<%-ele._id-%>" class="btn btn-outline-primary shadow-0 me-1">View</a>
+          </td>
+        </tr>
+        <%})%>
+      </tbody>
+    </table>
+
+    <%-include('../layout/admin/footer.ejs')-%>
+  </body>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+  <script>
+    new DataTable("#example");
+  </script>
+</html>

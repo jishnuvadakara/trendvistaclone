@@ -1,0 +1,92 @@
+<%-include('../partials/header.ejs')-%>
+
+<div class="row center-box" id="maincontainer">
+  <div
+    class="text-center center-div col-12 col-md-12 container-fluid"
+    id="login"
+  >
+    <div
+      class="container col-12 col-lg-4 py-5 mb-5 container-fluid"
+      id="squarediv"
+    >
+      <div class="title text-white pb-5">
+        <h1 class="font-weight-bold">USER LOGIN</h1>
+        <span>Loggin for Existing Users</span>
+        <% if(locals.msg){%>
+        <h6 class="alert alert-danger" style="color: red;"><%-msg-%></h6>
+        <%}%>
+        <% if(locals.err){%>
+        <h6 class="alert alert-danger" style="color: red;"><%-err-%></h6>
+        <% } %>
+        <div class="alter alert-success text-center"></div>
+      </div>
+      <form id="formone" action="/login" method="post" autocomplete="off">
+        <div class="form-group">
+          <small id="msgemail"></small>
+          <input
+            type="email"
+            class="form-control"
+            placeholder="email"
+            id="Input1"
+            name="email"
+            onchange="validteUserEmail()"
+            required
+          />
+          <!-- <small class="form-text text-white text-left"><i>Registered email address</i></small> -->
+        </div>
+        <div class="form-group mt-4">
+          <input
+            type="password"
+            class="form-control"
+            name="password"
+            placeholder="password"
+            required
+          />
+        </div>
+        <a
+          href="/verifyemail"
+          style="text-decoration: none; margin-right: 100px"
+          id="signbtn"
+          ><i>Forgot Password ? </i><strong></strong
+        ></a>
+        <div class="d-flex justify-content-center mt-4" id="btnsign">
+          <a href="/signup2" style="text-decoration: none" id="signbtn"
+            ><i>Don't Have an Account ? </i><strong>SIGN UP</strong></a
+          >
+        </div>
+        <button
+          type="submit"
+          id="subbtn"
+          class="btn btn-success rounded-pill mt-4"
+          id="signupButton"
+        >
+          SUBMIT
+        </button>
+      </form>
+
+      <div
+        class="d-flex justify-content-end center-div mt-4 container-fluid"
+        id="logbtn"
+      ></div>
+    </div>
+  </div>
+</div>
+<script>
+  function validateUserEmail() {
+    var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    var email = document.getElementById("Input1").value;
+    var isValid = emailPattern.test(email);
+    var msg = document.getElementById("msgemail");
+    var signupButton = document.getElementById("signupButton");
+
+    if (isValid) {
+      msg.innerHTML = "";
+      signupButton.disabled = false; //Enable the button
+    } else {
+      msg.innerHTML = "Invalid email password";
+      signupButton.disabled = true; // Disable the button
+    }
+  }
+</script>
+
+<%-include('../partials/footer.ejs')-%>

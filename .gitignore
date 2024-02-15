@@ -1,0 +1,6 @@
+*.env
+node_modules
+
+
+public/assets/*
+public/productimages/*

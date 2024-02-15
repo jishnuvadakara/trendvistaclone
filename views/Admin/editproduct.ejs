@@ -1,0 +1,219 @@
+<%-include('../layout/admin/header.ejs')-%>
+<%-include('../partials/adminnave.ejs')-%>
+
+<form action="/admin/editproduct/<%-product._id-%>" method="post" id="editform" enctype="multipart/form-data">
+    <div class="container shadow-lg">
+    <div class="row p-3 d-flex justify-content-center align-items-center  mt-4" style="border-radius: 15px;  ">
+        
+        <div class="col-12 col-md-6 "
+            style="border-radius: 7px;">
+            <div class="formnav mt-3 d-flex justify-content-center align-items-center" style="color:rgb(255, 255, 255); ;border-radius: 7px; height: 50px;background-color: rgb(255, 0, 0);"><h4 style="margin:0px;">EDIT PRODUCT</h4></div>
+  
+           
+           
+           <br> <label for="" id="err1" style="color: red; padding:5px;"></label><br>
+            
+            <div class="d-flex mt-4 justify-content-center align-items-center">
+               
+                <input type="text" name="productName" placeholder="Product Name"
+                    style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;" id="proname" oninput="validation(proname)" value="<%-product.productName-%>" required>
+            </div><br>
+            <input type="hidden" name="status" value="active">
+            <!-- <div class="d-flex mt-2 justify-content-center align-items-center">
+                <input type="text" name="BrandName" placeholder="Barand Name"
+                    style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;" id="brname" oninput="validation(brname)" value="<%-product.BrandName -%>" required>
+            </div> -->
+            <br>
+            <div class="d-flex justify-content-center">
+                <textarea name="Specification1" placeholder="Specification1"
+                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" id="spec1" oninput="validation(spec1)" value="<%= product.Specification1%>" required><%=product.Specification1%></textarea>
+                <textarea name="Specification2" placeholder="Specification2"
+                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" id="spec2" oninput="validation(spec2)" value="<%= product.Specification2%>" required><%= product.Specification2%></textarea>
+            </div>
+            <br>
+            <div class="d-flex justify-content-center">
+                <textarea name="Specification3" placeholder="Specification3" id="spec3" oninput="validation(spec3)"
+                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" value="<%=product.Specification3 %>" required><%= product.Specification3 %></textarea>
+                <textarea name="Specification4" placeholder="Specification4" id="spec4" oninput="validation(spec4)"
+                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" value="<%= product.Specification4 %>" required><%=product.Specification4%></textarea>
+            </div>
+            
+            <br>
+            <div class="d-flex justify-content-center align-items-center">
+                <textarea name="Description" placeholder="Description" id="dec" oninput="validation(dec)"
+                    style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;"  value="<%= product.Description %>" required><%=product.Description %></textarea>
+            </div>
+            <br>
+            
+            <div class="d-flex justify-content-center  ">
+                <select class="" id="category" name="Category" required
+                style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;"  >
+                    
+                        <% catagories.forEach(ele=> { %>
+                            <option  value="<%-ele._id-%>" ><%-ele.catagoryname-%></option>
+                        <% }) %>
+                      
+                  
+                </select>
+  
+                <select class="" id="brand" name="BrandName" required
+                style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;"  >
+                
+                    <% Brands.forEach(ele=> { %>
+                        <option  <%product.BrandName==ele.Brandname?'selected':""%> ><%-ele.Brandname-%></option>
+                    <% }) %>
+                  
+              
+            </select>
+                
+            </div>
+            <br>
+            <div class="d-flex justify-content-center align-items-center">
+                <input type="number" name="Price" placeholder="Enter the price"
+                    style="width: 26%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" value="<%-product.Price-%>" required>
+                <input type="number" name="DiscountAmount" placeholder="Discount Amount"
+                    style="width: 26%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" value="<%-product.DiscountAmount-%>" required>
+                <input type="number" name="AvailableQuantity" placeholder="Stock"
+                    style="width: 20%;height: 35px;border-radius: 5px;padding-left: 5px;" value="<%-product.AvailableQuantity-%>" required>
+            </div>
+            <br>
+           </div>
+           <div class="col-12 col-md-6 pt-5  "
+            style="border-radius: 15px;">
+  
+            <div class="d-flex justify-content-center align-items-center" >
+                <input type="file" name="images1" id="image1" accept="image/*" onchange="change(event,1)"
+                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" oninput="validateImage('image1',1)" value="" >
+                <input type="file" name="images2" id="image2" accept="image/* "onchange="change(event,2)"
+                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" oninput="validateImage('image2',1)"   value="">
+            </div>
+            <br>
+            <div class="d-flex justify-content-center align-items-center">
+                <input type="file" name="images3" id="image3" accept="image/*" onchange="change(event,3)"
+                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" oninput="validateImage('image3',1)"  value="" >
+                <input type="file" name="images4" id="image4" accept="image/*" onchange="change(event,4)"
+                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" oninput="validateImage('image4',1)"  value="" >
+            </div>
+            <div class="d-flex justify-content-center p-3">
+                <div style="width: 100px;height: 100px;margin-right: 4%;margin-left: 4%; border: 1px solid grey;">
+                    <label for="image1">
+                    <img id="imagePreview1" src="/productimages/<%=product?.images[0]%>" alt="Image Preview 1"
+                        style="width: 100px;height: 100px;">
+                    </label>
+                    <a><i class="fa-solid fa-trash text-center" id="delete1" style="color: red; " onclick="removeimg('<%=product.images[0]%>','<%=product._id%>')"></i></a>
+                </div>
+                <div style="width: 100px;height: 100px;margin-right: 4%; border: 1px solid grey;">
+                    <label for="image2">
+                    <img id="imagePreview2" src="/productimages/<%=product?.images[1]%>" alt="Image Preview 2"
+                        style="width: 100px; height: 100px;">
+                    </label>
+                    <a><i class="fa-solid fa-trash text-center" id="delete2" style="color: red; " onclick="removeimg('<%=product.images[1]%>','<%=product._id%>')"></i></a>
+                </div>
+                <div style="width: 100px;height: 100px;margin-right: 4%; border: 1px solid grey;">
+                   <label for="image3">
+                    <img id="imagePreview3" src="/productimages/<%=product?.images[2]%>" alt="Image Preview 3"
+                        style="width: 100px;height: 100px;">
+                    </label>
+                    <a><i class="fa-solid fa-trash text-center" id="delete3" style="color: red; " onclick="removeimg('<%=product.images[2]%>','<%=product._id%>')"></i></a>
+                </div>
+                <div style="width: 100px;height: 100px; border: 1px solid grey;">
+                    <label for="image4">
+                    <img id="imagePreview4" src="/productimages/<%=product?.images[3]%>" alt="Image Preview 4"
+                        style="width: 100px; height: 100px;">
+                    </label>
+                    <a><i class="fa-solid fa-trash text-center" id="delete4" style="color: red; " onclick="removeimg('<%=product.images[3]%>','<%=product._id%>')"></i></a>
+                </div>
+            </div>
+            <br>
+            <div class="d-flex justify-content-center align-items-center">
+                <input name="tag" placeholder="Tags"
+                    style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;" value="<%=product.tag%>" id="tag" oninput="validation(tags)" required></input>
+            </div>
+            <div class="d-flex justify-content-center mt-4">
+                <a href="/admin/product" class="btn btn-danger me-2">Cancel</a> <button type="submit" id="submit" class="btn shado" style="background-color: rgb(52, 209, 0);color: white;">Add Product</button>
+            </div>
+            <br><br>
+        </div>
+    </div>
+  </div>
+  </div>
+    
+  </form>
+  
+  </div>
+  </div>
+  
+<script>
+    function change(event,no){
+        console.log("ok da")
+        document.getElementById(`imagePreview${no}`).src=URL.createObjectURL(event.target.files[0])
+        document.getElementById(`delete${no}`).style.display="block";
+     }
+    
+
+     function validation(id) {
+    console.log("working");
+    console.log(id);
+    const submitButton = document.getElementById('submit');
+    const errMessage = document.getElementById('err1');
+    var val = document.getElementById('' + id).value;
+
+    if (val.trim() === "") {
+      errMessage.textContent = 'Only space doesn\'t accept';
+      submitButton.disabled = true;
+    } else if (val.startsWith(' ')) {
+      errMessage.textContent = 'Text should not start with a space.';
+      submitButton.disabled = true;
+    } else {
+      errMessage.textContent = '';
+      submitButton.disabled = false;
+    }
+  }
+
+   
+    document.addEventListener('DOMContentLoaded', function () {
+    const priceInput = document.querySelector('input[name="Price"]');
+    const discountInput = document.querySelector('input[name="DiscountAmount"]');
+    const quantityInput = document.querySelector('input[name="AvailableQuantity"]');
+    const errMessage = document.getElementById('err1');
+    const submitButton = document.getElementById('submit');
+    const img=document.getElementsByTagName('img').src
+    console.log(img)
+
+    priceInput.addEventListener('input', validateInputs);
+    discountInput.addEventListener('input', validateInputs);
+    quantityInput.addEventListener('input', validateInputs);
+
+    function validateInputs() {
+        const priceValue = parseFloat(priceInput.value) || 0;
+        const discountValue = parseFloat(discountInput.value) || 0;
+        const quantityValue = parseFloat(quantityInput.value) || 0;
+
+        if (discountValue > priceValue || discountValue < 0) {
+            errMessage.textContent = discountValue > priceValue
+                ? 'Discount cannot be greater than the price.'
+                : 'Discount cannot be a negative value.';
+            submitButton.disabled = true;
+        } else if (quantityValue < 0) {
+            errMessage.textContent = 'Quantity cannot be a negative value.';
+            submitButton.disabled = true;
+        } else {
+            errMessage.textContent = '';
+            submitButton.disabled = false;
+        }
+    }
+    
+});
+
+  </script>
+
+
+
+
+
+
+
+
+
+
+<%-include('../layout/admin/footer.ejs')-%>

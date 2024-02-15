@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+    href="https://cdn.jsdelivr.net/npm/font-awesome@6.0.0/css/all.min.css"
+    rel="stylesheet"
+    />
+    
+    <script
+    src="https://kit.fontawesome.com/65b842e152.js"
+    crossorigin="anonymous"
+    ></script>
+    
+    <link
+    href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
+    rel="stylesheet"
+    />
+    <!-- <script  src="https://checkout.razorpay.com/v1/razorpay.js"></script> -->
+    <title>Check Out</title>
+    <!-- Additional CSS Files -->
+    
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+    
+    <!-- <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <script src="/javascript/UserAjax.js"></script>
+
+    <!-- Additional styles -->
+    <style>
+      .icon-hover-primary:hover {
+        border-color: #3b71ca !important;
+        background-color: white !important;
+      }
+
+      .icon-hover-primary:hover i {
+        color: #3b71ca !important;
+      }
+
+      .icon-hover-danger:hover {
+        border-color: #dc4c64 !important;
+        background-color: white !important;
+      }
+
+      .icon-hover-danger:hover i {
+        color: #dc4c64 !important;
+      }
+    </style>
+    <style>
+      *::selection {
+        background-color: transparent;
+      }
+
+      * {
+        cursor: default;
+        box-sizing: border-box;
+      }
+
+      .contenir {
+        width: 740px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-color: black;
+        margin-left: -175px;
+      }
+    </style>
+  </head>
+
+  <!-- <%-include('../layout/user/header.ejs')-%> -->
+  <body>
+    <%-include('../partials/usernave.ejs')-%>
+    <!-- // Hide the message after 5 seconds -->
+
+    <!-- cart + summary -->
+    <section class="bg-light my-5" style="padding-top: 100px">
+      <div class="container">
+        <div class="row">
+          <!-- Addresses -->
+          <div class="col-lg-9">
+            <div class="card-header">
+              <a class="btn btn-primary float-end" onclick="openModal()"
+                >Add Address</a
+              >
+              <h4 class="card-title">Delivery Address</h4>
+            </div>
+
+            <% if(Addressdetail!=null){ %>
+              <% Addressdetail.forEach(ele=>{ %>
+            <div class="card border shadow-0" id="addressCard0">
+              <div class="m-4">
+                <!-- Container to display existing addresses -->
+                <div id="existingAddressesContainer">
+                  <!-- Display the first address -->
+                  <div class="form-check mb-2">
+                    <!-- Container for selected label -->
+                    <div id="selectedLabelContainer" class="float-end"></div>
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="existingAddress"
+                      id="address0"
+                    />
+                    <ul class="address-list">
+                      <!-- Sample address item -->
+                      <li class="address-item">
+                        <button
+                          type="button"
+                          class="badge badge-dark"
+                          style="
+                            border-radius: 10px;
+                            height: 25px;
+                            font-size: 12px;
+                            color: black;
+                          "
+                        >
+                          <%-ele.addressType-%></button
+                        ><br /><br />
+                        <p style="font-weight: bold">
+                          <%-ele.name-%>
+                        </p>
+                        <p>
+                          <%-ele.address-%>,<%-ele.city
+                          -%>
+                        </p>
+                        <p><%-ele.mobile-%></p>
+                        <p><%-ele.pincode-%></p>
+                        <br />
+                        <button
+                          type="button"
+                          class="btn btn-success btn-sm d-none"
+                          id="deliverHereBtn0"
+                          onclick="selectAddress('<%-ele._id-%>')"
+                        >
+                          Deliver Here
+                        </button>
+                      </li>
+                    </ul>
+                    <hr style="color: #9a9a9a" />
+                  </div>
+                  <% }) %>
+                  <!-- Code for additional addresses... -->
+                  <!-- Display remaining addresses initially hidden -->
+                  <!-- <% for (let i=1; i < Addressdetail.length; i++) { %>
+                  <div class="form-check mb-2 hidden-address">
+                    <input type="radio" class="form-check-input" name="existingAddress" id=<%="Address" +1%>> -->
+                    <!-- ////////////////// -->
+
+                    <!-- <ul class="address-list"> -->
+                      <!-- Sample address item -->
+                      <!-- <li class="address-item">
+                        <button
+                          type="button"
+                          class="badge badge-dark"
+                          style="
+                            border-radius: 10px;
+                            height: 25px;
+                            font-size: 12px;""
+                          >
+                         
+                        
+                          <%-Addressdetail[i].addressType-%></button
+                        ><br /><br />
+                        <p style="font-weight: bold">
+                          <%-Addressdetail[i].name-%>
+                        </p>
+                        <p><%-Addressdetail[i].address-%></p>
+                        <p><%-Addressdetail[i].mobile-%></p>
+                        <p></p>
+                        <br />
+                       <button
+                          type="button"
+                          class="btn btn-success btn-sm d-none"
+                          id="deliverHereBtn0"
+                          onclick="selectAddress('<%-Addressdetail[i]._id-%>')"
+                        >
+                          Deliver Here
+                        </button>
+                        
+                      </li>
+                    </ul>
+                    <hr style="color: #9a9a9a" />
+                  </div>
+                  <% } %> -->
+
+                  <!-- Show/Hide button for additional addresses -->
+                  <!-- <% if (Addressdetail.length> 1) { %>
+                  <div class="text-end">
+                    <a
+                      href="#"
+                      class="show-all-addresses"
+                      onclick="toggleHiddenAddresses()"
+                      >Show All</a
+                    >
+                  </div>
+                  <% } %> -->
+                  <!-- Show/Hide button for additional addresses -->
+                <!-- </div>
+              </div>
+            </div>
+            <% } %> -->
+            <br />
+            <!-- Payment Options -->
+            <div class="card-header" id="paymentt">
+              <h4 class="card-title">Payment Options</h4>
+            </div>
+
+            <!-- Payment Options -->
+            <div class="card border shadow-0">
+              <div class="m-4" style="padding-left: 30px">
+                <!-- Radio buttons for payment options -->
+
+                <div class="form-check mb-2">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="paymentOption"
+                    id="onlinePayment"
+                    value="onlinePayment"
+                  />
+                  <label
+                    class="form-check-label"
+                    for="onlinePayment"
+                    style="font-weight: bold"
+                  >
+                    Online Payment
+                  </label>
+                </div>
+
+                <br />
+
+                <div class="form-check mb-2">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="paymentOption"
+                    id="cashOnDelivery"
+                    value="cashOnDelivery"
+                  />
+                  <label
+                    class="form-check-label"
+                    for="cashOnDelivery"
+                    style="font-weight: bold"
+                  >
+                    Cash on Delivery
+                  </label>
+                </div>
+
+                <br />
+
+                <div class="form-check mb-2">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="paymentOption"
+                    id="walletPayment"
+                    value="walletPayment"
+                  />
+                  <label
+                    class="form-check-label"
+                    for="walletPayment"
+                    style="font-weight: bold"
+                  >
+                    Wallet Payment
+                  </label>
+                  <br />
+
+                  <p
+                    id="walletBalance"
+                    class="text-bg-dark"
+                    style="margin-left: 10px"
+                  >
+                    Balance:
+                    <span style="margin-left: 10px; color: green">₹ </span>
+                  </p>
+                </div>
+
+                <!-- Confirm Order button -->
+                <button
+                  type="button"
+                  class="btn btn-primary mt-3 float-end"
+                  id="confirmOrderBtn"
+                  onclick="performAjax()"
+                  disabled
+                >
+                  Confirm Order
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- summary -->
+          <div class="col-lg-3">
+            <div class="card mb-3 border shadow-0">
+              <div class="card-body">
+                <!-- Coupon form... -->
+              </div>
+            </div>
+            <div class="card shadow-0 border">
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <p class="mb-2">Total price:</p>
+                  <p class="mb-2">₹ <%=TotalPrice %></p>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <p class="mb-2">Discount:</p>
+                  <p class="mb-2 text-success">-₹ <%=Discount %></p>
+                </div>
+
+                <!-- <p>copomm</p>
+
+                <div class="d-flex justify-content-between">
+                  <p class="mb-2">Coupon Discount:</p>
+                  <p class="mb-2 text-success">-₹ dic</p>
+                </div> -->
+
+                <div class="d-flex justify-content-between">
+                  <p class="mb-2">Delivery charges:</p>
+                  <span style="font-size: small; color: green">Free</span
+                  ><del class="text-muted text-nowrap" style="font-size: small"
+                    >₹ 40
+                  </del>
+                </div>
+                <hr />
+                <div class="d-flex justify-content-between">
+                  <p class="mb-2">Total price:</p>
+                  <p class="mb-2 fw-bold">₹ <%=Grandtotal %></p>
+                </div>
+
+                <!-- <div class="mt-3">
+                                <a href="#" class="btn btn-success w-100 shadow-0 mb-2"> Place Order </a>
+                                <a href="/allproducts" class="btn btn-light w-100 border mt-2"> Back to shop </a>
+                            </div> -->
+              </div>
+            </div>
+          </div>
+          <!-- summary -->
+        </div>
+      </div>
+    </section>
+    <!-- cart + summary -->
+    <!-- address-modal -->
+    <!-- address-modal -->
+    <div
+      class="modal"
+      id="addressModal"
+      style="max-height: 700px; margin-top: 10px; margin-left: 500px"
+    >
+      <div class="modal-content" style="height: 800px; max-width: 700px">
+        <!-- Inside the <div class="modal-content"> -->
+        <div
+          class="modal-body"
+          style="max-width: 500px; margin: 0 auto; width: 530px"
+        >
+          <button
+            type="button"
+            class="close"
+            aria-label="Close"
+            onclick="closeModal()"
+          >
+            <span aria-hidden="true"></span><i class="fa-solid fa-xmark"></i>
+          </button>
+          <h2 class="text-center mb-4">Add New Address</h2>
+          <form
+            class="needs-validation"
+            action="/Postaddaddress-Checkout"
+            method="post"
+            novalidate
+          >
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="name">Name:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  name="name"
+                  oninput="validateName(); updateAddAddressBtnState()"
+                  required
+                />
+                <p style="color: red" id="name-error" class="error-message"></p>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="phone">Phone No:</label>
+                <input
+                  type="tel"
+                  class="form-control"
+                  id="phone"
+                  name="mobile"
+                  pattern="[0-9]{10}"
+                  oninput="validatePhone(); updateAddAddressBtnState()"
+                  required
+                />
+                <p
+                  style="color: red"
+                  id="phone-error"
+                  class="error-message"
+                ></p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="address">Address:</label>
+              <textarea
+                class="form-control"
+                id="address"
+                name="address"
+                rows="3"
+                oninput="validateField('address', 'address-error', 'Address is required'); updateAddAddressBtnState()"
+                required
+              ></textarea>
+              <p
+                style="color: red"
+                id="address-error"
+                class="error-message"
+              ></p>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="city">City:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="city"
+                  name="city"
+                  oninput="validateField('city', 'city-error', 'City is required'); updateAddAddressBtnState()"
+                  required
+                />
+                <p style="color: red" id="city-error" class="error-message"></p>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="pincode">Pincode:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="pincode"
+                  name="pincode"
+                  pattern="[0-9]{6}"
+                  oninput="validatePincode(); updateAddAddressBtnState()"
+                  required
+                />
+                <p
+                  style="color: red"
+                  id="pincode-error"
+                  class="error-message"
+                ></p>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="district">District:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="district"
+                  name="district"
+                  oninput="validateField('district', 'district-error', 'District is required'); updateAddAddressBtnState()"
+                  required
+                />
+                <p
+                  style="color: red"
+                  id="district-error"
+                  class="error-message"
+                ></p>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="state">State:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="state"
+                  name="state"
+                  oninput="validateField('state', 'state-error', 'State is required'); updateAddAddressBtnState()"
+                  required
+                />
+                <p
+                  style="color: red"
+                  id="state-error"
+                  class="error-message"
+                ></p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="locality">Locality:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="locality"
+                name="locality"
+                oninput="validateField('locality', 'locality-error', 'Locality is required'); updateAddAddressBtnState()"
+                required
+              />
+              <p
+                style="color: red"
+                id="locality-error"
+                class="error-message"
+              ></p>
+            </div>
+            <div class="form-group">
+              <label>Address Type:</label>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="addressType"
+                  id="homeType"
+                  value="Home"
+                  checked
+                  oninput="validateRadio('addressType', 'addressType-error', 'Please select an Address Type'); updateAddAddressBtnState()"
+                />
+                <label
+                  style="margin-top: -17px"
+                  class="form-check-label"
+                  for="homeType"
+                  >Home</label
+                >
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="addressType"
+                  id="workType"
+                  value="Work"
+                  oninput="validateRadio('addressType', 'addressType-error', 'Please select an Address Type'); updateAddAddressBtnState()"
+                />
+                <label
+                  style="margin-top: -17px"
+                  class="form-check-label"
+                  for="workType"
+                  >Work</label
+                >
+              </div>
+              <p
+                style="color: red"
+                id="addressType-error"
+                class="error-message"
+              ></p>
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-primary"
+              id="submitBtn"
+              disabled
+            >
+              Add Address
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- 
+    <script>
+      $(document).ready(function () {
+        // Initially hide the <p> element
+        $("#walletBalance").hide();
+
+        
+        $('input[name="paymentOption"]').change(function () {
+          
+          if ($(this).val() === "walletPayment") {
+            
+            $("#walletBalance").show();
+          } else {
+           
+            $("#walletBalance").hide();
+          }
+        });
+      });
+    </script> -->
+
+    <!-- <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script> -->
+
+    <script>
+      function openModal() {
+        document.getElementById("addressModal").style.display = "flex";
+      }
+
+      function closeModal() {
+        document.getElementById("addressModal").style.display = "none";
+      }
+ 
+      function validateForm() {
+        const nameIsValid = validateName();
+        const phoneIsValid = validatePhone();
+        const addressIsValid = validateField(
+          "address",
+          "address-error",
+          "Address is required"
+        );
+        const cityIsValid = validateField(
+          "city",
+          "city-error",
+          "City is required"
+        );
+        const pincodeIsValid = validatePincode();
+        const districtIsValid = validateField(
+          "district",
+          "district-error",
+          "District is required"
+        );
+        const stateIsValid = validateField(
+          "state",
+          "state-error",
+          "State is required"
+        );
+        const localityIsValid = validateField(
+          "locality",
+          "locality-error",
+          "Locality is required"
+        );
+        const addressTypeIsValid = validateRadio(
+          "addressType",
+          "addressType-error",
+          "Please select an Address Type"
+        );
+
+        const submitBtn = document.getElementById("submitBtn");
+        submitBtn.disabled = !(
+          nameIsValid &&
+          phoneIsValid &&
+          addressIsValid &&
+          cityIsValid &&
+          pincodeIsValid &&
+          districtIsValid &&
+          stateIsValid &&
+          localityIsValid &&
+          addressTypeIsValid
+        );
+
+        return !submitBtn.disabled;
+      }
+
+      function validateName() {
+        const nameInput = document.getElementById("name");
+        const nameError = document.getElementById("name-error");
+
+        const namePattern = /^[a-zA-Z\s]{1,}$/;
+
+        if (!namePattern.test(nameInput.value.trim())) {
+          nameError.textContent =
+            "Invalid name. Only letters and spaces allowed.";
+          return false;
+        } else {
+          nameError.textContent = "";
+          return true;
+        }
+      }
+
+      function validatePhone() {
+        const phoneInput = document.getElementById("phone");
+        const phoneError = document.getElementById("phone-error");
+
+        const phonePattern = /^[0-9]{10}$/;
+
+        if (!phonePattern.test(phoneInput.value.trim())) {
+          phoneError.textContent = "Invalid phone number. Must be 10 digits.";
+          return false;
+        } else {
+          phoneError.textContent = "";
+          return true;
+        }
+      }
+
+      function validatePincode() {
+        const pincodeInput = document.getElementById("pincode");
+        const pincodeError = document.getElementById("pincode-error");
+
+        const pincodePattern = /^[0-9]{6}$/;
+
+        if (!pincodePattern.test(pincodeInput.value.trim())) {
+          pincodeError.textContent = "Invalid pincode. Must be 6 digits.";
+          return false;
+        } else {
+          pincodeError.textContent = "";
+          return true;
+        }
+      }
+
+      function validateField(fieldName, errorId, errorMessage) {
+        const fieldInput = document.getElementById(fieldName);
+        const errorElement = document.getElementById(errorId);
+
+        if (
+          fieldInput.value.trim() === "" ||
+          fieldInput.value.trim().split(/\s+/).length > 4
+        ) {
+          errorElement.textContent = errorMessage;
+          return false;
+        } else {
+          errorElement.textContent = "";
+          return true;
+        }
+      }
+
+      function validateRadio(fieldName, errorId, errorMessage) {
+        const radioInputs = document.getElementsByName(fieldName);
+        const errorElement = document.getElementById(errorId);
+
+        for (const radio of radioInputs) {
+          if (radio.checked) {
+            errorElement.textContent = "";
+            return true;
+          }
+        }
+
+        errorElement.textContent = errorMessage;
+        return false;
+      }
+
+      function updateAddAddressBtnState() {
+        validateForm();
+      }
+
+      function checkSelection() {
+        var addressSelected = document.querySelector(
+          'input[name="existingAddress"]:checked'
+        );
+        var paymentMethodSelected = document.querySelector(
+          'input[name="paymentOption"]:checked'
+        );
+
+        // Get the Confirm Order button.............
+        var confirmOrderBtn = document.getElementById("confirmOrderBtn");
+
+        confirmOrderBtn.disabled = !(addressSelected && paymentMethodSelected);
+      }
+
+      document
+        .querySelectorAll('input[name="existingAddress"]')
+        .forEach(function (radio) {
+          radio.addEventListener("change", checkSelection);
+        });
+
+      document
+        .querySelectorAll('input[name="paymentOption"]')
+        .forEach(function (radio) {
+          radio.addEventListener("change", checkSelection);
+        });
+   
+      function deliverHere(address) {
+        // Check if any address is selected
+        var selectedAddress = document.querySelector(
+          'input[name="existingAddress"]:checked'
+        );
+
+        if (!selectedAddress) {
+          // No address selected, show an alert
+          alert('Please select an address before clicking "Deliver Here".');
+          return; // Stop further execution
+        }
+
+        // Proceed with the delivery logic for the selected address
+        console.log("Deliver Here clicked for address:", address);
+      }
+
+      function toggleHiddenAddresses() {
+        // Implement the logic to toggle hidden addresses
+        console.log("Show All clicked");
+      }
+
+      document
+        .querySelectorAll('input[name="existingAddress"]')
+        .forEach(function (radio) {
+          radio.addEventListener("change", function () {
+            // Get the index from the radio button's ID
+            var index = parseInt(this.id.replace("address", ""));
+
+            // Hide all "Deliver Here" buttons
+            document
+              .querySelectorAll('[id^="deliverHereBtn"]')
+              .forEach(function (btn) {
+                btn.classList.add("d-none");
+              });
+
+            // Show the selected "Deliver Here" button
+            var deliverHereBtn = document.getElementById(
+              "deliverHereBtn" + index
+            );
+            if (deliverHereBtn) {
+              deliverHereBtn.classList.remove("d-none");
+            }
+          });
+        });
+   
+      function toggleHiddenAddresses() {
+        // Toggle the visibility of hidden addresses
+        var hiddenAddresses = document.querySelectorAll(".hidden-address");
+        hiddenAddresses.forEach((address) => {
+          address.classList.toggle("d-none");
+        });
+      }
+  
+      function performAjax() {
+        // Get the selected payment option
+        var selectedPaymentOption = document.querySelector(
+          'input[name="paymentOption"]:checked'
+        );
+
+        // Check if a payment option is selected
+        if (selectedPaymentOption) {
+          // Log or use the selected payment option value
+          console.log(
+            "Selected Payment Option: " + selectedPaymentOption.value
+          );
+          console.log(selectedPaymentOption.value);
+          confirmOrder(selectedPaymentOption.value);
+          $("#paymentSuccessModal").modal("show");
+          // Continue with other logic for Confirm Order
+          // Example: Submit the form or perform other actions
+        } else {
+          // Handle the case where no payment option is selected
+          alert("Please select a payment option before confirming the order.");
+        }
+      }
+    
+
+    
+      function confirmOrder(type) {
+        console.log("confirmpassword Ajax");
+
+        $.ajax({
+          url: "/confirmorderMethod/" + `${type}`,
+          method: "get",
+          success: function (response) {
+            Toastify({
+              text: response.msg,
+              duration: 3000,
+              gravity: "center",
+              position: "center",
+              backgroundColor: "blue",
+              stopOnFocus: true,
+            }).showToast();
+
+            if (response.payment == "COD") {
+              window.location.href = "/PayementSuccesspage";
+            } else if (response.payment == "online") {
+              console.log("payment method is worked");
+
+              console.log("Before CreateRazorpayOrder");
+              console.log(response.order);
+
+              createRazorpay(response.order);
+
+              console.log("After CreateRazorpayOrder");
+            }
+          },
+          error: function (err) {
+            Toastify({
+              text: "Something Happen",
+              duration: 3000,
+              gravity: "center",
+              position: "center",
+              backgroundColor: "black",
+              stopOnFocus: true,
+            }).showToast();
+            console.log("Toastify error ");
+          },
+        });
+      }
+
+      //Create Razorpay
+      function createRazorpay(order) {
+        const id = order.id;
+        const total = order.amount;
+        console.log("working  id and total:", id, total);
+
+        var options = {
+          key: "rzp_test_zA5XiwMTHLQIPm",
+          amount: total,
+          currency: "INR",
+          name: "Trend-Vista",
+          description: "Test Transaction",
+          image: "",
+          order_id: id,
+          handler: function (response) {
+            // alert(response.razorpay_payment_id);
+            // alert(response.razorpay_order_id);
+            VerifyPayment(response, order);
+          },
+          theme: {
+            color: "#3c3c3c",
+          },
+        };
+        var razorpay = new Razorpay(options);
+        razorpay.open();
+      }
+
+      //verify the Razorpay
+      function VerifyPayment(payment, order) {
+        console.log("Verify the Razorpay :", payment, order);
+
+        $.ajax({
+          url: "/VerifyRazorpay",
+          method: "post",
+          data: { payment, order },
+          success: function (response) {
+            if (response.success) {
+              location.href = "/PayementSuccesspage";
+            }
+          },
+          error: function (err) {
+            alert("Somehing Problem ..........");
+          },
+        });
+      }
+    </script>
+
+    <!-- Bootstrap -->
+
+    <!-- Plugins -->
+
+    <!-- Global Init -->
+
+    <!-- Bootstrap JavaScript and Popper.js -->
+
+    <%-include('../partials/footernav.ejs')-%>
+  </body>
+</html>

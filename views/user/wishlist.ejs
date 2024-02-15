@@ -1,0 +1,149 @@
+
+<link rel="stylesheet" href="/css/lightbox.css">
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.2/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.2/dist/sweetalert2.all.min.js"></script>
+    <script src="/javascript/UserAjax.js"></script>
+    
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <style>
+        .row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        body {
+            background-color: #ffffff
+        }
+    </style>
+
+</head>
+
+<body>
+    <%-include('../layout/user/header.ejs')-%>
+
+    <%-include('../partials/usernave.ejs')-%>
+
+   <% if(Wishlength==0){%>
+    <section >
+        <div class="container-fluid  mt-100">
+            <div class="row">
+            
+               <div class="col-md-12">
+               
+                       <div class="card gradient-custom">
+                   <div class="card-header">
+                   <h5>Wishlist</h5>
+                   </div>
+                   <div class="card-body cart">
+                           <div class="col-sm-12 empty-cart-cls text-center">
+                               <img src="https://i.imgur.com/dCdflKN.png" width="130" height="130" class="img-fluid mb-4 mr-3">
+                               <h3><strong>Your Wishlist is Empty</strong></h3>
+                               <h4>Add something to make me happy :)</h4>
+                               <% if(locals.user){ %>
+                               <a href="/allprodcuts" class="btn btn-primary cart-btn-transform m-3" data-abc="true">continue shopping</a>
+                               <%}else{ %>
+                               <a href="/login" class="btn btn-warning cart-btn-transform m-3" data-abc="true">Login</a>
+                               <% } %>
+                           
+                           </div>
+                   </div>
+           </div>
+                   
+               
+               </div>
+            
+            </div>
+           
+           </div>
+        </section>
+    <%}else{%>
+            <div class="container">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-md-8">
+                        <div class="card border shadow mt-5 ">
+                            <div class="m-4">
+                                <h4 class="card-title mb-4">Your Wishlist</h4>
+                               <% Wishlistdata.products.forEach((ele,index)=>{ %>
+                                    <div class="row d-flex gy-3 mb-4">
+                                        <div class="col-lg-5">
+                                            <div class="me-lg-5">
+                                                <div class="d-flex">
+                                                  <a href=""> <img src="/productimages/<%=ele.productId.images[0]%>"
+                                                        alt=""
+                                                        class="border rounded me-3"
+                                                        style="width: 80px; height: 96px" />
+                                                    </a> 
+                                                    <div class="">
+                                                        <a href="#" class="nav-link"
+                                                            style="text-decoration: none; color: #000000; font-weight: 500;">
+                                                           <h6><%-ele.productId.productName-%></h6>
+                                                       
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg col-sm-2">
+                                            <div class="text-primary"><b> Rs.<%-ele.productId.Price-%></b>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg col-sm-4 d-flex">
+                                            <div class="float-md-end d-flex">
+
+                                                <!-- <button class="text-white btn-secondary"
+                                                onclick="addToCart('')"
+                                                style="width: 120px;height: 40px;border-radius: 5px;border: 0;margin-right: 5px;">Add
+                                                to
+                                                Cart</button> -->
+                                            
+                                                    <!-- <a class="btn btn1" href="#">Notify Me</a> -->
+                                                    <!-- <span class="text-danger">Out of Stock</span> -->
+                                                  <% if(checkproduct[index]){ %>
+                                                    <a href="/Cartuser"> <button class="text-white btn-secondary"
+                                                            style="width: 120px;height: 40px;border-radius: 5px;border: 0;margin-right: 5px;"
+                                                           >GO TO CART</button></a> 
+                                                      <%}else{%>
+                                                   
+                                                    <button class="text-white btn-secondary" 
+                                                            style="width: 120px;height: 40px;border-radius: 5px;border: 0;margin-right: 5px;"
+                                                            onclick="addTocart('<%-ele.productId._id-%>')">Add
+                                                            
+                                                           Cart</button>
+                                                      <%}%>
+
+                                                            <button
+                                                                class="btn btn-light border text-danger icon-hover-danger ml-2"
+                                                                onclick="removeFromWish('<%-ele.productId._id-%>')"
+                                                                style="width: 120px;height: 40px;border-radius: 5px;border: 0;margin-right: 5px;">Remove</button>
+                                                   
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <%})%>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <br>
+            <br>
+            <%}%>
+            <%-include('../partials/footernav.ejs')-%>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

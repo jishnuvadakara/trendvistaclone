@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css"
+      integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc="
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- Include Toastify CSS and JS files -->
+    <style>
+      body {
+        margin-top: 20px;
+        background-color: #f1f3f7;
+      }
+
+      .avatar-lg {
+        height: 5rem;
+        width: 5rem;
+      }
+
+      .font-size-18 {
+        font-size: 18px !important;
+      }
+
+      .text-truncate {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      a {
+        text-decoration: none !important;
+      }
+
+      .w-xl {
+        min-width: 160px;
+      }
+
+      .card {
+        margin-bottom: 24px;
+        -webkit-box-shadow: 0 2px 3px #e4e8f0;
+        box-shadow: 0 2px 3px #e4e8f0;
+      }
+
+      .card {
+        position: relative;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid #eff0f2;
+        border-radius: 1rem;
+      }
+    </style>
+    <%-include('../partials/usernave.ejs')-%>
+
+    <div style="margin-left: 222px; margin-top: 80px">
+      <% Myorder.forEach(data=>{ %>
+      <h4>Order</h4>
+
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-8">
+            <div class="card border shadow-none">
+              <div class="card-body">
+                <% data.products.forEach(ele=>{ %>
+                <div class="d-flex align-items-start border-bottom pb-3">
+                  <div class="me-4">
+                    <img
+                      src="/productimages/<%-ele.productId.images[0]-%>"
+                      alt=""
+                      class="avatar-lg rounded"
+                    />
+                  </div>
+                  <div class="flex-grow-1 align-self-center overflow-hidden">
+                    <div>
+                      <h5 class="text-truncate font-size-18">
+                        <a href="#" class="text-dark"
+                          ><%-ele.productId.productName-%>
+                        </a>
+                      </h5>
+                     
+                      <div style="display: flex; justify-content: space-between;">
+                      <p class="text-muted mb-0">
+                        <i class="bx bxs-star text-warning"></i>
+                        <i class="bx bxs-star text-warning"></i>
+                        <i class="bx bxs-star text-warning"></i>
+                        <i class="bx bxs-star text-warning"></i>
+                        <i class="bx bxs-star-half text-warning"></i>
+                      </p>
+                      <% if(ele.status=="Cancelled"|| ele.status=="Return Requested") { %>
+                      <h6  class="badge rounded-pill bg-danger"><%-ele.status-%></h6>
+                      <% }%>
+                    </div>
+                 
+                    
+                      <p class="mb-0 mt-1">
+                        Brand :
+                        <span class="fw-medium"
+                          ><%-ele.productId.BrandName-%></span
+                        >
+                      </p>
+                    </div>
+                  </div>
+                 
+
+                  <div class="flex-shrink-0 ms-2">
+                    <ul class="list-inline mb-0 font-size-16">
+                      <li class="list-inline-item">
+                        <a href="#" class="text-muted px-1">
+                          Quantity: <%-ele.quantity-%>
+                        </a>
+                      </li>
+                      <li class="list-inline-item">
+                        <a href=""></a>
+                      </li>
+                      <!-- <li class="list-inline-item">
+                      <a href="#" class="text-muted px-1">
+                        <i class="mdi mdi-heart-outline"></i>
+                      </a>
+                    </li> -->
+                    </ul>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="row">
+                    <!-- <div class="col-md-4">
+                      <div class="mt-3">
+                        <p class="text-muted mb-2">
+                          Price:<%-ele.productId.Price-%>
+                        </p>
+                        <h5 class="mb-0 mt-2">
+                          <span class="text-muted me-2"
+                            ><del class="font-size-16 fw-normal"
+                              >$500</del
+                            ></span
+                          >$450
+                        </h5>
+                      </div>
+                    </div> -->
+                    <!-- <div class="col-md-5">
+                      <div class="mt-3">
+                        <p class="text-muted mb-2">Quantity:</p>
+                        <div class="d-inline-flex">
+                          <select class="form-select form-select-sm w-xl">
+                            <option value="<%-ele.quantity-%>">
+                              <%-ele.quantity-%>
+                            </option>
+                            <
+                          </select>
+                        </div>
+                      </div>
+                    </div> -->
+                    <%})%>
+                    <!-- <div class="col-md-3">
+                      <div class="mt-3">
+                        <p class="text-muted mb-2">Total</p>
+                        <h5>$900</h5>
+                      </div>
+                    </div> -->
+                    <div style="display: flex; justify-content: end">
+                      <a
+                        href="/Myorderdetail/<%-data._id-%>"
+                        class="btn btn-primary cart-btn-transform m-3"
+                        data-abc="true"
+                        >Veiw Details</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- end card -->
+
+            <!-- end card -->
+          </div>
+          <!-- end row -->
+        </div>
+      </div>
+      <% }) %>
+    </div>
+    </div>
+    </div>
+    </div>
+ </div>
+
+    <!-- Remove the container if you want to extend the Footer to full width. -->
+   
+      <!-- Footer -->
+      <footer
+        class="text-center text-lg-start text-dark"
+        style="background-color: #eceff1"
+      >
+        <!-- Section: Social media -->
+        <section
+          class="d-flex justify-content-between p-4 text-white"
+          style="background-color: #ffc107"
+        >
+          <!-- Left -->
+          <div class="me-5">
+            <span>Get connected with us on social networks:</span>
+          </div>
+          <!-- Left -->
+
+          <!-- Right -->
+          <div>
+            <a href="" class="text-white me-4">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="" class="text-white me-4">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="" class="text-white me-4">
+              <i class="fab fa-google"></i>
+            </a>
+            <a href="" class="text-white me-4">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="" class="text-white me-4">
+              <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="" class="text-white me-4">
+              <i class="fab fa-github"></i>
+            </a>
+          </div>
+          <!-- Right -->
+        </section>
+        <!-- Section: Social media -->
+
+        <!-- Section: Links  -->
+        <section class="">
+          <div class="container text-center text-md-start mt-5">
+            <!-- Grid row -->
+            <div class="row mt-3">
+              <!-- Grid column -->
+              <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                <!-- Content -->
+                <h6 class="text-uppercase fw-bold">Trend-Vista</h6>
+                <hr
+                  class="mb-4 mt-0 d-inline-block mx-auto"
+                  style="width: 60px; background-color: #7c4dff; height: 2px"
+                />
+                <p>
+                  Here, assistance is available, so please use it appropriately
+                  and contact our customer care for further support.
+                </p>
+              </div>
+              <!-- Grid column -->
+
+              <!-- Grid column -->
+              <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                <!-- Links -->
+                <h6 class="text-uppercase fw-bold">Products</h6>
+                <hr
+                  class="mb-4 mt-0 d-inline-block mx-auto"
+                  style="width: 60px; background-color: #7c4dff; height: 2px"
+                />
+                <p>
+                  <a href="#!" class="text-dark">I Phone</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-dark">Redmi</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-dark">Realme</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-dark">Oppo </a>
+                </p>
+              </div>
+              <!-- Grid column -->
+
+              <!-- Grid column -->
+              <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                <!-- Links -->
+                <h6 class="text-uppercase fw-bold">Useful links</h6>
+                <hr
+                  class="mb-4 mt-0 d-inline-block mx-auto"
+                  style="width: 60px; background-color: #7c4dff; height: 2px"
+                />
+                <p>
+                  <a href="#!" class="text-dark">Your Account</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-dark">Become an Affiliate</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-dark">Shipping Rates</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-dark">Help</a>
+                </p>
+              </div>
+              <!-- Grid column -->
+
+              <!-- Grid column -->
+              <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                <!-- Links -->
+                <h6 class="text-uppercase fw-bold">Contact</h6>
+                <hr
+                  class="mb-4 mt-0 d-inline-block mx-auto"
+                  style="width: 60px; background-color: #7c4dff; height: 2px"
+                />
+                <p><i class="fas fa-home mr-3"></i> New York, NY 10012, US</p>
+                <p><i class="fas fa-envelope mr-3"></i> trendvista.com</p>
+                <p><i class="fas fa-phone mr-3"></i> + 01 234 567 88</p>
+                <p><i class="fas fa-print mr-3"></i> + 01 234 567 89</p>
+              </div>
+              <!-- Grid column -->
+            </div>
+            <!-- Grid row -->
+          </div>
+        </section>
+        <!-- Section: Links  -->
+
+        <!-- Copyright -->
+        <div
+          class="text-center p-3"
+          style="background-color: rgba(0, 0, 0, 0.2)"
+        >
+          © 2020 Copyright:
+          <a class="text-dark" href="#">Trend-Vista.com</a>
+        </div>
+        <!-- Copyright -->
+      </footer>
+      <!-- Footer -->
+   
+    <!-- End of .container -->
+  </body>
+</html>

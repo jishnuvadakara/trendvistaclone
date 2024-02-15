@@ -1,0 +1,239 @@
+<%-include('../layout/user/header.ejs')-%>
+<%-include('../partials/usernave.ejs')-%>
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+
+<style media="screen">
+    figure.zoom {
+        background-position: 50% 50%;
+        position: relative;
+        /* margin: 150px auto; */
+        /* border: 5px solid white;
+        box-shadow: -1px 5px 15px black; */
+        /* height: 400px;
+        width: 520px; */
+        width: 100%;
+        height: 60vh;
+        overflow: hidden;
+        cursor: zoom-in;
+      
+    }
+  
+    figure.zoom img:hover {
+        opacity: 0;
+    }
+  
+    figure.zoom img {
+        transition: opacity 0.5s;
+        display: block;
+        width: 100%;
+  
+    }
+  
+    .small-images {
+        max-width: 120px;
+    }
+  </style>
+  
+  <!-- <div class="container-fluid mt-3">
+  <header> -->
+   
+      <!-- Jumbotron -->
+    
+      <!-- Heading -->
+      <!-- <div class="bg-secondary rounded-sm">
+        <div class="container py-4"> -->
+          <!-- Breadcrumb -->
+          <!-- <nav class="d-flex">
+            <h6 class="mb-0">
+              <a href="" class="text-white-50">Home</a>
+              <span class="text-white-50 mx-2"> > </span>
+              <a href="" class="text-white-50">Library</a>
+              <span class="text-white-50 mx-2"> > </span>
+              <a href="" class="text-white"><u>Data</u></a>
+            </h6>
+          </nav> -->
+          <!-- Breadcrumb -->
+        <!-- </div>
+      </div> -->
+      <!-- Heading -->
+    <!-- </header> -->
+    
+    <!-- content -->
+    <section class="py-5 mt-5" >
+      <div class="container">
+        <div class="row gx-5">
+          <aside class="col-lg-6">
+            
+            <div class="border rounded-4 mb-3 d-flex justify-content-center">
+              <a data-fslightbox="mygalley" class="rounded-4" target="_blank" data-type="image" >
+                <figure class="zoom" onmousemove="zoom(event)" id="main-bg"
+                          style="background-image: url('/productimages/<%- product.images[0] -%>');background-size:200%;">
+                <img style="width: 100%;height: 60vh; margin: auto;"  class="rounded-8 fit" src="/productimages/<%- product.images[0]-%>" id="mainimg" />
+              </figure>
+              </a>
+            </div>
+           
+            
+            
+              
+            
+            <div class="d-flex justify-content-center mb-3">
+              <% product.images.forEach((ele,index) => { %>
+              <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank" data-type="image"    class="item-thumb">
+                <img width="60" height="60" class="rounded-2" src="/productimages/<%= ele%>" onclick="change('<%-index+1-%>')" id="img<%-index+1-%>"/>
+              </a>
+              <% }) %>
+            </div>
+          
+            <!-- thumbs-wrap.// -->
+            <!-- gallery-wrap .end// -->
+          </aside>
+          <main class="col-lg-6">
+            <div class="ps-lg-3">
+              <h4 class="title text-dark">
+                <%=product.ProductName%>
+              </h4>
+              <div class="d-flex flex-row my-3">
+  
+    <!-- in stock ----------------------------------------------->
+           <strong><%-product.productName-%></strong>
+          
+            <% if (product.AvailableQuantity>=10) { %>
+              <span class="text-success ms-2">In stock</span>
+               
+            <% }else if(product.AvailableQuantity>0){ %>
+              <span class="text-danger ms-2">Only <%-product.AvailableQuantity-%> left</span>
+            <% }else{%>
+              <span class="text-danger ms-2">Out of Stock</span>
+              <%}%>  
+            
+            
+            
+              </div>
+    <!--end stock ----------------------------------------------->
+              <div class="mb-3">
+               
+                <span class="h5">₹<%=product.DiscountAmount%></span>
+                <span class="text-muted">/-</span>
+               <% if (product.DiscountAmount==product.Price) { %>
+                <del class="h7"></del>
+               <% }else { %>
+                <del class="h7">₹<%=product.Price%></del>
+                <% }%> 
+                
+              </div>
+    
+              <p>
+                <%=product.Description%>
+              </p>
+    
+              <!-- <div class="row">
+                <dt class="col-3">Type:</dt>
+                <dd class="col-9">Regular</dd>
+    
+                <dt class="col-3">Color</dt>
+                <dd class="col-9">Brown</dd>
+    
+                <dt class="col-3">Material</dt>
+                <dd class="col-9">Cotton, Jeans</dd>
+    
+                <dt class="col-3">Brand</dt>
+                <dd class="col-9">Reebook</dd>
+              </div> -->
+              <ul>
+                <li><%=product.Specification1 %></li>
+                <li><%=product.Specification2 %></li>
+                <li><%=product.Specification3 %></li>
+                <li><%=product.Specification4 %></li>
+                
+              </ul>
+    
+              <hr />
+    
+              <div class="row mb-4">
+                <!-- <div class="col-md-4 col-6">
+                  <label class="mb-2">Size</label>
+                  <select class="form-select border border-secondary" style="height: 35px;">
+                    <option>Small</option>
+                    <option>Medium</option>
+                    <option>Large</option>
+                  </select>
+                </div>
+                col.// -->
+                <div class="col-md-4 col-6 mb-3">
+                  <label class="mb-2 d-block">Quantity</label>
+                  <div class="input-group mb-3" style="width: 170px;">
+                    <button class="btn btn-white border border-secondary px-3" type="button" id="button-addon1" data-mdb-ripple-color="dark">
+                      <i class="fas fa-minus"></i>
+                    </button>
+                    <input type="text" class="form-control text-center border border-secondary" placeholder="1" aria-label="Example text with button addon" aria-describedby="button-addon1" />
+                    <button class="btn btn-white border border-secondary px-3" type="button" id="button-addon2" data-mdb-ripple-color="dark">
+                      <i class="fas fa-plus"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+     <!-- add to cart           -->
+               <% if (Cartdetail==null) { %>
+                <a href="#" class="btn btn-success shadow-0 disabled"><i class="fa-solid fa-wallet" ></i > Buy now </a>
+              <a class="btn btn-primary shadow-0 " onclick="addTocart('<%-product._id-%>')" ><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to cart </a>
+              <a onclick="addTowishlist('<%-product._id-%>')" class="btn btn-light border border-secondary py-2 icon-hover px-3 " > <i class="me-1 fa fa-heart fa-lg"></i> </a>
+               <% }else{ %>
+                <a href="#" class="btn btn-success shadow-0"><i class="fa-solid fa-wallet" ></i> Buy now </a>
+                <a href="/Cartuser" class="btn btn-primary shadow-0"  ><i class="fa fa-shopping-cart" aria-hidden="true"></i> GO TO CART </a>
+                <a  onclick="addTowishlist('<%-product._id-%>')" class="btn btn-light border border-secondary py-2 icon-hover px-3"> <i class="me-1 fa fa-heart fa-lg"></i> </a>
+              <% }%>
+  
+              
+            </div>
+          </main>
+        </div>
+      </div>
+    </section>
+    <!-- content -->
+    
+    
+    <!-- Footer -->
+   
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> -->
+
+  <script>
+  function change(data){
+    var mainimg=document.getElementById('mainimg').src
+    console.log(mainimg)
+   
+      console.log("ok")
+      imgs=document.getElementById(`img${data}`).src
+      document.getElementById('mainimg').src=imgs
+      document.getElementById('main-bg').style.backgroundImage = `url(${imgs})`;
+  
+  }
+  
+  </script>
+  
+  
+  <script type="text/javascript">
+    function zoom(e) {
+        var zoomer = e.currentTarget;
+        e.offsetX ? offsetX = e.offsetX : offsetX = e.touches[0].pageX
+        e.offsetY ? offsetY = e.offsetY : offsetX = e.touches[0].pageX
+        x = offsetX / zoomer.offsetWidth * 100
+        y = offsetY / zoomer.offsetHeight * 100
+        zoomer.style.backgroundPosition = x + '% ' + y + '%';
+    }
+  </script>
+
+
+
+<%-include('../layout/user/footer.ejs')-%>
+
+</body>
+
+</html>
+      
+  

@@ -1,0 +1,60 @@
+const mongoose=require('mongoose')
+require('dotenv').config()
+const Schema=mongoose.Schema
+
+const productSchema=new Schema(
+    {
+        productName:{
+            type:String,
+            required:true
+        },
+        Price:{
+            type:Number,
+            required:true
+        },
+        Description:{
+            type:String,
+            required:true
+        },
+        BrandName:{
+            type:String,
+            required:true
+        },
+        tag:{
+            type:Array
+        },
+        images:{
+            type:Array,
+            required:true
+        },
+        AvailableQuantity:{
+            type:Number,
+            required:true
+        },
+        catagory:{
+          type:mongoose.Schema.Types.ObjectId,
+          ref:'catagory'
+        },
+        DiscountAmount:{
+            type:Number
+        },
+        status:{
+            type:String,
+            default:'active'
+        },
+        Specification1:{
+            type:String
+        },
+        Specification2:{
+            type:String
+        },
+        Specification3:{
+            type:String
+        },
+        Specification4:{
+            type:String
+        },
+    }
+)
+const products=mongoose.model("productcollection",productSchema)
+module.exports=products
