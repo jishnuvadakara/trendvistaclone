@@ -12,7 +12,9 @@ const CartController = require("../controller/cartController");
 const cartController = require("../controller/cartController");
 const wishlistcController = require("../controller/wishlistcontroller");
 const orderController = require("../controller/orderController");
+const couponController=require("../controller/couponController")
 const address = require("../models/addressModel");
+const UserMalter=require('../middlewares/Usermulter')
 // const usercontroller = require('../controller/usercontroller');
 
 //login
@@ -119,6 +121,7 @@ router.post(
   addressController.postAddrsCheckout
 );
 
+router.post("/upload", UserMalter.single("image"), usercontroller.UserImage);
 //----------------------------------------------------------------------------------------------------------------CART-------------------------------------
 router.get("/Cartuser", middleman.verifyUser, CartController.GetCart);
 router.get(
@@ -197,6 +200,28 @@ router.post("/RetrunOrder",middleman.verifyUser,orderController.ReturnOrder);
 
 //Razorpay verify router
 router.post("/VerifyRazorpay", orderController.VerifyPayment);
+
+//failed payment option for payment again 
+router.get("/RazorpayFaledOrder/:OrderId", orderController.RazorpayFaledOrder);
+
+
+
+
+//------------------------------------------------------------------------------------Coupon--------------------------------------------------------------------
+router.get('/UserCoupon',middleman.verifyUser,couponController.GetUserCoupon)
+router.post("/applyCoupon",middleman.verifyUser,couponController.ApplyedCoupon);
+
+//------------------------------------------------------------------------------------Invoice--------------------------------------------------------------------------
+router.get("/generateinvoice/:orderId/:index",orderController.getInvoice);
+router.get("/downloadinginvoice/:orderId",orderController.downloadinginvoice);
+
+
+//-------------------------------------------------------------------------------------Reference-----------------
+router.post("/RefferenceApply", usercontroller.Refference);
+//----------------------------------------------------------------------------UserWalletHIstory-----------------------
+router.get('/UserWallet',middleman.verifyUser,usercontroller.GetWallet)
+
+
 
 //-----------------------User logout-----------------
 router.get("/logout", controller.Userlogout);

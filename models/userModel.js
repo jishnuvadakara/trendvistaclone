@@ -22,6 +22,15 @@ const userSchema = new Schema(
       type: String,
       default: "active",
     },
+    referredBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref:"User",
+      default:null
+    },
+    Userimage:{
+      type:String
+
+    }
   },
   {
     timestamps: true,

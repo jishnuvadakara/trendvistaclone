@@ -1,5 +1,3 @@
-
-
 //user address delete
 function deleteAddress(id) {
   Swal.fire({
@@ -95,7 +93,7 @@ function updateQuantity(count, prodId, qnt, crtId) {
       //set the time again reload
       setTimeout(() => {
         window.location.reload();
-      }, 3000);
+      }, 2000);
     },
     error: function (err) {
       Toastify({
@@ -272,7 +270,6 @@ function selectAddress(addressId) {
 
 //confirm oderpage pass the type
 
-
 //Canceld Single produdcts In user side
 function cancelSingleProduct(OrderId, index) {
   console.log("ajax is working no problem prblem with your logic");
@@ -302,7 +299,7 @@ function cancelSingleProduct(OrderId, index) {
             stopOnFocus: true,
           }).showToast();
           setTimeout(() => {
-            window.location.reload()
+            window.location.reload();
           }, 2000);
         },
         error: function (err) {
@@ -318,6 +315,95 @@ function cancelSingleProduct(OrderId, index) {
         },
       });
     }
+  });
+}
+
+function confirmOrder(type) {
+  console.log("confirmpassword Ajax");
+
+  $.ajax({
+    url: "/confirmorderMethod/" + `${type}`,
+    method: "get",
+    success: function (response) {
+      Toastify({
+        text: response.msg,
+        duration: 3000,
+        gravity: "center",
+        position: "center",
+        backgroundColor: "blue",
+        stopOnFocus: true,
+      }).showToast();
+
+      if (response.payment == "COD") {
+        window.location.href = "/PayementSuccesspage";
+      } else if (response.payment == "online") {
+        console.log("payment method is worked");
+
+        console.log("Before CreateRazorpayOrder");
+        console.log(response.order);
+
+        createRazorpay(response.order);
+
+        console.log("After CreateRazorpayOrder");
+      }
+    },
+    error: function (err) {
+      Toastify({
+        text: "Something Happen",
+        duration: 3000,
+        gravity: "center",
+        position: "center",
+        backgroundColor: "black",
+        stopOnFocus: true,
+      }).showToast();
+      console.log("Toastify error ");
+    },
+  });
+}
+
+//Create Razorpay
+function createRazorpay(order) {
+  const id = order.id;
+  const total = order.amount;
+  console.log("working  id and total:", id, total);
+
+  var options = {
+    key: "rzp_test_zA5XiwMTHLQIPm",
+    amount: total,
+    currency: "INR",
+    name: "Trend-Vista",
+    description: "Test Transaction",
+    image: "",
+    order_id: id,
+    handler: function (response) {
+      // alert(response.razorpay_payment_id);
+      // alert(response.razorpay_order_id);
+      VerifyPayment(response, order);
+    },
+    theme: {
+      color: "#3c3c3c",
+    },
+  };
+  var razorpay = new Razorpay(options);
+  razorpay.open();
+}
+
+//verify the Razorpay
+function VerifyPayment(payment, order) {
+  console.log("Verify the Razorpay :", payment, order);
+
+  $.ajax({
+    url: "/VerifyRazorpay",
+    method: "post",
+    data: { payment, order },
+    success: function (response) {
+      if (response.success) {
+        location.href = "/PayementSuccesspage";
+      }
+    },
+    error: function (err) {
+      alert("Somehing Problem ..........");
+    },
   });
 }
 
@@ -359,3 +445,101 @@ function cancelSingleProduct(OrderId, index) {
 //     }
 //   })
 // }
+
+//coupon controller hanlde the usercoupon
+function ApplyFormCoupon() {
+  console.log("working properly");
+  var couponCode = document.getElementById("couponCode").value;
+  $.ajax({
+    url: "/applyCoupon",
+    method: "post",
+    data: { couponCode: couponCode }, // Send coupon code as data
+    success: function (response) {
+      if (response.msg) {
+        Swal.fire({
+          icon: "success",
+          title: "Coupon applied",
+          text: response.msg,
+          showConfirmButton: false,
+          timer: 3000,
+        });
+      } else if (response.errMsg) {
+        Swal.fire({
+          icon: "error",
+          title: "Coupon not applied",
+          text: response.errMsg, // Change response.msg to response.errMsg
+          showConfirmButton: false,
+          timer: 3000,
+        });
+      }
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+    },
+    error: function (err) {
+      Toastify({
+        text: "Something went wrong",
+        duration: 3000,
+        gravity: "center",
+        position: "center",
+        stopOnFocus: true,
+      }).showToast();
+    },
+  });
+}
+
+//Refference for the user
+function refference() {
+  console.log("wokign properly");
+  const email = document.getElementById("email").value;
+  const userId = document.getElementById("userId").value;
+  console.log("this ", email, userId);
+  $.ajax({
+    url: "/RefferenceApply",
+    method: "post",
+    data: { email: email, userId: userId },
+    success: function (response) {
+      Swal.fire({
+        icon: "success",
+        title: "Refference applied",
+        text: response.msg,
+        showConfirmButton: false,
+        timer: 3000,
+      });
+    },
+    error: function (err) {
+      Toastify({
+        text: "Something happen",
+        duration: 3000,
+        gravity: "center",
+        position: "center",
+        backgroundColor: "red",
+        stopOnFocus: true,
+      }).showToast();
+    },
+  });
+}
+
+//again payment for failed online payments
+function AgainPayement(OrderId) {
+  console.log("it wroking this is for OrderId:", OrderId);
+  $.ajax({
+    url: "/RazorpayFaledOrder/" + `${OrderId}`,
+    method: "get",
+    success: function (response) {
+      Toastify({
+        text: response.msg,
+        duration: 3000,
+        gravity: "center",
+        position: "center",
+        backgroundColor: "blue",
+        stopOnFocus: true,
+      }).showToast();
+      if (response.payment == "online") {
+        console.log("its working no problem");
+        createRazorpay(response.order);
+      }
+    },
+  });
+}

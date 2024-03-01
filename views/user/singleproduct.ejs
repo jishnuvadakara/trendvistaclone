@@ -1,5 +1,6 @@
 <%-include('../layout/user/header.ejs')-%>
 <%-include('../partials/usernave.ejs')-%>
+
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
@@ -179,11 +180,11 @@
      <!-- add to cart           -->
                <% if (Cartdetail==null) { %>
                 <a href="#" class="btn btn-success shadow-0 disabled"><i class="fa-solid fa-wallet" ></i > Buy now </a>
-              <a class="btn btn-primary shadow-0 " onclick="addTocart('<%-product._id-%>')" ><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to cart </a>
+              <a class="btn btn-success shadow-0 " onclick="addTocart('<%-product._id-%>')"  style="color: red;" ><i class="fa fa-shopping-cart" aria-hidden="true" style="color: red;"></i> Add to cart </a>
               <a onclick="addTowishlist('<%-product._id-%>')" class="btn btn-light border border-secondary py-2 icon-hover px-3 " > <i class="me-1 fa fa-heart fa-lg"></i> </a>
                <% }else{ %>
-                <a href="#" class="btn btn-success shadow-0"><i class="fa-solid fa-wallet" ></i> Buy now </a>
-                <a href="/Cartuser" class="btn btn-primary shadow-0"  ><i class="fa fa-shopping-cart" aria-hidden="true"></i> GO TO CART </a>
+                <a href="#" class="btn btn-primary shadow-0"><i class="fa-solid fa-wallet" ></i> Buy now </a>
+                <a href="/Cartuser" class="btn btn-warning shadow-0"  style="color: green;"><i class="fa fa-shopping-cart" aria-hidden="true"></i> GO TO CART </a>
                 <a  onclick="addTowishlist('<%-product._id-%>')" class="btn btn-light border border-secondary py-2 icon-hover px-3"> <i class="me-1 fa fa-heart fa-lg"></i> </a>
               <% }%>
   

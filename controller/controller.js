@@ -3,8 +3,12 @@ const otp = require("../models/otpModel");
 const { sendEmail } = require("../auth/nodemailer");
 const { getSignupOtp } = require("../util/generateotp");
 const products = require("../models/productModel");
+const wallet = require("../models/walletModal");
+const walletHistory = require("../models/walletHistory");
 // const {hashData,verifyHasheData}=require('../util/bcrypt')
 const bcrypt = require("bcrypt");
+const { default: mongoose } = require("mongoose");
+// const { default: refunds } = require("razorpay/dist/types/refunds");
 
 // let _email;
 // let _password;
@@ -12,8 +16,20 @@ module.exports = {
   //getsignup
   getSignupOtp: async (req, res) => {
     try {
-      console.log("get method is ok");
-      res.render("user/signup");
+      console.log("get ,method is working");
+      const referId = req.query.refer;
+      console.log(req.query.refer, "this is query");
+      let user;
+      if (mongoose.Types.ObjectId.isValid(referId)) {
+        user = await User.findOne({ _id: referId });
+      }
+      console.log(user, "this is refer id match user");
+      console.log(referId);
+      if (referId != undefined) {
+        res.render("user/signup", { refer: referId });
+      } else {
+        res.render("user/signup", { refer: null });
+      }
     } catch (err) {
       console.log(err);
     }
@@ -22,6 +38,10 @@ module.exports = {
   postSignupOtp: async (req, res) => {
     try {
       const { name, email, password, status } = req.body;
+      console.log("user data form requrest body", req.body);
+      if (!req.body.referredBy) {
+        req.body.referredBy = null;
+      }
       const data = await User.findOne({ email: email });
       const saltRounds = 10;
       req.session.UerOtpemail = email;
@@ -42,6 +62,7 @@ module.exports = {
           name: name,
           email: email,
           password: hashedpass,
+          referredBy: req.body.referredBy,
         };
 
         res.render("user/otp"); //it means got  the otp page that i use this way
@@ -63,43 +84,124 @@ module.exports = {
   //postSignup
   postSignup: async (req, res) => {
     try {
-      // console.log("hey");
       const arr = [];
-      // console.log(req.body);
       const { num1, num2, num3, num4 } = req.body;
       arr.push(num1);
       arr.push(num2);
       arr.push(num3);
       arr.push(num4);
 
-      //the join the array
+      // Join the array to form the OTP
       const userotp = arr.join("").toString();
       const otp_ = await otp.findOne({ email: req.session.UserData.email });
       const email = req.session.UserData.email;
 
+      let referral;
+      const reff = req.session.UserData.referredBy;
+      console.log(reff, "this user referredBy", req.session.UserData);
+
+      // Check the referred condition
+      if (reff === undefined) {
+        req.session.UserData.referredBy = null;
+        referral = req.session.UserData.referredBy;
+      } else {
+        referral = req.session.UserData.referredBy;
+      }
+      console.log(referral, "this is user refferal ");
+
       console.log(otp_ ?? "null data");
       if (otp_?.otp == userotp && otp_ != null) {
         console.log("data check");
+        User.create(req.session.UserData).then(async (data) => {
+          const refferuser = await User.findOne({
+            email: req.session.UserData.email,
+          });
+          await wallet.create({ userId: refferuser._id, wallet: 0 });
+          console.log("this is user data again come ", refferuser);
 
-        // const hashedPassword = req.session.hashedPass;
+          //checking the refferal
+          if (referral != "" && referral != null) {
+            const refwallet = await wallet.findOne({ userId: referral });
 
-        const userData = await User.create(req.session.UserData);
-        // console.log(userData);
+            // again if increment and push the wallet datas
+            if (refwallet) {
+              await Promise.all([
+                wallet.updateOne(
+                  { userId: referral },
+                  { $inc: { wallet: 100 } }
+                ),
+                wallet.updateOne(
+                  { userId: referral },
+                  { $push: { invaited: refferuser._id } }
+                ),
+                wallet.updateOne(
+                  { userId: refferuser._id },
+                  { $inc: { wallet: 50 } }
+                ),
+              ]);
+            } else {
+              await wallet.create({
+                userId: referral,
+                wallet: 100,
+                invaited: [refferuser._id],
+              });
+            }
+            //the check the walllet history\
+            const walletHis = await walletHistory.findOne({ userId: referral });
 
-        console.log(userData);
-        if (userData) {
-          res.render("user/login", { msg: "Signup will success" });
-        }
+            if (walletHis) {
+              let amount = 100;
+              let reason = "Bonus for referring an user";
+              let type = "credit";
+              let date = new Date();
 
-        //  User.create(req.session.UserData).then((data)=>{
-        // })
+              
+              await walletHistory.updateOne(
+                { userId: referral },
+                {
+                  $push: {
+                    refund: { amount: amount, reason: reason,type:type, date: date },
+                  },
+                },
+                { new: true }
+              );
+            } else {
+              let amount = 100;
+              let reason = "Bonus for referring an user";
+              let date = new Date();
+              let type = "credit";
+              await walletHistory.create({
+                userId: referral,
+                refund: [
+                  { amount: amount, reason: reason, type: type, date: date },
+                ],
+              });
+            }
+            let signup = "SignUp using referral link bonus";
+            await walletHistory.create({
+              userId: refferuser._id,
+              refund: [
+                {
+                  amount: 50,
+                  reason: signup,
+                  type: "credit",
+                  date: new Date(),
+                },
+              ],
+            });
+          }
+          res.render("user/login", { msg: "Signup successful" });
+        });
+
+        // Render success message for signup
+
         console.log(userotp);
       } else {
-        res.render("user/otp", { err: "Invalid otp plese check" });
+        res.render("user/otp", { err: "Invalid OTP. Please check" });
       }
     } catch (error) {
-      console.log("here is the issue man___________________________________");
-      console.log(error);
+      console.log("An issue occurred:", error);
+      // Handle error gracefully
     }
   },
 
@@ -117,10 +219,10 @@ module.exports = {
         const isMatch = await bcrypt.compare(password, connect.password);
 
         console.log("ismatch", isMatch);
-        const msg=""
-        if (connect.status == "block") {
-          msg="Sorry This Account Has Blocked Admin"
-        }
+        // let msg = "";
+        // if (connect.status == "block") {
+        //   msg = "Sorry This Account Has Blocked Admin";
+        // }
 
         if (isMatch && connect.status == "active") {
           console.log(
@@ -140,10 +242,10 @@ module.exports = {
           res.redirect("/userhome");
           // res.render('user/userhome',{})
         } else {
-          res.render("user/login", { err: "Incorrect password or email",msg });
+          res.render("user/login", { err: "Incorrect password or email" });
         }
       } else {
-        res.render("user/login", { err: "Invald password or email ",msg });
+        res.render("user/login", { err: "Invald password or email " });
       }
     } catch (err) {
       console.log("post login not support", err);
@@ -155,7 +257,9 @@ module.exports = {
       console.log(req.session.UerOtpemail, "this mail user asking resend otp");
 
       sendEmail(req.session.UerOtpemail);
-      res.render("user/otp", { status: ` Verification code sent to${req.session.UerOtpemail}`});
+      res.render("user/otp", {
+        status: ` Verification code sent to${req.session.UerOtpemail}`,
+      });
     } catch (err) {
       console.log(err);
     }
@@ -163,6 +267,7 @@ module.exports = {
 
   Userlogout: async (req, res) => {
     try {
+      req.session.discountAmount = undefined;
       req.session.userlogged = false;
       res.redirect("/");
     } catch (err) {

@@ -17,13 +17,12 @@ const orderSchema = new Schema({
         type: Number,
       },
       status: {
-        type:String,
-        default:true
+        type: String,
+        default: "Order Processing",
       },
-      Price:{
-        type:Number
-      }
-      
+      Price: {
+        type: Number,
+      },
     },
   ],
   address: {
@@ -44,7 +43,7 @@ const orderSchema = new Schema({
   expectedDeliveryDate: Date,
   payementMethod: String,
   payementStatus: String,
-  totalAmount:Number,
+  totalAmount: Number,
   deliveryDate: Date,
   orderStatus: String,
   couponDiscount: Number,

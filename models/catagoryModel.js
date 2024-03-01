@@ -6,6 +6,10 @@ const Schema=mongoose.Schema
     {
         catagoryname:{
             type:String
+        },
+        status:{
+            type:String,
+            default:'active'
         }
     },
     {

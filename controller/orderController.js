@@ -7,6 +7,7 @@ const Return = require("../models/returnModel");
 const products = require("../models/productModel");
 const { disconnect } = require("mongoose");
 const { CreateRazorpayOrder } = require("../controller/razorpayController");
+const { generateInvoice } = require("../util/InvoiceCreator");
 const crypto = require("crypto");
 require("dotenv").config();
 
@@ -18,10 +19,19 @@ module.exports = {
         Address.find({ userId: req.session.user_Id }),
         Cart.findOne({ userId: req.session.user_Id }),
       ]);
-
+     
       const TotalPrice = req.session.Totalamnt;
-      const Grandtotal = req.session.Grandamnt;
+      const Grandtotal = req.session.Grandamnt
       const Discount = req.session.Discount;
+      const CouponDiscount = req.session.discountAmount;
+      const CouponCode = req.session.CouponCode;
+      console.log('this is delivery charge decrese total amount ',Grandtotal);
+      console.log(
+        CouponDiscount,
+        "coupon Discount amount",
+        CouponCode,
+        "This is Coupon code "
+      );
 
       //go to the checkout page
       if (Cartdata == null) {
@@ -33,6 +43,7 @@ module.exports = {
           TotalPrice,
           Grandtotal,
           Discount,
+          CouponDiscount,
         });
       }
     } catch (err) {
@@ -58,13 +69,16 @@ module.exports = {
       const UserEmail = req.session.email;
       const Grandtotal = req.session.Grandamnt;
       const Discount = req.session.Discount;
+      const couponCode = req.session.CouponCode;
+      const CouponDiscount = req.session.discountAmount;
 
       console.log(addressId);
       console.log(req.params);
       const payementmethod = req.params.type;
       console.log(payementmethod);
 
-      console.log(req.session.adressId);
+      console.log(req.session.adressId,'this  is the address what will happend');
+      
       if (req.session.adressId == undefined) {
         res.json({ msg: "please click the deliver button" });
       } else if (
@@ -116,6 +130,8 @@ module.exports = {
           totalAmount: Grandtotal,
           discountAmount: Discount,
           orderStatus: "Order Processing",
+          couponCode: couponCode,
+          couponDiscount: CouponDiscount,
         };
 
         //Then
@@ -199,10 +215,12 @@ module.exports = {
           orderDate: currentDate,
           expectedDeliveryDate: DeliveryDate,
           payementMethod: payementmethod,
-          payementStatus: "Payment Successful",
+          payementStatus: "Pending",
           totalAmount: Grandtotal,
           discountAmount: Discount,
           orderStatus: "Order Processing",
+          couponDiscount: CouponDiscount,
+          couponCode: couponCode,
         };
         //Create the datas on order colleoction
         await Order.create(Myorder);
@@ -310,24 +328,41 @@ module.exports = {
 
   GetMyorder: async (req, res) => {
     try {
+      const ITEMS_PER_PAGE = 4;
       const TotalPrice = req.session.Totalamnt;
       const Grandtotal = req.session.Grandamnt;
-      const [Myorder, productOrder] = await Promise.all([
+
+      const page = parseInt(req.query.page) || 1; // Get the page number from the query parameter, default to 1 if not provided
+      const skip = (page - 1) * ITEMS_PER_PAGE; // Calculate the number of documents to skip
+
+      const [MyorderCount, Myorder] = await Promise.all([
+        Order.countDocuments({ userId: req.session.user_Id }),
         Order.find({ userId: req.session.user_Id })
           .populate("products.productId")
-          .sort({ orderDate: -1 }),
+          .sort({ orderDate: -1 })
+          .skip(skip)
+          .limit(ITEMS_PER_PAGE),
       ]);
 
-      console.log(Myorder, "kokokokokokok");
+      const totalPages = Math.ceil(MyorderCount / ITEMS_PER_PAGE); // Calculate total pages
+      console.log(Myorder.length,'user order is empty');
+
       res.render("user/Myorder", {
         Myorder,
         TotalPrice,
         Grandtotal,
+        currentPage: page,
+        hasNextPage: ITEMS_PER_PAGE * page < MyorderCount,
+        hasPrevPage: page > 1,
+        nextPage: page + 1,
+        prevPage: page - 1,
+        lastPage: totalPages,
       });
     } catch (err) {
       console.log(err);
     }
   },
+
   GetMyOrderdetail: async (req, res) => {
     try {
       console.log(req.params);
@@ -341,6 +376,7 @@ module.exports = {
       // console.log(Orderdetail);
     } catch (err) {
       console.log(err);
+      
     }
   },
   //----------------------------------------------------------------------------------SingleOrdercancel----------------------------------------------------
@@ -415,4 +451,66 @@ module.exports = {
       console.log("Something problem in Return order", err);
     }
   },
+
+  //INvoice ------------------------------------------------------------------------------------------Invoice--------------------------------
+  getInvoice: async (req, res) => {
+    try {
+      console.log(req.params);
+      const { orderId, index } = req.params;
+      const orderDetail = await Order.findOne({ _id: orderId }).populate(
+        "products.productId"
+      );
+      const Deliverproduct = orderDetail.products.filter(
+        (prodcut) => prodcut.status == "Order Delivered"
+      );
+      console.log(Deliverproduct, "its filter is working ");
+      if (orderDetail) {
+        const invoicepath = await generateInvoice(
+          orderDetail,
+          index,
+          Deliverproduct
+        );
+        res.json({
+          success: true,
+          message: "Invoice generated successfully",
+          invoicepath,
+        });
+      } else {
+        res
+          .status(500)
+          .json({ success: false, message: "Invoice generated failed" });
+      }
+
+      console.log("generate invoice fuction is working ");
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  downloadinginvoice: async (req, res) => {
+    try {
+      console.log(req.params);
+      const id = req.params.orderId;
+      const filePath = `public/invoicePdf/${id}.pdf`;
+
+      res.download(filePath, `invoice_${id}.pdf`);
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  //The function for payment option for online payment failed order
+  RazorpayFaledOrder:async(req,res)=>{
+    try{
+      console.log('req.params',req.params);
+      const {OrderId}=req.params
+
+      const OrderFailed=await Order.findOne({_id:OrderId})
+      console.log('this is for Failed razorpay',OrderFailed);
+      const Grandtotal=OrderFailed.totalAmount
+      console.log('this is for grand total amount',Grandtotal);
+      CreateRazorpayOrder(res,OrderFailed._id,Grandtotal)
+
+    }catch(err){
+      console.log('Problem with your logic',err);
+    }
+  }
 };

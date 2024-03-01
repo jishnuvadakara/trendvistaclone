@@ -7,9 +7,10 @@ const Couponmongoose = new Schema({
   couponCode:{type:String},
   description:{type:String},
   minimumPurachaseAmount:{type:Number},
-  discounAmount:{type:Number},
+  discountAmount:{type:Number},
   validFrom:{type:Date},
-  validTo:{type:Date}
+  validTo:{type:Date},
+  offerPercentage:{type:Number}
 
 });
 

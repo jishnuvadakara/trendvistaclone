@@ -39,31 +39,38 @@ module.exports={
                 let total=0
                 let grandtotal=0
                 let totalDiscount=0
-
+                  const DeliveryCharge = 40;
+                let allcharge=0
                 Carts.forEach(item=>{
                     let quantity=parseInt(item.quantity)
                     let price=parseInt(item.productId.Price)
                     let DiscountAmount=parseInt(item.productId.DiscountAmount)
+                    console.log(DiscountAmount,'this is for ');
                    
 
-                    grandtotal+=quantity*DiscountAmount
+                    grandtotal+=(quantity*DiscountAmount)
                        total+=quantity*price
                        
 
 
                 })
+                
                 totalDiscount+=total-grandtotal
                 console.log(total,"total");
                 console.log(grandtotal,"this is");
               
                 console.log(totalDiscount,);
-
+                allcharge=grandtotal-DeliveryCharge
+                console.log('this is for last total amount',allcharge);
+                grandtotal=allcharge
+                console.log('affter that grandtotal ',grandtotal);
 
                 //adding all data to session 
+              
                req.session.Totalamnt=total
                req.session.Grandamnt=grandtotal
                req.session.Discount=totalDiscount
-
+                console.log(grandtotal,'this is grandtotal',req.session.Grandamnt,'this is iclude delivery charge also');
 
 
 
@@ -223,7 +230,7 @@ module.exports={
          
 
         }catch(err){
-
+                console.log(err);
 
 
 

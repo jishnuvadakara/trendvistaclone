@@ -1,316 +1,255 @@
 <%-include('../layout/admin/header.ejs')-%>
 <%-include('../partials/adminnave.ejs')-%>
 
-   <style>
-    @import url('https://fonts.googleapis.com/css?family=Oswald');
-* {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    box-sizing: border-box
-}
-
-body {
-    background-color: #dadde6;
-    font-family: arial
-}
-
-.fl-left {
-    float: left
-}
-
-.fl-right {
-    float: right
-}
-
-h1 {
-    text-transform: uppercase;
-    font-weight: 900;
-    border-left: 10px solid #fec500;
-    padding-left: 10px;
-    margin-bottom: 30px
-}
-
-.row {
-    overflow: hidden
-}
-
-.card {
-    display: table-row;
-    width: 49%;
-    background-color: #fff;
-    color: #989898;
-    margin-bottom: 10px;
-    font-family: 'Oswald', sans-serif;
-    text-transform: uppercase;
-    border-radius: 4px;
-    position: relative
-}
-
-.card+.card {
-    margin-left: 2%
-}
-
-.date {
-    display: table-cell;
-    width: 25%;
-    position: relative;
-    text-align: center;
-    border-right: 2px dashed #dadde6
-}
-
-.date:before,
-.date:after {
-    content: "";
-    display: block;
-    width: 30px;
-    height: 30px;
-    background-color: #DADDE6;
-    position: absolute;
-    top: -15px;
-    right: -15px;
-    z-index: 1;
-    border-radius: 50%
-}
-
-.date:after {
-    top: auto;
-    bottom: -15px
-}
-
-.date time {
-    display: block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%)
-}
-
-.date time span {
-    display: block
-}
-
-.date time span:first-child {
-    color: #2b2b2b;
-    font-weight: 600;
-    font-size: 250%
-}
-
-.date time span:last-child {
-    text-transform: uppercase;
-    font-weight: 600;
-    margin-top: -10px
-}
-
-.card-cont {
-    display: table-cell;
-    width: 75%;
-    font-size: 85%;
-    padding: 10px 10px 30px 50px
-}
-
-.card-cont h3 {
-    color: #3C3C3C;
-    font-size: 130%
-}
-
-.row:last-child .card:last-of-type .card-cont h3 {
-    text-decoration: line-through
-}
-
-.card-cont>div {
-    display: table-row
-}
-
-.card-cont .even-date i,
-.card-cont .even-info i,
-.card-cont .even-date time,
-.card-cont .even-info p {
-    display: table-cell
-}
-
-.card-cont .even-date i,
-.card-cont .even-info i {
-    padding: 5% 5% 0 0
-}
-
-.card-cont .even-info p {
-    padding: 30px 50px 0 0
-}
-
-.card-cont .even-date time span {
-    display: block
-}
-
-.card-cont a {
-    display: block;
-    text-decoration: none;
-    width: 80px;
-    height: 30px;
-    background-color: #D8DDE0;
-    color: #fff;
-    text-align: center;
-    line-height: 30px;
-    border-radius: 2px;
-    position: absolute;
-    right: 10px;
-    bottom: 10px
-}
-
-.row:last-child .card:first-child .card-cont a {
-    background-color: #037FDD
-}
-
-.row:last-child .card:last-child .card-cont a {
-    background-color: #F8504C
-}
-
-@media screen and (max-width: 860px) {
-    .card {
-        display: block;
-        float: none;
-        width: 100%;
-        margin-bottom: 10px
-    }
-    .card+.card {
-        margin-left: 0
-    }
-    .card-cont .even-date,
-    .card-cont .even-info {
-        font-size: 75%
-    }
-}
-   </style>
  
 </head>
 <body>
- <!-- <section class="container">
-<h1>Events</h1>
-  <div class="row">
-    <article class="card fl-left">
-      <section class="date">
-        <time datetime="23th feb">
-          <span>23</span><span>feb</span>
-        </time>
-      </section>
-      <section class="card-cont">
-        <small>dj khaled</small>
-        <h3>live in sydney</h3>
-        <div class="even-date">
-         <i class="fa fa-calendar"></i>
-         <time>
-           <span>wednesday 28 december 2014</span>
-           <span>08:55pm to 12:00 am</span>
-         </time>
-        </div>
-        <div class="even-info">
-          <i class="fa fa-map-marker"></i>
-          <p>
-           ji@121
-          </p>
-        </div>
-        <a href="#">coppeid</a>
-      </section>
-    </article>
-    -->
+
     <div style="display: flex;justify-content: end ;">
         <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@fat">Add Coupon</button> -->
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Add Coupon</button>
-
     </div>
-<section class="container">
-  <h1>Coupons</h1>
+
+   <section>
   <div class="row">
-    <article class="card fl-left">
-      <section class="date">
-        <time datetime="23th feb">
-          <span>23</span><span>feb</span>
-        </time>
-      </section>
-      <section class="card-cont">
-        <small>dj khaled</small>
-        <h3>live in sydney</h3>
-        <div class="even-date">
-          <i class="fa fa-calendar"></i>
-          <time>
-            <span>wednesday 28 december 2014</span>
-            <span>08:55pm to 12:00 am</span>
-          </time>
+    <% CouponDetail.forEach(ele => { %>
+      <div class="col-md-4 mb-4"> <!-- Adjust column size as needed -->
+        <div class="card">
+          <div class="card-header red lighten-1 white-text">
+            <p class="heading">Discount offer: <strong><%- ele.offerPercentage %>% off</strong></p>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+              <div class="col-3">
+                <p></p>
+                <p class="text-center">
+                  <i class="fas fa-gift fa-4x" style="color: rgba(255, 34, 0, 0.923);"></i>
+                </p>
+              </div>
+              <div class="col-9">
+                <h4>
+                  <span class="badge" style="background-color: green;">PurachaseAmnt:<%-ele. minimumPurachaseAmount-%>
+
+                  </span>
+                </h4>
+                <!-- <p>Sharing is caring. Therefore, from time to time we like to give our visitors small gifts. Today is one of those days.</p> -->
+                <p><strong>Copy the following code and use it at the checkout. It's valid for <u>one day</u>.</strong></p>
+                <h3>
+                  
+                  <span class="badge" style="background-color: red;">Code:<%- ele.couponCode %></span>
+                </h3>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <div class="text-center">
+              <a  class="btn btn-danger" onclick="EditCoupon('<%-ele._id-%>')">Edit<i class="far fa-gem ml-1 white-text"></i></a>
+              <a  class="btn btn-outline-danger waves-effect" onclick="DeleteCoupon('<%-ele._id-%>')">Delete</a>
+            </div>
+          </div>
         </div>
-        <div class="even-info">
-          <i class="fa fa-map-marker"></i>
-          <p>ji@121</p>
-        </div>
-        <a href="#" id="copyButton">coppeid</a>
-      </section>
-    </article>
+      </div>
+    <% }) %>
   </div>
 </section>
 
 
+ <!-- action="/Admin/AddCoupon"  -->
 
-<form action="/AddCoupon" method="post">
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="mb-3">
-            <label for="recipient-name" class="col-form-label">Coupon Code:</label>
-            <input type="text" class="form-control" id="recipient-name">
-          </div>
-          <div class="mb-3">
-            <label for="message-text" class="col-form-label">minimumPurachaseAmount:</label>
-          <input type="text" class="form-control" id="maximum-name">
-          </div>
-          <div class="mb-3">
-            <label for="message-text" class="col-form-label">DiscounAmount:</label>
-          <input type="text" class="form-control" id="maximum-name">
-          </div>
-          <div class="mb-3">
-            <label for="message-text" class="col-form-label">Description:</label>
-          <input type="text" class="form-control" id="maximum-name">
-          </div>
-           <div class="col-md-4">
-             <label for="message-text" class="col-form-label">StartingDate:</label>
-          <input type="date" class="form-control" id="maximum-name">
-           </div>
-      <div class="col-md-4 ms-auto" style="margin-top: -74px;">
-         <label for="message-text" class="col-form-label">EndingDate:</label>
-          <input type="date" class="form-control" id="maximum-name">
-      </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Send message</button>
-      </div>
+<form id="Addcoupon" method="post">
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"> Add New Coupon</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Coupon Code:</label>
+                            <input type="text" class="form-control" id="CouponCode" name="couponCode">
+                            <div id="couponCodeError" class="text-danger"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message-text" class="col-form-label">Minimum Purchase Amount:</label>
+                            <input type="text" class="form-control" id="Minimumamnt" name="minimumPurachaseAmount">
+                            <div id="minimumAmountError" class="text-danger"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message-text" class="col-form-label">Discount Amount:</label>
+                            <input type="text" class="form-control" id="discountamnt" name="discountAmount">
+                            <div id="discountAmountError" class="text-danger"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message-text" class="col-form-label">Description:</label>
+                            <input type="text" class="form-control" id="description" name="description">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="message-text" class="col-form-label">Starting Date:</label>
+                            <input type="date" class="form-control" id="startingdate" name="validFrom">
+                        </div>
+                        <div class="col-md-4 ms-auto" style="margin-top: -74px;">
+                            <label for="message-text" class="col-form-label">Ending Date:</label>
+                            <input type="date" class="form-control" id="endingdate" name="validTo">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="AddCoupon()" disabled>Submit</button>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 </form>
+<!-- edit modal -->
+<form id="EditCouponForm">
+    <div class="modal fade" id="exampleEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleEditModalLabel">Edit Coupon</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="couponCode" class="col-form-label">Coupon Code:</label>
+                        <input type="text" class="form-control" id="couponCode" name="couponCode">
+                        <input type="text" class="form-control" id="oldcouponCode" name="oldcouponCode" hidden>
+                        <input type="text" class="form-control" id="CouponId" name="CouponId" hidden>
+                        <div id="couponCodeError" class="text-danger"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="minimumPurachaseAmount" class="col-form-label">Minimum Purchase Amount:</label>
+                        <input type="text" class="form-control" id="minimumPurachaseAmount" name="minimumPurachaseAmount">
+                        <div id="minimumAmountError" class="text-danger"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="discountAmount" class="col-form-label">Discount Amount:</label>
+                        <input type="text" class="form-control" id="discountAmount" name="discountAmount">
+                        <div id="discountAmountError" class="text-danger"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="col-form-label">Description:</label>
+                        <input type="text" class="form-control" id="description" name="description">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="validFrom" class="col-form-label">Valid From:</label>
+                            <input type="date" class="form-control" id="validFrom" name="validFrom">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="validTo" class="col-form-label">Valid To:</label>
+                            <input type="date" class="form-control" id="validTo" name="validTo">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="submitEditCouponBtn" onclick="submitEditCoupon()">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-  document.getElementById("copyButton").addEventListener("click", function() {
-    var textToCopy = document.querySelector(".even-info p").textContent;
-    navigator.clipboard.writeText(textToCopy).then(function() {
-      // No alert needed, just silently copy the text
-    }, function() {
-      console.error("Failed to copy the text. Please try again.");
+ 
+jQuery(document).ready(function ($) {
+    $("#submitEditCouponBtn").click(function () {
+        PostEditCoupon();
     });
-  });
-
-// modal script
-
+});
 
 
 </script>
+<script>
+   
+    document.getElementById('CouponCode').addEventListener('input', function () {
+        var couponCode = this.value;
+        var errorDiv = document.getElementById('couponCodeError');
+        if (couponCode.includes(' ')) {
+            errorDiv.innerText = 'Coupon code cannot contain spaces';
+            document.querySelector('[onclick="AddCoupon()"]').disabled = true;
+        } else {
+            errorDiv.innerText = '';
+            document.querySelector('[onclick="AddCoupon()"]').disabled = false;
+        }
+    });
+
+    document.getElementById('Minimumamnt').addEventListener('input', function () {
+        var minimumAmount = this.value;
+        var errorDiv = document.getElementById('minimumAmountError');
+        if (!/^\d+$/.test(minimumAmount)) {
+            errorDiv.innerText = 'Minimum purchase amount must be a number';
+            document.querySelector('[onclick="AddCoupon()"]').disabled = true;
+        } else {
+            errorDiv.innerText = '';
+            document.querySelector('[onclick="AddCoupon()"]').disabled = false;
+        }
+    });
+
+    document.getElementById('discountamnt').addEventListener('input', function () {
+        var discountAmount = this.value;
+        var errorDiv = document.getElementById('discountAmountError');
+        if (!/^\d+$/.test(discountAmount)) {
+            errorDiv.innerText = 'Discount amount must be a number';
+            document.querySelector('[onclick="AddCoupon()"]').disabled = true;
+        } else {
+            errorDiv.innerText = '';
+            document.querySelector('[onclick="AddCoupon()"]').disabled = false;
+        }
+    });
+</script>
+<script>
+    //edti coupon validation 
+  
+
+    document.getElementById('couponCode').addEventListener('input', function () {
+        var couponCode = this.value;
+        var errorDiv = document.getElementById('couponCodeError');
+        if (couponCode.includes(' ')) {
+            errorDiv.innerText = 'Coupon code cannot contain spaces';
+            document.getElementById('submitEditCouponBtn').disabled = true;
+        } else {
+            errorDiv.innerText = '';
+            document.getElementById('submitEditCouponBtn').disabled = false;
+        }
+    });
+
+    document.getElementById('minimumPurachaseAmount').addEventListener('input', function () {
+        var minimumAmount = this.value;
+        var errorDiv = document.getElementById('minimumAmountError');
+        if (!/^\d+$/.test(minimumAmount)) {
+            errorDiv.innerText = 'Minimum purchase amount must be a number';
+            document.getElementById('submitEditCouponBtn').disabled = true;
+        } else {
+            errorDiv.innerText = '';
+            document.getElementById('submitEditCouponBtn').disabled = false;
+        }
+    });
+
+    document.getElementById('discountAmount').addEventListener('input', function () {
+        var discountAmount = this.value;
+        var errorDiv = document.getElementById('discountAmountError');
+        if (!/^\d+$/.test(discountAmount)) {
+            errorDiv.innerText = 'Discount amount must be a number';
+            document.getElementById('submitEditCouponBtn').disabled = true;
+        } else {
+            errorDiv.innerText = '';
+            document.getElementById('submitEditCouponBtn').disabled = false;
+        }
+    });
+</script>
+
+
+
+
+
 
 
 

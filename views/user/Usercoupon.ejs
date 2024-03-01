@@ -1,0 +1,372 @@
+<%-include('../layout/user/header.ejs')-%>
+<%-include('../partials/usernave.ejs')-%>
+<!-- <style>
+  @import url("https://fonts.googleapis.com/css?family=Oswald");
+  * {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: #dadde6;
+    font-family: arial;
+  }
+
+  .fl-left {
+    float: left;
+  }
+
+  .fl-right {
+    float: right;
+  }
+
+  h1 {
+    text-transform: uppercase;
+    font-weight: 900;
+    border-left: 10px solid #fec500;
+    padding-left: 10px;
+    margin-bottom: 30px;
+  }
+
+  .row {
+    overflow: hidden;
+  }
+
+  .card {
+    display: table-row;
+    width: 49%;
+    background-color: #fff;
+    color: #989898;
+    margin-bottom: 10px;
+    font-family: "Oswald", sans-serif;
+    text-transform: uppercase;
+    border-radius: 4px;
+    position: relative;
+  }
+
+  .card + .card {
+    margin-left: 2%;
+  }
+
+  .date {
+    display: table-cell;
+    width: 25%;
+    position: relative;
+    text-align: center;
+    border-right: 2px dashed #dadde6;
+  }
+
+  .date:before,
+  .date:after {
+    content: "";
+    display: block;
+    width: 30px;
+    height: 30px;
+    background-color: #dadde6;
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    z-index: 1;
+    border-radius: 50%;
+  }
+
+  .date:after {
+    top: auto;
+    bottom: -15px;
+  }
+
+  .date time {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+
+  .date time span {
+    display: block;
+  }
+
+  .date time span:first-child {
+    color: #2b2b2b;
+    font-weight: 600;
+    font-size: 250%;
+  }
+
+  .date time span:last-child {
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: -10px;
+  }
+
+  .card-cont {
+    display: table-cell;
+    width: 75%;
+    font-size: 85%;
+    padding: 10px 10px 30px 50px;
+  }
+
+  .card-cont h3 {
+    color: #3c3c3c;
+    font-size: 130%;
+  }
+
+  /* .row:last-child .card:last-of-type .card-cont h3 {
+    text-decoration: line-through
+} */
+
+  /* .card-cont > div {
+    display: table-row;
+  } */
+
+  .card-cont .even-date i,
+  .card-cont .even-info i,
+  .card-cont .even-date time,
+  .card-cont .even-info p {
+    display: table-cell;
+  }
+
+  .card-cont .even-date i,
+  .card-cont .even-info i {
+    padding: 5% 5% 0 0;
+  }
+
+  .card-cont .even-info p {
+    padding: 30px 50px 0 0;
+  }
+
+  .card-cont .even-date time span {
+    display: block;
+  }
+
+  .card-cont a {
+    display: block;
+    text-decoration: none;
+    width: 80px;
+    height: 30px;
+    background-color: #d8dde0;
+    color: #fff;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 2px;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+  }
+
+  .row:last-child .card:first-child .card-cont a {
+    background-color: #037fdd;
+  }
+
+  .row:last-child .card:last-child .card-cont a {
+    background-color: #f8504c;
+  }
+
+  @media screen and (max-width: 860px) {
+    .card {
+      display: block;
+      float: none;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    .card + .card {
+      margin-left: 0;
+    }
+    .card-cont .even-date,
+    .card-cont .even-info {
+      font-size: 75%;
+    }
+  } -->
+<!-- </style> -->
+<!-- <section class="container">
+  <h1>Coupons</h1>
+  <div class="row">
+    <% Coupondetails.forEach((ele, index) => { %>
+    <article class="card">
+      <section class="date">
+        <time datetime="">
+          <span><%-ele.offerPercentage-%>%</span><span></span>
+        </time>
+      </section>
+      <section class="card-cont">
+        <h2 style="color: #81ef2d;">Minimum Purchase Amount: <%-ele.minimumPurachaseAmount-%></h2>
+        <h3>Discount Amount: <span><%-ele.discountAmount-%></span></h3>
+        <div class="even-date">
+          <i class="fa fa-calendar"></i>
+          <time>
+            <span>Valid until: <%-ele.validTo-%></span>
+            <span>08:55pm to 12:00 am</span>
+          </time>
+        </div>
+        <div class="even-info">
+          <i class="fa fa-map-marker"></i>
+          <p>Coupon Code: <%-ele.couponCode-%></p>
+        </div>
+        <a href="#" class="copyButton">Copy</a>
+      </section>
+    </article>
+    <% }) %>
+  </div>
+</section> -->
+
+<!-- <script>
+  document.querySelectorAll(".copyButton").forEach((button) => {
+    button.addEventListener("click", function () {
+      var textToCopy =
+        this.parentNode.querySelector(".even-info p").textContent;
+      navigator.clipboard.writeText(textToCopy).then(
+        function () {
+          button.textContent = "copied";
+        },
+        function () {
+          console.error("Failed to copy the text. Please try again.");
+        }
+      );
+    });
+  });
+</script> -->
+
+<!-- <script>
+  document.getElementById("copyButton").addEventListener("click", function() {
+    var textToCopy = document.querySelector(".even-info p").textContent;
+    navigator.clipboard.writeText(textToCopy).then(function() {
+      document.getElementById("copyButton").textContent = "copied";
+    }, function() {
+      console.error("Failed to copy the text. Please try again.");
+    });
+  });
+</script> -->
+<style>
+  .animate-charcter {
+    text-transform: uppercase;
+    background-image: linear-gradient(
+      -225deg,
+      #231557 0%,
+      #44107a 29%,
+      #ff1361 67%,
+      #fff800 100%
+    );
+    background-size: auto auto;
+    background-clip: border-box;
+    background-size: 20% auto;
+    color: #fff;
+    background-clip: text;
+    text-fill-color: transparent;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: textclip 2s linear infinite;
+    display: inline-block;
+    font-size: 19px;
+  }
+
+  @keyframes textclip {
+    to {
+      background-position: 200% center;
+    }
+  }
+</style>
+
+<section>
+  <div class="container">
+    <div class="row">
+      <% Coupondetails.forEach((ele,index)=> { %>
+      <div class="col-md-6 mb-4">
+        <!-- Adjust column size as needed -->
+        <div class="card">
+          <div class="card-header red lighten-1 white-text">
+            <p class="heading animate-charcter">
+              Discount offer: <strong><%- ele.offerPercentage %>% off</strong>
+            </p>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+              <div class="col-3">
+                <p></p>
+                <p class="text-center">
+                  <i
+                    class="fas fa-gift fa-4x"
+                    style="color: rgb(71 67 125 / 92%)"
+                  ></i>
+                </p>
+              </div>
+              <div class="col-9">
+                <h4>
+                  <span class="badge" style="background-color: #206d6d"
+                    >PurachaseAmnt:<%-ele.minimumPurachaseAmount-%>
+                  </span>
+                </h4>
+                <!-- <p>Sharing is caring. Therefore, from time to time we like to give our visitors small gifts. Today is one of those days.</p> -->
+                <p>
+                  <strong
+                    >Date
+                    <span
+                      >Valid until: <%-ele.validTo.toLocaleString('en-IN', {
+                      timeZone: 'Asia/Kolkata' , dateStyle: 'short' , timeStyle:
+                      'short' }) %> </span
+                    >.</strong
+                  >
+                </p>
+                <h4>
+                  <span class="badge" style="background-color: #423f53"
+                    >Code: <%-ele.couponCode-%></span
+                  >
+                </h4>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <div class="text-center">
+              <button
+                class="btn btn-danger copyButton"
+                data-coupon="<%-ele.couponCode-%>"
+              >
+                Copy
+                <i class="far fa-gem ml-1 white-text"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const copyButtons = document.querySelectorAll(".copyButton");
+
+    copyButtons.forEach((button) => {
+      button.addEventListener("click", function () {
+        const couponCode = this.dataset.coupon;
+
+        // Reset all buttons to their original state
+        copyButtons.forEach((btn) => {
+          btn.textContent = "Copy";
+          btn.disabled = false;
+        });
+
+        copyToClipboard(couponCode);
+        this.textContent = "Copied";
+        this.disabled = true;
+      });
+    });
+
+    function copyToClipboard(text) {
+      const el = document.createElement("textarea");
+      el.value = text;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+    }
+  });
+</script>
+
+<%-include('../partials/footernav.ejs')-%>

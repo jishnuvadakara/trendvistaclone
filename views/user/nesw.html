@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>U-home</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.css"
+      integrity="sha512-tRkzNijx5rQ2r8rpWZiANPqYqX1wLlUaWweEXnl98Rno1ztp+cQLNj5A/01tFnkISdxRMoMO9/qYyAaPcL2kRw=="
+      crossorigin="anonymous"
+    />
+
+    <style>
+      :root {
+        --color-1: rgb(240, 240, 240);
+        --color-2: rgb(220, 220, 220);
+        --color-3: rgb(200, 200, 200);
+        --color-4: rgb(180, 180, 180);
+        --color-success: rgb(140, 240, 140);
+        --color-warning: rgb(240, 140, 140);
+        --color-text: rgb(45, 49, 49);
+        --color-shadow: rgba(50, 50, 50, 0.5);
+        --color-crop-thumb: rgb(255, 243, 70);
+        --color-slider-track: var(--color-4);
+        --color-slider-thumb: rgb(250, 150, 150);
+      }
+
+      html,
+      body {
+        width: 100vw;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      .button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
+        width: 100px;
+        border: none;
+        box-shadow: none;
+        background: var(--color-2);
+        border-radius: 0.3em;
+        cursor: pointer;
+        transition: 0.1s;
+        outline: none;
+        -webkit-appearance: none;
+        color: var(--color-text);
+        height: 35px;
+        font-size: 15px;
+      }
+
+      .button.success {
+        background-color: var(--color-success);
+      }
+
+      .button.warning {
+        background-color: var(--color-warning);
+      }
+
+      .button:hover {
+        opacity: 0.8;
+      }
+
+      .button.aspect-ratio {
+        -webkit-appearance: listbox;
+        padding-left: 5px;
+      }
+
+      .popup {
+        background: var(--color-1);
+        width: 80%;
+        width: 320px;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        transition: 0.2s;
+        transform: translateY(100vh);
+        position: absolute;
+        padding: 10px;
+        border-radius: 0.3em;
+        box-shadow: 3px 3px 5px var(--color-shadow);
+      }
+
+      @media only screen and (max-width: 450px) {
+        .popup {
+          width: 90% !important;
+        }
+      }
+
+      .popup.active {
+        display: flex;
+        transform: translateY(0vh);
+      }
+
+      .cropper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 100vw;
+        height: 100vh;
+        margin: 0 auto;
+      }
+
+      .file-input {
+        display: none;
+      }
+
+      .file-button {
+        border: none;
+      }
+
+      .image-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
+        height: 320px;
+        width: 100%;
+        background-repeat: no-repeat;
+        cursor: move;
+        overflow: hidden;
+        border-radius: 0.3em;
+        background-color: var(--color-2);
+        box-shadow: inset 0 0 3px var(--color-shadow);
+      }
+
+      .thumb-box {
+        width: 100%;
+        height: 100%;
+        transition: 0.5s;
+      }
+
+      .thumb-box rect {
+        width: 100%;
+        height: 100%;
+        fill: transparent;
+        stroke-width: 2;
+        stroke: var(--color-crop-thumb);
+        stroke-dasharray: 10;
+        stroke-dashoffset: 0;
+        stroke-linecap: round;
+        animation: dash 1s linear infinite;
+        transition: 0.5s;
+        rx: 5px;
+      }
+
+      @keyframes dash {
+        25% {
+          stroke: var(--color-1);
+        }
+        50% {
+          stroke: var(--color-warning);
+        }
+        75% {
+          stroke: var(--color-success);
+        }
+        to {
+          stroke-dashoffset: 20;
+        }
+      }
+
+      .spinner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        text-align: center;
+        line-height: 400px;
+        display: none;
+      }
+
+      .action {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-content: space-between;
+        flex-wrap: wrap;
+        flex-direction: row;
+        margin-top: 5px;
+        width: 100%;
+      }
+
+      .action .container {
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+        width: 100%;
+      }
+
+      .action .container:nth-child(1) {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        color: var(--color-4);
+      }
+
+      .action .container .button {
+        width: 100%;
+        margin-top: 10px;
+      }
+
+      .zoom-slider {
+        width: 100%;
+        background: transparent;
+        cursor: pointer;
+        margin: 30px 10px;
+      }
+
+      .zoom-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        background: var(--color-slider-thumb);
+        cursor: pointer;
+        margin-top: -7px;
+      }
+
+      .zoom-slider::-moz-range-thumb {
+        background: var(--color-slider-thumb);
+        cursor: pointer;
+        margin-top: -7px;
+      }
+
+      .zoom-slider::-ms-thumb {
+        background: var(--color-slider-thumb);
+        cursor: pointer;
+        margin-top: -7px;
+      }
+
+      .zoom-slider:focus,
+      .zoom-slider:focus::-webkit-slider-runnable-track,
+      .zoom-slider:focus::-ms-fill-lower,
+      .zoom-slider:focus::-ms-fill-upper {
+        outline: none;
+      }
+
+      .zoom-slider::-webkit-slider-runnable-track {
+        width: 100%;
+        height: 3px;
+        cursor: pointer;
+        background: var(--color-slider-track);
+        border-radius: 0.3em;
+      }
+
+      .zoom-slider::-moz-range-track {
+        width: 100%;
+        height: 2px;
+        cursor: pointer;
+        background: var(--color-slider-track);
+        border-radius: 0.3em;
+      }
+
+      .zoom-slider::-ms-track {
+        width: 100%;
+        height: 2px;
+        cursor: pointer;
+        background: var(--color-slider-track);
+        border-radius: 0.3em;
+      }
+
+      .zoom-slider::-ms-fill-lower {
+        background: #2a6495;
+        border: 0.2px solid #010101;
+        border-radius: 2.6px;
+        box-shadow: 1px 1px 1px #000000, 0px 0px 1px red;
+      }
+
+      .zoom-slider::-ms-fill-upper {
+        background: #3071a9;
+        border: 0.2px solid #010101;
+        border-radius: 2.6px;
+        box-shadow: 1px 1px 1px #000000, 0px 0px 1px red;
+      }
+
+      .crop-result {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      .crop-result .image {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin: 20px;
+      }
+
+      .crop-result .image img {
+        max-width: 400px;
+        max-height: 400px;
+        box-shadow: 0 0 3px rgb(100 100 100);
+      }
+
+      .crop-result .name {
+        font-family: helvetica;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- contents of this file will be placed inside the <body> -->
+    <!-- <div class="cropper">
+      <input type="file" class="file-input" />
+      <input type="button" class="file-button button" value="Upload" />
+    </div> -->
+    <form action="/UserImages" enctype="multipart/form-data">
+      <div class="cropper">
+        <div class="crop-result">
+          <div class="image"></div>
+          <div class="name"></div>
+        </div>
+        <input type="file" class="file-input" />
+        <input type="button" class="file-button button" value="Upload" />
+
+        <div class="popup">
+          <div class="image-box">
+            <svg class="thumb-box">
+              <rect width="300" height="100" />
+            </svg>
+            <div class="spinner">Loading...</div>
+          </div>
+          <div class="action">
+            <div class="container">
+              <i class="fas fa-search-minus"></i>
+              <input
+                type="range"
+                class="zoom-slider"
+                min="-19"
+                max="19"
+                value="-3"
+              />
+              <i class="fas fa-search-minus"></i>
+            </div>
+            <div class="container">
+              <select class="aspect-ratio button">
+                <option value="1/1">1/1</option>
+                <option value="1/2">1/2</option>
+                <option value="2/1">2/1</option>
+                <option value="3/2">3/2</option>
+                <option value="2/3">2/3</option>
+                <option value="4/5">4/5</option>
+                <option value="5/4">5/4</option>
+                <option value="16/9">16/9</option>
+                <option value="16/10">16/10</option>
+                <option value="21/9">21/9</option>
+              </select>
+            </div>
+            <div class="container">
+              <input
+                type="button"
+                class="cancel-button button warning"
+                value="Cancel"
+              />
+              <input
+                type="submit"
+                class="crop-button button success"
+                value="Crop"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.js"
+      integrity="sha512-tRkzNijx5rQ2r8rpWZiANPqYqX1wLlUaWweEXnl98Rno1ztp+cQLNj5A/01tFnkISdxRMoMO9/qYyAaPcL2kRw=="
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      // vars
+      "use strict";
+
+      class Popup {
+        constructor(settings) {
+          this.className = settings.className ? settings.className : "";
+          this.containerClasses = settings.containerClasses
+            ? settings.containerClasses
+            : "";
+          this.onOpen =
+            settings.onOpen && typeof settings.onOpen === "function"
+              ? settings.onOpen
+              : null;
+          this.onClose =
+            settings.onClose && typeof settings.onClose === "function"
+              ? settings.onClose
+              : null;
+
+          this.el = document;
+          this.popup = document.querySelector(".popup");
+        }
+
+        open(fn) {
+          this.popup.classList.add("active");
+          if (this.onOpen) this.onOpen();
+        }
+
+        close(fn) {
+          this.popup.classList.remove("active");
+          if (this.onClose) this.onClose();
+        }
+      }
+
+      class Cropper {
+        constructor(el, settings = {}) {
+          this.options = {
+            aspectRatio: ".aspect-ratio",
+            imageBox: ".image-box",
+            thumbBox: ".thumb-box",
+            spinner: ".spinner",
+            imgSrc: "ID_Photo.png",
+          };
+
+          this.settings = {
+            className: settings.className,
+          };
+
+          this.el = document;
+          this.cropper;
+          this.blobImageInput;
+          this.base64ImageInput;
+          this.blobImageOutput;
+          this.base64ImageOutput;
+          this.filename;
+          this.fileInput = this.el.querySelector(".file-input");
+          this.fileButton = this.el.querySelector(".file-button");
+          this.zoomSlider = this.el.querySelector(".zoom-slider");
+          this.cancelButton = this.el.querySelector(".cancel-button");
+          this.saveButton = this.el.querySelector(".crop-button");
+          this.removeButton = this.el.querySelector(".remove-button");
+          this.cropResult = this.el.querySelector(".crop-result");
+          this.croppedImage = this.el.querySelector(".crop-result .image");
+          this.croppedImageName = this.el.querySelector(".crop-result .name");
+
+          this.popup = new Popup({
+            className: "popup--profile-crop " + this.settings.className,
+            containerClasses: this.settings.containerClasses,
+            onClose: this.closeCropImageEvent,
+          });
+
+          this.fileInput.addEventListener(
+            "change",
+            this.fileInputChange.bind(this)
+          );
+          this.fileButton.addEventListener(
+            "click",
+            this.fileButtonClick.bind(this)
+          );
+          this.zoomSlider.addEventListener("input", this.zoomSlide.bind(this));
+          this.cancelButton.addEventListener(
+            "click",
+            this.cancelCrop.bind(this)
+          );
+          this.saveButton.addEventListener("click", this.saveCrop.bind(this));
+
+          if (this.removeButton) {
+            this.removeButton.addEventListener(
+              "click",
+              this.removeCrop.bind(this)
+            );
+            this.displayCropResult();
+          }
+        }
+
+        displayCropResult() {
+          this.cropResult && this.filename && this.blobImageOutput
+            ? this.cropResult.classList.add("active")
+            : this.cropResult.classList.remove("active");
+        }
+
+        removeCrop() {
+          this.filename = "";
+          this.blobImageOutput = null;
+          this.base64ImageOutput = null;
+
+          if (this.croppedImage && this.croppedImageName) {
+            this.croppedImage.innerHTML = "";
+            this.croppedImageName.innerHTML = this.filename;
+            this.displayCropResult();
+          }
+        }
+
+        fileInputChange() {
+          let reader = new FileReader();
+          this.filename =
+            Math.random().toString(36).substring(2, 10) +
+            Math.random().toString(36).substring(2, 10) +
+            ".png";
+
+          reader.onload = (ev) => {
+            this.blobImageInput = this.fileInput.files[0];
+            this.base64ImageInput = ev.target.result;
+
+            this.options.imgSrc = ev.target.result;
+            this.cropper = this.cropbox(this.options);
+            // init cropper zoom with value set on input
+            this.cropper.zoom(this.zoomSlider.value);
+
+            // emit the submitImageToCrop event
+            this.submitFileInputEvent(this.el);
+            this.openPopup();
+          };
+
+          if (this.fileInput.files[0]) {
+            reader.readAsDataURL(this.fileInput.files[0]);
+            this.fileInput.fileList = [];
+          }
+        }
+
+        openPopup() {
+          this.popup.open();
+        }
+
+        closePopup() {
+          this.popup.close();
+        }
+
+        fileButtonClick() {
+          this.fileInput.click();
+        }
+
+        zoomSlide() {
+          this.cropper.zoom(this.zoomSlider.value);
+        }
+
+        cancelCrop() {
+          this.fileInput.value = null;
+          this.blobImageInput = null;
+          this.base64ImageInput = null;
+          this.displayCropResult();
+          this.cancelCropImageEvent(this.el);
+          this.popup.close();
+        }
+
+        saveCrop() {
+          this.fileInput.value = null;
+          this.blobImageInput = null;
+          this.base64ImageInput = null;
+          this.blobImageOutput = this.cropper.getBlob();
+          this.base64ImageOutput = this.cropper.getDataURL();
+
+          if (this.croppedImage && this.croppedImageName) {
+            this.croppedImage.innerHTML =
+              '<img src="' + this.base64ImageOutput + '">';
+            this.croppedImageName.innerHTML = this.filename;
+            this.displayCropResult();
+          }
+
+          // emit the saveCropImage event
+          this.saveCropImageEvent(this.el);
+          this.popup.close();
+        }
+
+        // emit a file submit event
+        submitFileInputEvent(e) {
+          const event = new CustomEvent("submitImageToCrop", {
+            detail: [
+              {
+                label: "base64",
+                value: this.base64ImageInput,
+              },
+              {
+                label: "blob",
+                value: this.blobImageInput,
+              },
+            ],
+          });
+          e.dispatchEvent(event);
+        }
+
+        // emit a save event
+        saveCropImageEvent(e) {
+          const event = new CustomEvent("saveCropImage", {
+            detail: [
+              {
+                label: "base64",
+                value: this.cropper.getDataURL(),
+              },
+              {
+                label: "blob",
+                value: this.cropper.getBlob(),
+              },
+            ],
+          });
+          e.dispatchEvent(event);
+        }
+
+        // emit a cancel event
+        cancelCropImageEvent(e) {
+          const event = new CustomEvent("cancelCropImage", {
+            detail: {
+              canceled: true,
+            },
+          });
+          e.dispatchEvent(event);
+        }
+
+        // emit a close event
+        closeCropImageEvent(e) {
+          const event = new CustomEvent("closeCropImage", {
+            detail: {
+              closed: true,
+            },
+          });
+
+          const element = document.querySelector(".cropper");
+          element.dispatchEvent(event);
+        }
+
+        // lightweight image crop vanilla JS library
+        cropbox(options) {
+          let el = document.querySelector(options.imageBox),
+            obj = {
+              state: {},
+              ratio: 1,
+              options: options,
+              imageBox: el,
+              thumbBox: el.querySelector(options.thumbBox),
+              spinner: el.querySelector(options.spinner),
+              aspectRatio: document.querySelector(options.aspectRatio),
+              image: new Image(),
+              getDataURL: function () {
+                let width = this.thumbBox.clientWidth,
+                  height = this.thumbBox.clientHeight,
+                  canvas = document.createElement("canvas"),
+                  dim = el.style.backgroundPosition.split(" "),
+                  size = el.style.backgroundSize.split(" "),
+                  dx = parseInt(dim[0]) - el.clientWidth / 2 + width / 2,
+                  dy = parseInt(dim[1]) - el.clientHeight / 2 + height / 2,
+                  dw = parseInt(size[0]),
+                  dh = parseInt(size[1]),
+                  sh = parseInt(this.image.height),
+                  sw = parseInt(this.image.width);
+
+                canvas.width = width;
+                canvas.height = height;
+                let context = canvas.getContext("2d");
+                context.drawImage(this.image, 0, 0, sw, sh, dx, dy, dw, dh);
+                let imageData = canvas.toDataURL("image/png");
+                return imageData;
+              },
+              getBlob: function () {
+                console.log(this);
+                let imageData = this.getDataURL();
+                let b64 = imageData.replace("data:image/png;base64,", "");
+                let binary = atob(b64);
+                let array = [];
+                for (let i = 0; i < binary.length; i++) {
+                  array.push(binary.charCodeAt(i));
+                }
+                return new Blob([new Uint8Array(array)], { type: "image/png" });
+              },
+              zoomIn: function () {
+                this.ratio *= 1.1;
+                setBackground();
+              },
+              zoomOut: function () {
+                this.ratio *= 0.9;
+                setBackground();
+              },
+              zoom: function (value) {
+                // value: [-20, 20]
+                this.ratio = 1 + value / 20;
+                setBackground();
+              },
+            },
+            attachEvent = function (node, event, cb) {
+              if (node.attachEvent) node.attachEvent("on" + event, cb);
+              else if (node.addEventListener) node.addEventListener(event, cb);
+            },
+            detachEvent = function (node, event, cb) {
+              if (node.detachEvent) {
+                node.detachEvent("on" + event, cb);
+              } else if (node.removeEventListener) {
+                node.removeEventListener(event, render);
+              }
+            },
+            stopEvent = function (e) {
+              if (window.event) e.cancelBubble = true;
+              else e.stopImmediatePropagation();
+            },
+            setBackground = function () {
+              // new image size
+              let newImageWidth = parseInt(
+                (parseInt(obj.image.width) * obj.ratio).toFixed(2)
+              );
+              let newImageHeight = parseInt(obj.image.height) * obj.ratio;
+
+              // centered position
+              let centerX = (el.clientWidth - newImageWidth) / 2;
+              let centerY = (el.clientHeight - newImageHeight) / 2;
+
+              // default position
+              let newBgPositionX = centerX;
+              let newBgPositionY = centerY;
+
+              // get current background position
+              if (el.style.backgroundSize && el.style.backgroundPosition) {
+                // current image size
+                let bgWidth = parseInt(el.style.backgroundSize.split(" ")[0]);
+                let bgHeight = parseInt(el.style.backgroundSize.split(" ")[1]);
+
+                // current image position
+                let bgPositionX = parseInt(
+                  el.style.backgroundPosition.split(" ")[0]
+                );
+                let bgPositionY = parseInt(
+                  el.style.backgroundPosition.split(" ")[1]
+                );
+
+                // keep it default if no background position set
+                if (bgPositionX !== 0 || bgPositionY !== 0) {
+                  // get prev. & new image size delta
+                  let imageWidthDelta = parseInt(
+                    Math.abs((newImageWidth - bgWidth) / 2).toFixed(2)
+                  );
+                  let imageHeightDelta = parseInt(
+                    Math.abs((newImageHeight - bgHeight) / 2).toFixed(2)
+                  );
+                  // get new bg position
+                  newBgPositionX =
+                    newImageWidth > bgWidth
+                      ? bgPositionX - imageWidthDelta
+                      : bgPositionX + imageWidthDelta;
+                  newBgPositionY =
+                    newImageHeight > bgHeight
+                      ? bgPositionY - imageHeightDelta
+                      : bgPositionY + imageHeightDelta;
+                }
+              }
+
+              el.setAttribute(
+                "style",
+                "background-image: url(" +
+                  obj.image.src +
+                  "); " +
+                  "background-size: " +
+                  newImageWidth +
+                  "px " +
+                  newImageHeight +
+                  "px; " +
+                  "background-position: " +
+                  newBgPositionX +
+                  "px " +
+                  newBgPositionY +
+                  "px; " +
+                  "background-repeat: no-repeat"
+              );
+            },
+            ratioToPixel = function (ratio, mw, mh) {
+              let wr = parseInt(ratio.split("/")[0]),
+                hr = parseInt(ratio.split("/")[1]),
+                w = 0,
+                h = 0;
+
+              if (wr <= hr) {
+                w = (mh / hr) * wr;
+                h = mh;
+
+                if (w > mw) {
+                  h = (h / w) * mw;
+                  w = mw;
+                }
+              } else {
+                w = mw;
+                h = (mw / wr) * hr;
+
+                if (h > mh) {
+                  w = (w / h) * mh;
+                  h = mh;
+                }
+              }
+
+              return {
+                width: w,
+                height: h,
+              };
+            },
+            setAspectRatio = function () {
+              let { width, height } = ratioToPixel(
+                obj.aspectRatio.value,
+                obj.imageBox.offsetWidth - 20,
+                obj.imageBox.offsetHeight - 20
+              );
+
+              let rect = obj.thumbBox.querySelector("rect");
+              if (rect) {
+                rect.style.width = width - 2 + "px";
+                rect.style.height = height - 2 + "px";
+                rect.style.x = 1 + "px";
+                rect.style.y = 1 + "px";
+              }
+
+              obj.thumbBox.style.width = width + "px";
+              obj.thumbBox.style.height = height + "px";
+            },
+            imgMouseDown = function (e) {
+              stopEvent(e);
+
+              obj.state.dragable = true;
+              obj.state.mouseX = e.clientX;
+              obj.state.mouseY = e.clientY;
+            },
+            imgMouseMove = function (e) {
+              stopEvent(e);
+
+              if (obj.state.dragable) {
+                let x = e.clientX - obj.state.mouseX;
+                let y = e.clientY - obj.state.mouseY;
+
+                let bg = el.style.backgroundPosition.split(" ");
+
+                let bgX = x + parseInt(bg[0]);
+                let bgY = y + parseInt(bg[1]);
+
+                el.style.backgroundPosition = bgX + "px " + bgY + "px";
+
+                obj.state.mouseX = e.clientX;
+                obj.state.mouseY = e.clientY;
+              }
+            },
+            imgMouseUp = function (e) {
+              stopEvent(e);
+              obj.state.dragable = false;
+            },
+            imgTouchStart = function (e) {
+              stopEvent(e);
+
+              let touch = e.touches[0];
+              obj.state.dragable = true;
+              obj.state.mouseX = touch.clientX;
+              obj.state.mouseY = touch.clientY;
+            },
+            imgTouchMove = function (e) {
+              stopEvent(e);
+
+              if (obj.state.dragable) {
+                let touch = e.touches[0];
+
+                let x = touch.clientX - obj.state.mouseX;
+                let y = touch.clientY - obj.state.mouseY;
+
+                let bg = el.style.backgroundPosition.split(" ");
+
+                let bgX = x + parseInt(bg[0]);
+                let bgY = y + parseInt(bg[1]);
+
+                el.style.backgroundPosition = bgX + "px " + bgY + "px";
+
+                obj.state.mouseX = touch.clientX;
+                obj.state.mouseY = touch.clientY;
+              }
+            },
+            imgTouchEnd = function (e) {
+              stopEvent(e);
+              obj.state.dragable = false;
+            },
+            zoomImage = function (e) {
+              let evt = window.event || e;
+              let delta = evt.detail ? evt.detail * -120 : evt.wheelDelta;
+              delta > -120 ? (obj.ratio *= 1.1) : (obj.ratio *= 0.9);
+              setBackground();
+            };
+
+          obj.spinner.style.display = "block";
+          obj.image.onload = function () {
+            obj.spinner.style.display = "none";
+            el.style.backgroundPosition = "0px 0px";
+
+            setAspectRatio();
+            setBackground();
+
+            attachEvent(el, "mousedown", imgMouseDown);
+            attachEvent(el, "mousemove", imgMouseMove);
+            attachEvent(document.body, "mouseup", imgMouseUp);
+            attachEvent(el, "touchstart", imgTouchStart);
+            attachEvent(el, "touchmove", imgTouchMove);
+            attachEvent(document.body, "touchend", imgTouchEnd);
+            attachEvent(obj.aspectRatio, "change", setAspectRatio);
+
+            // remove the scroll zoom
+            //  let mousewheel = (/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
+            //  attachEvent(el, mousewheel, zoomImage);
+          };
+          obj.image.src = options.imgSrc;
+          attachEvent(el, "DOMNodeRemoved", function () {
+            detachEvent(document.body, "DOMNodeRemoved", imgMouseUp);
+          });
+
+          return obj;
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        let cropper = new Cropper({});
+      });
+    </script>
+  </body>
+</html>

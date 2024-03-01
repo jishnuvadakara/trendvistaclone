@@ -22,11 +22,13 @@ async function sendEmail(resetpaswrdEmail,link) {
   let mailOptions = {
     from: process.env.email_,
     to:resetpaswrdEmail,
-    subject:"your link",
+    subject:" Trend-Vista Singup page :your link",
     text:`This is link ${link}`
   };
 
-  let info= await transporter.sendMail(mailOptions)
+  // let info = await transporter.sendEmail(mailOptions);
+  let info = await transporter.sendMail(mailOptions);
+
   console.log(`Email to send ${resetpaswrdEmail}:${info.messageId}`);
 }
 module.exports={sendEmail}

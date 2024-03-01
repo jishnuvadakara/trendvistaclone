@@ -1,87 +1,227 @@
-<%-include('../layout/admin/header.ejs')-%>
-<%-include('../partials/adminnave.ejs')-%>
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href=" https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    />
+    <link
+      rel="stylesheet"
+      href=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+    <link
+      href="https://demo.dashboardpack.com/architectui-html-free/main.css"
+      rel="stylesheet"
+    />
 
-<main class="index pt-5" id="admaindiv">
-  <!-- <div class="container search"> -->
+    <link
+      rel="stylesheet"
+      href=" https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"
+    />
 
-  <div class="option d-flex align-items-center justify-content-around">
-    <form action="/search" method="post" name="name">
-      <div class="input-group">
-        <div class="form-outline d-flex p-3">
-          <input
-            type="search"
-            class="form-control"
-            name="search"
-            placeholder="Search"
-            required
-          />
-          <button id="search-button" type="submit" class="btn btn-primary mx-2">
-            <lord-icon
-              src="https://cdn.lordicon.com/xfftupfv.json"
-              trigger="hover"
-              colors="primary:#fff"
-              style="width: 25px; height: 25px"
-            >
-            </lord-icon>
-          </button>
-        </div>
-      </div>
-    </form>
-    <!-- <a href="/add" class="btn-outline-primary  p-2 rounded">
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="/javascript/customerAjax.js"></script> -->
+    <!-- <style>
+      @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+      body {
+        background-color: #eee;
+        font-family: "Roboto", sans-serif;
+      }
+
+      .main {
+        border-collapse: separate !important;
+        border-spacing: 0 11px !important;
+      }
+
+      tr {
+        border: 1px solid #eee;
+      }
+
+      .head th {
+        font-weight: 500;
+      }
+
+      tr:nth-child(3) {
+        border: solid thin;
+      }
+
+      .form-check-input:focus {
+        border-color: #8bbafe;
+        outline: 0;
+        box-shadow: none;
+      }
+
+      .btn {
+        height: 27px;
+        line-height: 11px;
+        color: #fff;
+      }
+
+      .form-check-input {
+        width: 1.15em;
+        height: 1.15em;
+        margin-top: 3px;
+      }
+
+      .btn:focus {
+        color: #fff;
+
+        box-shadow: none !important;
+      }
+
+      .order-color {
+        color: blue;
+      }
+    </style> -->
+    <!-- </head>
+    <body> -->
+    <%-include('../layout/admin/header.ejs')-%>
+    <%-include('../partials/adminnave.ejs')-%>
+    <!-- Include your custom JavaScript file -->
+    <main class="index pt-5" id="admaindiv">
+      <!-- <div class="container search"> -->
+
+      <div class="option d-flex align-items-center justify-content-around">
+        <form action="/search" method="post" name="name">
+          <div class="input-group">
+            <div class="form-outline d-flex p-3">
+              <input
+                type="search"
+                class="form-control"
+                name="search"
+                placeholder="Search"
+                required
+              />
+              <button
+                id="search-button"
+                type="submit"
+                class="btn btn-primary mx-2"
+              >
+                <lord-icon
+                  src="https://cdn.lordicon.com/xfftupfv.json"
+                  trigger="hover"
+                  colors="primary:#fff"
+                  style="width: 25px; height: 25px"
+                >
+                </lord-icon>
+              </button>
+            </div>
+          </div>
+        </form>
+        <!-- <a href="/add" class="btn-outline-primary  p-2 rounded">
         <i class="fa-solid fa-plus fa-beat fa-2xl" style="color: #9b0000;"></i>
       </a> -->
-    <a href="/admin/addcatagory" class="btn btn-primary">Add Catagory</a>
-  </div>
-  <!-- </div> -->
+        <a href="/admin/addcatagory" class="btn btn-primary">Add Catagory</a>
+      </div>
+      <!-- </div> -->
 
-  <table class="table table-info container table-bordered my-0 mx-auto">
-    <thead id="example">
-      <tr>
-        <th class="table-primary" scope="col">No.</th>
-        <th class="table-primary" scope="col">CATAGORY</th>
-        <th class="table-primary" scope="col">Edit</th>
-        <th class="table-primary" scope="col">Delete</th>
-        <th class="table-primary" scope="col">List/unList</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% catagory.forEach((ele,index)=>{ %>
-      <tr>
-        <td><%- index+1 -%></td>
-        <td><%- ele.catagoryname -%></td>
-        <td>
-          <a href="/admin/editcatagory/<%-ele._id -%>" class="rounded-pill"
-            ><i class="fa-regular fa-pen-to-square"></i
-          ></a>
-        </td>
-        <td>
-          <a href="" class="rounded-pill"
-            ><button
-              onclick="remove('<%-ele._id -%>','<%-ele.catagoryname-%>')"
-            >
-              <i class="fa-solid fa-trash"></i></button
-          ></a>
-        </td>
-        <td>
-          <a href="" class="rounded-pill"><button>List</button></a>
-        </td>
-      </tr>
-      <%})%>
-    </tbody>
-  </table>
-</main>
-<br />
-<br />
-<br />
-<!-- <h3 style="text-align: center;color: rgb(226, 23, 182);background-color: rgb(221, 193, 193);">Brands</h3> -->
-<br />
-<br />
-<section>
-  <main class="index pt-5" id="admaindiv">
-    <!-- <div class="container search"> -->
+      <table class="table table-info container table-bordered my-0 mx-auto">
+        <thead id="example">
+          <tr>
+            <th class="table-primary" scope="col">No.</th>
+            <th class="table-primary" scope="col">CATAGORY</th>
+            <th class="table-primary" scope="col">Edit</th>
+            <th class="table-primary" scope="col">Delete</th>
+            <th class="table-primary" scope="col">List/unList</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% catagory.forEach((ele,index)=>{ %>
+          <tr>
+            <td><%- index+1 -%></td>
+            <td><%- ele.catagoryname -%></td>
+            <td>
+              <a href="/admin/editcatagory/<%-ele._id -%>" class="rounded-pill"
+                ><i class="fa-regular fa-pen-to-square"></i
+              ></a>
+            </td>
+            <td>
+              <a href="" class="rounded-pill"
+                ><button
+                  onclick="remove('<%-ele._id-%>','<%-ele.catagoryname-%>')"
+                >
+                  <i class="fa-solid fa-trash"></i></button
+              ></a>
 
-    <div class="option d-flex align-items-center justify-content-around">
-      <!-- <form action="/search" method="post" name="name">
+              <% if(ele.status=='active'){%>
+            </td>
+
+            <td>
+              <a href=""
+                ><button
+                  style="
+                    background-color: green;
+                    border-radius: 30px;
+                    border: none;
+                    width: 90px;
+                    height: 25px;
+                  "
+                  onclick="catagoryBlock('<%-ele._id-%>','<%-ele.status-%>')"
+                 
+                >
+                  Block
+                </button></a
+              >
+            </td>
+            <%}else{%>
+            <td>
+              <a href=""
+                ><button
+                  style="
+                    background-color: red;
+                    border-radius: 30px;
+                    border: none;
+                    width: 90px;
+                    height: 25px;
+                  "
+                  onclick="catagoryBlock('<%-ele._id-%>','<%-ele.status-%>')"
+                 
+                >
+                  Unblock
+                </button></a
+              >
+            </td>
+            <%}%>
+          </tr>
+          <%})%>
+        </tbody>
+      </table>
+    </main>
+    <br />
+    <br />
+    <br />
+    <!-- <h3 style="text-align: center;color: rgb(226, 23, 182);background-color: rgb(221, 193, 193);">Brands</h3> -->
+    <br />
+    <br />
+    <section>
+      <main class="index pt-5" id="admaindiv">
+        <!-- <div class="container search"> -->
+
+        <div class="option d-flex align-items-center justify-content-around">
+          <!-- <form action="/search" method="post" name="name">
         <div class="input-group">
           <div class="form-outline d-flex p-3">
             <input type="search" class="form-control " name="search" placeholder="Search" required>
@@ -99,68 +239,76 @@
         
       </div>
     </form> -->
-    </div>
-    <!-- </div> -->
+        </div>
+        <!-- </div> -->
 
-    <table class="table table-info container table-bordered my-0 mx-auto">
-      <thead id="example">
-        <tr>
-          <th class="table-primary" scope="col">No.</th>
-          <th class="table-primary" scope="col">BRAND</th>
-          <th class="table-primary" scope="col">Edit</th>
-          <th class="table-primary" scope="col">Delete</th>
-          <!-- <th class="table-primary" scope="col">List/unList</th> -->
-        </tr>
-      </thead>
-      <tbody>
-        <% Brands.forEach((ele,index)=>{ %>
+        <table class="table table-info container table-bordered my-0 mx-auto">
+          <thead id="example">
+            <tr>
+              <th class="table-primary" scope="col">No.</th>
+              <th class="table-primary" scope="col">BRAND</th>
+              <th class="table-primary" scope="col">Edit</th>
+              <th class="table-primary" scope="col">Delete</th>
+              <!-- <th class="table-primary" scope="col">List/unList</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <% Brands.forEach((ele,index)=>{ %>
 
-        <tr>
-          <td><%-index+1-%></td>
-          <td><%-ele.Brandname -%></td>
-          <td>
-            <a href="/admin/editbrand/<%-ele._id-%>" class="rounded-pill"
-              ><i class="fa-solid fa-file-pen" style="color: #001eff"></i
-            ></a>
-          </td>
-          <td>
-            <a href="" class="rounded-pill"
-              ><button
-                onclick="removeBrand('<%-ele._id-%>','<%-ele.Brandname-%>')"
-              >
-                <i class="fa-solid fa-xmark" style="color: #ff0000"></i></button
-            ></a>
-          </td>
-          <!-- <td>
+            <tr>
+              <td><%-index+1-%></td>
+              <td><%-ele.Brandname -%></td>
+              <td>
+                <a href="/admin/editbrand/<%-ele._id-%>" class="rounded-pill"
+                  ><i class="fa-solid fa-file-pen" style="color: #001eff"></i
+                ></a>
+              </td>
+              <td>
+                <a href="" class="rounded-pill"
+                  ><button
+                    onclick="removeBrand('<%-ele._id-%>','<%-ele.Brandname-%>')"
+                  >
+                    <i
+                      class="fa-solid fa-xmark"
+                      style="color: #ff0000"
+                    ></i></button
+                ></a>
+              </td>
+              <!-- <td>
             <a href="" class="rounded-pill"><button>List</button></a>
           </td> -->
-        </tr>
-        <%})%>
-      </tbody>
-    </table>
+            </tr>
+            <%})%>
+          </tbody>
+        </table>
 
-    <div style="display: flex; justify-content: end">
-      <a href="/admin/addbrand" class="btn-outline-primary p-2 rounded">
-        <i class="fa-solid fa-plus fa-beat fa-2xl" style="color: #9b0000"></i>
-      </a>
-    </div>
-  </main>
-</section>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <div style="display: flex; justify-content: end">
+          <a href="/admin/addbrand" class="btn-outline-primary p-2 rounded">
+            <i
+              class="fa-solid fa-plus fa-beat fa-2xl"
+              style="color: #9b0000"
+            ></i>
+          </a>
+        </div>
+      </main>
+    </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-<script
-  src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-  integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-  crossorigin="anonymous"
-></script>
-<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    let table = new DataTable("#example");
-  });
-</script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        let table = new DataTable("#example");
+      });
+    </script>
 
-  <%-include('../layout/admin/footer.ejs')-%>
+    <%-include('../layout/admin/footer.ejs')-%>
+  </body>
+</html>

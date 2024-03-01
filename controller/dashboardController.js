@@ -1,67 +1,167 @@
 const User = require("../models/userModel");
 const Order = require("../models/orderModel");
 const Product = require("../models/productModel");
+const Catagory = require("../models/catagoryModel");
+const { generateSalesPDF } = require("../util/salesPdfCreator");
+const pdf = require("../util/salesReportX");
 const moment = require("moment");
+const { format } = require("date-fns");
+const catagories = require("../models/catagoryModel");
+// const { default: items } = require("razorpay/dist/types/items");
+// const { default: orders } = require("razorpay/dist/types/orders");
 
 module.exports = {
   //Get the Dashboard with datas
 
-
   GetDashboard: async (req, res) => {
     try {
-      const [Sale, Revenue, Customers, RecentOrders, Topselling] =
-        await Promise.all([
-          Order.aggregate([
-            { $match: { orderStatus: "Order Delivered" } },
-            { $group: { _id: null, salescount: { $sum: 1 } } },
-          ]),
+      const sussMsg = req.session.adminMistake;
+      const [
+        Sale,
+        Revenue,
+        Customers,
+        RecentOrders,
+        Topselling,
+        topsellingCat,
+        TopsellingBarnd,
+      ] = await Promise.all([
+        Order.aggregate([
+          { $match: { orderStatus: "Order Delivered" } },
+          { $group: { _id: null, salescount: { $sum: 1 } } },
+        ]),
 
-          Order.aggregate([
-            { $match: { payementStatus: "Paid" } },
-            { $group: { _id: null, Revenue: { $sum: "$totalAmount" } } },
-          ]),
-          User.countDocuments(),
+        Order.aggregate([
+          { $match: { payementStatus: "Paid" } },
+          { $group: { _id: null, Revenue: { $sum: "$totalAmount" } } },
+        ]),
+        User.countDocuments(),
 
-          Order.find().sort({ orderDate: -1 }).limit(5),
-
-          Order.aggregate([
-            { $unwind: "$products" },
-            {
-              $group: {
-                _id: "$products.productId",
-                TotalQuantity: { $sum: "$products.quantity" },
-              },
+        Order.find().sort({ orderDate: -1 }).limit(5),
+        Order.aggregate([
+          { $unwind: "$products" },
+          {
+            $group: {
+              _id: "$products.productId",
+              TotalQuantity: { $sum: "$products.quantity" },
             },
-            {
-              $lookup: {
-                from: "productcollection",
-                localField: "_id",
-                foreignField: "_id",
-                as: "productDetail",
-              },
+          },
+          {
+            $lookup: {
+              from: "productcollections", // Update to your actual collection name if it differs
+              localField: "_id",
+              foreignField: "_id",
+              as: "productDetail",
             },
-            { $sort: { TotalQuantity: -1 } },
-            { $limit: 5 },
-            {
-              $project: {
-                _id: 1,
-                TotalQuantity: 1,
-                productDetail: { $arrayElemAt: ["$productDetail", 0] },
-              },
-            },
-          ]),
-        ]);
+          },
 
-      
+          { $sort: { TotalQuantity: -1 } },
+          { $limit: 5 },
+          {
+            $project: {
+              _id: 1,
+              TotalQuantity: 1,
+              productDetail: { $arrayElemAt: ["$productDetail", 0] },
+            },
+          },
+        ]),
+        Order.aggregate([
+          { $unwind: "$products" },
+
+          {
+            $lookup: {
+              from: "productcollections",
+              localField: "products.productId",
+              foreignField: "_id",
+              as: "productDetail",
+            },
+          },
+
+          { $unwind: "$productDetail" },
+
+          {
+            $project: {
+              _id: "$productDetail.catagory",
+              TotalQuantity: "$products.quantity",
+              productName: "$productDetail.productName",
+              Price: "$productDetail.Price",
+              Description: "$productDetail.Description",
+            },
+          },
+
+          {
+            $group: {
+              _id: "$_id",
+              TotalQuantity: { $sum: "$TotalQuantity" },
+            },
+          },
+
+          { $sort: { TotalQuantity: -1 } },
+
+          { $limit: 3 },
+        ]),
+        Order.aggregate([
+          { $unwind: "$products" },
+          {
+            $lookup: {
+              from: "productcollections",
+              localField: "products.productId",
+              foreignField: "_id",
+              as: "productDetail",
+            },
+          },
+          { $unwind: "$productDetail" },
+          {
+            $group: {
+              _id: "$productDetail.BrandName",
+              TotalQuantity: { $sum: "$products.quantity" },
+            },
+          },
+          { $sort: { TotalQuantity: -1 } },
+          { $limit: 3 },
+        ]),
+      ]);
+
+     const result = await Promise.all(
+       topsellingCat.map(async (item) => {
+         try {
+           const category = await Catagory.findById(item._id);
+           return {
+             categoryName: category.catagoryname, // Assuming the name field holds the category name
+             totalQuantity: item.TotalQuantity,
+           };
+         } catch (error) {
+           console.error("Error finding category:", error);
+           return null; // Or any default value you want to return in case of error
+         }
+       })
+     );
+
+  
+
+        console.log('this is for topselling brand',TopsellingBarnd,'this is ');
+
+      console.log("this is ", result, "this tish ");
+
+      console.log(topsellingCat, "this for top selling catagory -2");
+
       console.log(Topselling, "this is toselling products ");
 
-      console.log("Resend Orders", RecentOrders, "Resend product");
+      // console.log("Resend Orders", RecentOrders, "Resend product");
       RecentOrders.forEach((ele, index) => {
         console.log(ele.userId);
       });
-      console.log(Customers, "counting the coustomer");
+      // console.log(Customers, "counting the coustomer");
 
-      res.render("Admin/dashboard", { Sale, Revenue, Customers, RecentOrders });
+      res.render("Admin/dashboard", {
+        Sale,
+        Revenue,
+        Customers,
+        RecentOrders,
+        Topselling,
+        sussMsg,
+        result,
+        TopsellingBarnd,
+      });
     } catch (err) {
       console.log("Some problem Handle the Dashboard ....", err);
     }
@@ -200,9 +300,70 @@ module.exports = {
         }
       });
       console.log(labelsByCount, labelsByAmount, dataByCount, dataByAmount);
+      console.log(labelsByCount, "labelsByCount");
       res.json({ labelsByCount, labelsByAmount, dataByCount, dataByAmount });
     } catch (err) {
       console.log("mistake in Chart controlling ", err);
+    }
+  },
+
+  Salesrepot: async (req, res) => {
+    try {
+      console.log(req.body);
+      const { StartDate, EndDate, downloadFormat } = req.body;
+
+      // Check if StartDate and EndDate are provided
+      if (!StartDate || !EndDate) {
+        return res.status(400).send("StartDate and EndDate are required.");
+      }
+
+      // Find orders within the specified date range
+      const orders = await Order.find({
+        payementStatus: "Paid",
+        orderDate: { $gte: StartDate, $lte: EndDate },
+      }).populate("products.productId");
+
+      // Check if Orders are found
+      if (orders.length === 0) {
+        // res.redirect("/Admin/dashboard");
+        // res.json({mistake:"ther have no order"})
+        req.session.adminMistake = "there is no order for  this day";
+      }
+
+      let totalSales = 0;
+
+      orders.forEach((order) => {
+        totalSales += order.discountAmount || 0;
+      });
+
+      if (downloadFormat.toLowerCase() === "pdf") {
+        // Generate PDF report
+        const pdfBuffer = await generateSalesPDF(orders, StartDate, EndDate);
+
+        res.setHeader("Content-Type", "application/pdf");
+        res.setHeader(
+          "Content-Disposition",
+          "attachment;filename=salesReport.pdf"
+        );
+
+        return res.status(200).end(pdfBuffer);
+      } else if (downloadFormat.toLowerCase() === "excel") {
+        // Generate Excel report
+        await pdf.downloadReport(
+          req,
+          res,
+          orders,
+          StartDate,
+          EndDate,
+          totalSales.toFixed(2),
+          downloadFormat
+        );
+      } else {
+        return res.status(400).send("Invalid download format");
+      }
+    } catch (err) {
+      console.log("Error in Salesrepot:", err);
+      return res.status(500).send("Internal server error");
     }
   },
 };

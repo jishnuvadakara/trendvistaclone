@@ -4,22 +4,27 @@ const catagory = require("../models/catagoryModel");
 const Brand = require("../models/brandModel");
 const Address = require("../models/addressModel");
 const Cart = require("../models/cartModel");
+const wallet = require("../models/walletModal");
+const walletHistory = require("../models/walletHistory");
+const Banner = require("../models/bannerModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { sendEmail } = require("../auth/nodemailerRePas");
+const { SendRefMail } = require("../auth/nodemailerReffernce");
 
 const JWT_SECRET = "user.supper.key";
 
 module.exports = {
   getGustpage: async (req, res) => {
     try {
-      const catagories = await catagory.find({});
-      const data = await products
-        .find({ status: "active" })
-        .populate("catagory");
-      const catName = [];
+      const [BannerData, catagories, data] = await Promise.all([
+        Banner.find(),
+        catagory.find({}),
+        products.find({ status: "active" }).populate("catagory"),
+      ]);
       console.log(catagories, "huhuhuh");
       console.log(data, "this product");
+      console.log(BannerData, "this was the banner data");
 
       // data.forEach((datas) => {
       //   console.log("this foreach");
@@ -29,7 +34,7 @@ module.exports = {
       //   console.log("oek");
       // });
 
-      res.render("user/gusthome", { data });
+      res.render("user/gusthome", { data, BannerData });
     } catch (err) {
       console.log(err);
     }
@@ -79,40 +84,64 @@ module.exports = {
 
       //starting the fiilter for working
       let allprodts = 0;
-      if(catagoryees==undefined&& Brandnamees==undefined&&maxPrice<55000){
-        allprodts = await products.find({ Price: { $gte: minPrice, $lte: maxPrice }, status: "active" }).populate("catagory").skip(skip).limit(limit);
-
-
-
-
-      }else if(catagoryees==undefined&& Brandnamees==undefined){
-
-        allprodts = await products .find({ status: "active" }).populate("catagory") .skip(skip).limit(limit);
-      }else if(catagoryees && Brandnamees){
-
-        allprodts = await products .find({  catagory: catagoryees,  BrandName: Brandnamees,  status: "active", }).populate("catagory") .skip(skip).limit(limit);
-      }else if(catagoryees==undefined && Brandnamees){
-
+      if (
+        catagoryees == undefined &&
+        Brandnamees == undefined &&
+        maxPrice < 55000
+      ) {
         allprodts = await products
-          .find({ BrandName: Brandnamees, status: "active" }) .populate("catagory").skip(skip).limit(limit);
-      }else if(Brandnamees==undefined && catagoryees){
-
+          .find({ Price: { $gte: minPrice, $lte: maxPrice }, status: "active" })
+          .populate("catagory")
+          .skip(skip)
+          .limit(limit);
+      } else if (catagoryees == undefined && Brandnamees == undefined) {
         allprodts = await products
-          .find({ catagory: catagoryees, status: "active" }) .populate("catagory").skip(skip).limit(limit);
-      }else{
-
-        allprodts = await products.find({catagory: catagoryees, BrandName: Brandnamees,status: "active", Price: { $gte: minPrice, $lte: maxPrice },}).populate("catagory").skip(skip).limit(limit);
+          .find({ status: "active" })
+          .populate("catagory")
+          .skip(skip)
+          .limit(limit);
+      } else if (catagoryees && Brandnamees) {
+        allprodts = await products
+          .find({
+            catagory: catagoryees,
+            BrandName: Brandnamees,
+            status: "active",
+          })
+          .populate("catagory")
+          .skip(skip)
+          .limit(limit);
+      } else if (catagoryees == undefined && Brandnamees) {
+        allprodts = await products
+          .find({ BrandName: Brandnamees, status: "active" })
+          .populate("catagory")
+          .skip(skip)
+          .limit(limit);
+      } else if (Brandnamees == undefined && catagoryees) {
+        allprodts = await products
+          .find({ catagory: catagoryees, status: "active" })
+          .populate("catagory")
+          .skip(skip)
+          .limit(limit);
+      } else {
+        allprodts = await products
+          .find({
+            catagory: catagoryees,
+            BrandName: Brandnamees,
+            status: "active",
+            Price: { $gte: minPrice, $lte: maxPrice },
+          })
+          .populate("catagory")
+          .skip(skip)
+          .limit(limit);
       }
 
-      const [ countprodts, brandcount, catagories] =
-        await Promise.all([
-        
-          products.find().count(),
-          Brand.aggregate([
-            { $group: { _id: "$Brandname", count: { $sum: 1 } } },
-          ]),
-          catagory.find(),
-        ]);
+      const [countprodts, brandcount, catagories] = await Promise.all([
+        products.find().count(),
+        Brand.aggregate([
+          { $group: { _id: "$Brandname", count: { $sum: 1 } } },
+        ]),
+        catagory.find({ status: "active" }),
+      ]);
 
       const totalPages = Math.ceil(countprodts / limit);
       console.log("allproduct", allprodts, "t");
@@ -200,7 +229,7 @@ module.exports = {
         res.redirect("/userprofile");
       }
     } catch (err) {
-      console.log("Something problem in change password ");
+      console.log("Something problem in change password ", err);
     }
   },
   //----------------------------------------------------------------------------Forgot password--------------------------
@@ -342,4 +371,52 @@ module.exports = {
       console.log(err);
     }
   },
+
+  //Reference  fucntion
+  Refference: async (req, res) => {
+    try {
+      console.log(req.body, "refference mail and user ID");
+      const { email, userId } = req.body;
+
+      const userdetail = await User.findOne({ _id: userId });
+      console.log("this is user id", userdetail);
+      if (userdetail) {
+        const link = `http://localhost:8000/signup2/?refer=${userdetail._id}`;
+        console.log("refference link for include user mail", link);
+        //  SendRefMail(email, link);
+        res.json({ msg: "Share the link for your friend email" });
+      } else {
+        res.json({ msg: "No user" });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  //user Wallet and wallet History-----------------------------------------------------------------------
+  GetWallet: async (req, res) => {
+    try {
+      const [WalletUser, WalletUserHist] = await Promise.all([
+        wallet.findOne({ userId: req.session.user_Id }),
+        walletHistory.findOne({ userId: req.session.user_Id }),
+      ]);
+      WalletUserHist.refund.forEach((element) => {
+        console.log(element, "thi sis is sis is sis is si si isisi");
+      });
+      console.log("userWallet", WalletUser);
+      console.log("userHistory for wallet", WalletUserHist);
+      res.render("user/MyWallet", { WalletUser, WalletUserHist });
+    } catch (err) {
+      console.log("This mistake for the User walletcontrolling :", err);
+    }
+  },
+  //this funtionality for user image 
+  UserImage:async(req,res)=>{
+    try{
+      console.log("File uploaded:", req.file.path,'this is oke');
+      res.json({msg:"oke "})
+    }catch(err){
+      console.log('UserImage is something problem ',err);
+    }
+
+  }
 };

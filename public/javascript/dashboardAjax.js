@@ -55,6 +55,7 @@ function updatecount(id) {
           },
         },
       });
+      
 
       var barColors = [
         "blue",
@@ -76,6 +77,7 @@ function updatecount(id) {
           datasets: [
             {
               backgroundColor: barColors,
+              data: res.dataByCount,
             },
           ],
         },

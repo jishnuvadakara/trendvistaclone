@@ -149,3 +149,245 @@ function updateOrderStatus(OrderId, status) {
     }
   });
 }
+
+//AddCoupon is here
+function AddCoupon() {
+  console.log("it working ");
+
+  // Retrieve values from form elements
+  const CouponCode = document.getElementById("CouponCode").value;
+  const Minimumamnt = document.getElementById("Minimumamnt").value;
+  const discountamnt = document.getElementById("discountamnt").value;
+  const description = document.getElementById("description").value;
+  const StratingDate = document.getElementById("startingdate").value;
+  const EndDate = document.getElementById("endingdate").value;
+  console.log(CouponCode, "code", Minimumamnt, "amoutn");
+  console.log(
+    StratingDate,
+    "this for Starting date",
+    EndDate,
+    "this is ending date"
+  );
+
+  // Send Ajax request
+  $.ajax({
+    url: "/Admin/AddCoupon",
+    method: "POST",
+    data: {
+      couponCode: CouponCode,
+      minimumPurachaseAmount: Minimumamnt,
+      discountAmount: discountamnt,
+      description: description,
+      validFrom: StratingDate,
+      validTo: EndDate,
+    },
+    success: function (response) {
+      Toastify({
+        text: response.msg,
+        duration: 3000,
+        gravity: "center",
+        postion: "center",
+        backgroundColor: "green",
+        stopOnFocus: true,
+      }).showToast();
+
+      $("#exampleModal").modal("hide");
+
+      document.getElementById("Addcoupon").reset();
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    },
+    error: function (xhr, status, error) {
+      // Handle errors
+      Toastify({
+        text: "Something Happen",
+        duration: 3000,
+        gravity: "center",
+        postion: "center",
+        backgroundColor: "red",
+        stopOnFocus: true,
+      }).showToast();
+    },
+  });
+}
+
+function DeleteCoupon(CouponId) {
+  console.log("its working");
+  console.log("this is coupon id", CouponId);
+  Swal.fire({
+    title: "Are you sure!",
+    text: "Delte the coupon",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#DD6B55",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url: "/admin/Deletecoupon/" + `${CouponId}`,
+        method: "DELETE",
+        success: function (response) {
+          Toastify({
+            text: response.msg,
+            duration: 3000,
+            gravity: "center",
+            position: "center",
+            backgroundColor: "green",
+            stopOnFocus: true,
+          }).showToast();
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        },
+        error: function (err) {
+          Toastify({
+            text: "Something Problem",
+            duration: 3000,
+            gravity: "center",
+            position: "center",
+            backgroundColor: "red",
+            stopOnFocus: true,
+          }).showToast();
+        },
+      });
+    }
+  });
+}
+
+// editcoupon
+function EditCoupon(CouponId) {
+  console.log("its working ");
+  $.ajax({
+    url: "/admin/EditCoupon/" + `${CouponId}`,
+    method: "get",
+    success: function (response) {
+      $("#CouponId").val(response.CouponId);
+      $("#couponCode").val(response.couponCode),
+        $("#oldcouponCode").val(response.couponCode),
+        $("#minimumPurachaseAmount").val(response.minimumPurachaseAmount),
+        $("#discountAmount").val(response.discountAmount),
+        $("#description").val(response.description),
+        $("#validFrom").val(response.validFrom),
+        $("#validTo").val(response.validTo),
+        $("#exampleEditModal").modal("show");
+    },
+    error: function (err) {
+      Toastify({
+        text: "Something Problem",
+        duration: 3000,
+        gravity: "center",
+        postion: "center",
+        backgroundColor: "red",
+        stopOnFocus: true,
+      }).showToast();
+    },
+  });
+}
+
+function PostEditCoupon() {
+  var formData = {
+    _id: $("#CouponId").val(),
+    couponCode: $("#couponCode").val(),
+    oldcouponCode: $("#oldcouponCode").val(),
+    minimumPurachaseAmount: $("#minimumPurachaseAmount").val(),
+    discountAmount: $("#discountAmount").val(),
+    description: $("#description").val(),
+    validFrom: $("#validFrom").val(),
+    validTo: $("#validTo").val(),
+  };
+
+  $("#exampleEditModal").modal("hide");
+
+  $.ajax({
+    type: "PATCH",
+    url: "/admin/PatchCoupon",
+    contentType: "application/json",
+    data: JSON.stringify(formData),
+    success: function (response) {
+      Toastify({
+        text: response.msg,
+        duration: 3000,
+        gravity: "center",
+        position: "center",
+        backgroundColor: "green",
+        stopOnFocus: true,
+      }).showToast();
+      // console.log("Data submitted successfully");
+      // console.log(response);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    },
+    error: function (xhr, status, error) {
+      Swal.fire("Something went wrong");
+      console.error("Error submitting data:", error);
+    },
+  });
+}
+
+//Rtrun accept in function
+function submitReturnResponse(PrdId, orderId, status, userId, index) {
+  console.log(
+    "this is working properly",
+    PrdId,
+    orderId,
+    status,
+    userId,
+    index
+  );
+  $.ajax({
+    url: "/admin/ReturnAccept",
+    method: "post",
+    data: {
+      PrdId: PrdId, // Corrected parameter name
+      orderId: orderId,
+      status: status,
+      userId: userId,
+      index: index,
+    },
+    success: function (response) {
+      // You may consider removing the page reload
+      window.location.reload();
+      alert(response.msg);
+    },
+    error: function (err) {
+      alert("Something went wrong");
+      console.log(err);
+    },
+  });
+}
+
+
+//Catagory list and Unlist 
+function catagoryBlock(catagroyId, status) {
+  console.log("its is working ");
+ 
+      $.ajax({
+        url: "/admin/ListandUnlistCat/" + `${catagroyId}/${status}`,
+        method: "get",
+        success: function (response) {
+          Toastify({
+            text: response.msg,
+            duration: 3000,
+            gravity: "center",
+            position: "center",
+            backgroundColor: "green",
+            stopOnFocus: true,
+          }).showToast();
+        },
+        error: function (err) {
+          Toastify({
+            text: "Something happened",
+            duration: 3000,
+            gravity: "center",
+            position: "center",
+            backgroundColor: "green",
+            stopOnFocus: true,
+          }).showToast();
+        },
+      });
+ 
+}
+
