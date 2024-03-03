@@ -16,11 +16,11 @@ router.post("/adminlogin", adminhelper.postadminlog);
 // router.get('/adminDashboard',adminhelper.postadminlog)
 
 //------------------------------Dashboard--------------------------------------------------------------
-router.get("/dashboard", dashboardController.GetDashboard);
+router.get("/dashboard",middleman.verifyAdmin, dashboardController.GetDashboard);
 // controlling the chart
-router.get("/count-orders-by-day", dashboardController.getCount);
-router.get("/count-orders-by-month", dashboardController.getCount);
-router.get("/count-orders-by-year", dashboardController.getCount);
+router.get("/count-orders-by-day", middleman.verifyAdmin,dashboardController.getCount);
+router.get("/count-orders-by-month",middleman.verifyAdmin, dashboardController.getCount);
+router.get("/count-orders-by-year", middleman.verifyAdmin,dashboardController.getCount);
 //--Salesreport---
 router.post("/Salesreport", dashboardController.Salesrepot);
 
@@ -52,7 +52,7 @@ router.post(
 );
 //---Edit--------
 router.get(
-  "/editcatagory/:id",
+  "/editcatagoryes/:id",
   middleman.verifyAdmin,
   catagorycontroller.getEditcatagory
 );
@@ -173,8 +173,8 @@ router.delete("/Deletecoupon/:CouponId", couponController.DeleteCoupon);
 //-----------------------------------------------------------------------------Banner---UI--------------------------------------------------------------------
 // const BannerIM = [{ name: "banner", maxCount: 1 }];
 const uploadbanner = [{ name: "banner", maxCount: 1 }];
-router.get('/BannerUI',admincontroller.GetBanner)
-router.get('/AddBanner',admincontroller.AddBanner)
+router.get('/BannerUI',middleman.verifyAdmin,admincontroller.GetBanner)
+router.get('/AddBanner',middleman.verifyAdmin,admincontroller.AddBanner)
 router.post("/addbanner", bUpload.fields(uploadbanner), admincontroller.PostAddBanner);
 
 //----------ADMIN LOGOUT------------------------------------------------------

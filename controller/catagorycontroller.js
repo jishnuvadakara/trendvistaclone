@@ -15,7 +15,7 @@ module.exports = {
       //  console.log(req.body.name)
       let cat = req.body.catagoryname;
       cat = cat.toUpperCase().trim();
-      console.log(cat);
+      console.log(cat, "htis is the ");
       const catdata = await catagories.findOne({ catagoryname: cat });
       let error = " ";
       if (catdata) {
@@ -24,6 +24,7 @@ module.exports = {
       } else {
         // const cat=req.body.catagoryname
         // const cat=catdata
+        console.log("9898");
         cat = cat.toUpperCase().trim();
         await catagories.create({ catagoryname: cat });
         const Categories = await catagories.find();
@@ -38,7 +39,6 @@ module.exports = {
     try {
       const id = req.params.id;
       const data = await catagories.find({ _id: id });
-      req.session.Erromsg=''
 
       if (data) {
         console.log("tusgjskdfsgjf", data[0]);
@@ -55,18 +55,30 @@ module.exports = {
   postEditcatagory: async (req, res) => {
     try {
       console.log(req.body.id);
+      // req.session.Erromsg=''
 
       let cat = req.body.catagoryname;
+      // if(cat.)
       cat = cat.toUpperCase().trim();
+      if (cat == "") {
+        console.log("hey");
+      } else if (/\d/.test(cat)) {
+        console.log("number");
+      } else {
+        console.log("ok");
+      }
+
       console.log("cat-", cat);
       const data = await catagories.findOne({ catagoryname: cat });
-      if (data) {
+      if (data || cat == "" || /\d/.test(cat)) {
         const result = await catagories.find({ _id: req.body.id });
         console.log("this ", result);
-       
-        req.session.Erromsg='this catagory alredy taken '
+        req.session.Erromsg = "this catagory alredy taken || check enter the value string  ";
+
+        console.log("yes wroking");
+        //  res.redirect("/admin/catagory");
+        // res.redirect("/admin/editcatagoryes");
         res.render("admin/editcatagory", {
-         
           catagories: result[0],
           err: req.session.Erromsg,
         });

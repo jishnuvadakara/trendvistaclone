@@ -604,7 +604,7 @@
                       <div class="widget-content-left">
                         <div class="widget-heading">Products Sold</div>
                         <div class="widget-subheading">Revenue streams</div>
-                      </div>
+                      </div>f
                       <div class="widget-content-right">
                         <div class="widget-numbers text-warning">$3M</div>
                       </div>
@@ -714,11 +714,20 @@
                             </div>
                           </td>
                           <td class="text-center"><%-ele.address.city-%></td>
+                          <% if(ele.payementStatus=='Paid'){%>
+                          <td class="text-center"><div class="badge badge-success"><%-ele.payementStatus-%></div></td>
+                          <%}else{%>
                           <td class="text-center"><div class="badge badge-warning"><%-ele.payementStatus-%></div></td>
-                          
+                          <%}%>
+                         <% if(ele.orderStatus=='Order Delivered'){ %>
+                          <td class="text-center">
+                            <div class="badge badge-success"><%-ele.orderStatus-%></div>
+                          </td>
+                          <%}else{%>
                           <td class="text-center">
                             <div class="badge badge-warning"><%-ele.orderStatus-%></div>
                           </td>
+                          <%}%>
                           <td class="text-center">
                            <a href="/Admin/OrderDetails/<%-ele._id-%>"> <button
                               type="button"

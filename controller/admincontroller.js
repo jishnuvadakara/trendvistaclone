@@ -314,8 +314,9 @@ module.exports = {
       console.log(req.body, "this is bannner image datas");
       const Bannerdirection = req.body.bannerName;
       let files = req?.files;
+      console.log('this is admin banner files testing',files,'this is jus for testing ');
       let images = files.banner[0].filename;
-      console.log(Bannerdirection, "is it working");
+      console.log(Bannerdirection, "is it working");  
       console.log(images);
       const uploadData = { ...Bannerdirection, images };
 

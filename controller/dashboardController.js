@@ -47,7 +47,7 @@ module.exports = {
           },
           {
             $lookup: {
-              from: "productcollections", // Update to your actual collection name if it differs
+              from: "productcollections", 
               localField: "_id",
               foreignField: "_id",
               as: "productDetail",
@@ -126,12 +126,12 @@ module.exports = {
          try {
            const category = await Catagory.findById(item._id);
            return {
-             categoryName: category.catagoryname, // Assuming the name field holds the category name
+             categoryName: category.catagoryname, 
              totalQuantity: item.TotalQuantity,
            };
          } catch (error) {
            console.error("Error finding category:", error);
-           return null; // Or any default value you want to return in case of error
+           return null; 
          }
        })
      );

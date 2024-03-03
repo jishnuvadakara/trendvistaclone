@@ -19,6 +19,7 @@ module.exports = {
     try{
             const productdetails=req.body
          let files=req?.files
+         console.log(files);
           let images=[files.images1[0].filename,files.images2[0].filename,files.images3[0].filename,files.images4[0].filename]
           
           const uploaddeatils={

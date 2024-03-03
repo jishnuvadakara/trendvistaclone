@@ -409,14 +409,30 @@ module.exports = {
       console.log("This mistake for the User walletcontrolling :", err);
     }
   },
-  //this funtionality for user image 
-  UserImage:async(req,res)=>{
-    try{
-      console.log("File uploaded:", req.file.path,'this is oke');
-      res.json({msg:"oke "})
-    }catch(err){
-      console.log('UserImage is something problem ',err);
-    }
+  //this funtionality for user image
+  UserImage: async (req, res) => {
+    try {
+      console.log("File uploaded:", req.file.path, "this is oke");
+      const userImage = await User.findOne({ email: req.session.email });
+      if (userImage) {
+        console.log(
+          "this is for user data",
+          userImage,
+          "user have add image folder "
+        );
+        let files = req?.file;
+        let images=files.filename
+        
+        console.log("this is for user image ", files, "////");
+        console.log("this is for user image ", images, "////");
+        await User.updateOne({ email: req.session.email },{$set:{Userimage:images}});
+      } else {
+        console.log("no user no request ");
+      }
 
-  }
+      res.json({ msg: "oke " });
+    } catch (err) {
+      console.log("UserImage is something problem ", err);
+    }
+  },
 };

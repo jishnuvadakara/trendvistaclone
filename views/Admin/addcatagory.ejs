@@ -1,4 +1,4 @@
-<%-include('../layout/admin/header.ejs')-%>
+<!-- <%-include('../layout/admin/header.ejs')-%>
 <%-include('../partials/adminnave.ejs')-%>
 
 <div class="row" id="maincontainer">
@@ -32,12 +32,7 @@
             required
           />
         </div>
-        <!-- <div class="form-group">
-                    <input type="email" class="form-control mt-4" placeholder="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <input type="password" class="form-control mt-4" name="password" placeholder="password" required>
-                </div> -->
+      
         <div
           style="
             display: flex;
@@ -61,4 +56,95 @@
   </div>
 </div>
 
+<%-include('../layout/admin/footer.ejs')-%> -->
+<%-include('../layout/admin/header.ejs')-%>
+<%-include('../partials/adminnave.ejs')-%>
+
+<div class="row" id="maincontainer">
+  <div
+    class="text-center center-div col-12 col-md-12 container-fluid"
+    id="login"
+  >
+    <div
+      class="container border col-12 col-lg-4 py-5 mb-5 container-fluid"
+      id="squarediv"
+    >
+      <div class="title text-white pb-5">
+        <h2 class="font-weight-bold" style="color: red">ADMIN CONTROL</h2>
+        <span style="color: green">Add New Category.</span>
+        <span style="color: red"><%-locals.err ? err : "" -%></span>
+      </div>
+      <form
+        id="formone"
+        action="/admin/addcatagory"
+        method="POST"
+        class="pt-3"
+        autocomplete="off"
+      >
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Category Name"
+            id="categoryname"
+            name="categoryname"
+            required
+          />
+          <div id="categoryError" style="color: red"></div>
+        </div>
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            margin-top: 38px;
+          "
+        >
+          <a href="/admin/Category" class="btn btn-danger rounded-pill"
+            >CANCEL</a
+          >
+          <button
+            type="submit"
+            id="subbtn1"
+            class="btn btn-success rounded-pill"
+            disabled
+          >
+            ADD NEW
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <%-include('../layout/admin/footer.ejs')-%>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const categoryInput = document.getElementById("categoryname");
+    const categoryError = document.getElementById("categoryError");
+    const addButton = document.getElementById("subbtn1");
+
+    categoryInput.addEventListener("input", function () {
+      const categoryName = categoryInput.value.trim();
+      if (categoryName.startsWith(" ")) {
+        categoryError.textContent = "Category name cannot start with a space";
+        addButton.disabled = true;
+      } else if (categoryName.includes(" ")) {
+        categoryError.textContent = "Category name cannot contain spaces";
+        addButton.disabled = true;
+      } else if (/\d/.test(categoryName)) {
+        categoryError.textContent = "Category name cannot contain numbers";
+        addButton.disabled = true;
+      } else {
+        categoryError.textContent = "";
+        addButton.disabled = false;
+      }
+    });
+
+    categoryInput.addEventListener("keydown", function (event) {
+      if (event.key === " " && categoryInput.selectionStart === 0) {
+        event.preventDefault();
+      }
+    });
+  });
+</script>

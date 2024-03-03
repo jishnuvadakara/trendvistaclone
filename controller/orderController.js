@@ -5,6 +5,8 @@ const Cart = require("../models/cartModel");
 const User = require("../models/userModel");
 const Return = require("../models/returnModel");
 const products = require("../models/productModel");
+const wallet = require("../models/walletModal");
+const walletHistory = require("../models/walletHistory");
 const { disconnect } = require("mongoose");
 const { CreateRazorpayOrder } = require("../controller/razorpayController");
 const { generateInvoice } = require("../util/InvoiceCreator");
@@ -19,13 +21,13 @@ module.exports = {
         Address.find({ userId: req.session.user_Id }),
         Cart.findOne({ userId: req.session.user_Id }),
       ]);
-     
+
       const TotalPrice = req.session.Totalamnt;
-      const Grandtotal = req.session.Grandamnt
+      const Grandtotal = req.session.Grandamnt;
       const Discount = req.session.Discount;
       const CouponDiscount = req.session.discountAmount;
       const CouponCode = req.session.CouponCode;
-      console.log('this is delivery charge decrese total amount ',Grandtotal);
+      console.log("this is delivery charge decrese total amount ", Grandtotal);
       console.log(
         CouponDiscount,
         "coupon Discount amount",
@@ -77,8 +79,11 @@ module.exports = {
       const payementmethod = req.params.type;
       console.log(payementmethod);
 
-      console.log(req.session.adressId,'this  is the address what will happend');
-      
+      console.log(
+        req.session.adressId,
+        "this  is the address what will happend"
+      );
+
       if (req.session.adressId == undefined) {
         res.json({ msg: "please click the deliver button" });
       } else if (
@@ -269,6 +274,149 @@ module.exports = {
         CreateRazorpayOrder(res, orderder._id + "", Grandtotal);
 
         //call the razorpay function and pass the order id
+      } else if (
+        payementmethod == "walletPayment" &&
+        req.session.adressId != undefined
+      ) {
+        console.log("wallet option is working ");
+        const Userin = await User.findOne({ email: UserEmail });
+        const UserwalletIn = await wallet.findOne({ userId: Userin._id });
+        console.log(
+          Userin,
+          "this for user data ",
+          Userin,
+          "this for userwallet data ",
+          UserwalletIn,
+          "this is for usr wallet "
+        );
+        if (UserwalletIn && UserwalletIn.wallet >= Grandtotal) {
+          console.log("this corect ");
+          await wallet.updateOne({userId:Userin._id},{$inc:{wallet:-Grandtotal}})
+
+          const [addressUser, cartUser] = await Promise.all([
+            Address.findOne({ userId: Userin._id }),
+            Cart.findOne({ userId: Userin._id }),
+          ]);
+          console.log(
+            "user addreass",
+            addressUser,
+            "secod one ise user Cat",
+            cartUser
+          );
+
+          //Set The Current Date
+          const currentDate = new Date().toLocaleString("en-US", {
+            timeZone: "Asia/Kolkata",
+          });
+          console.log(currentDate);
+
+          //Set The Delivery Date
+          const DeliveryDate = new Date(
+            Date.now() + 4 * 24 * 60 * 60 * 1000
+          ).toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
+          console.log(DeliveryDate);
+
+          let myorder = {
+            userId: Userin._id,
+            products: cartUser.products,
+            address: {
+              address: addressUser.name,
+              address: addressUser.address,
+              city: addressUser.city,
+              pincode: addressUser.pincode,
+              district: addressUser.district,
+              state: addressUser.state,
+              locality: addressUser.locality,
+              addressType: addressUser.addressType,
+              mobile: addressUser.mobile,
+            },
+            orderDate: currentDate,
+            expectedDeliveryDate: DeliveryDate,
+            payementMethod: payementmethod,
+            payementStatus: "pending",
+            totalAmount: Grandtotal,
+            discountAmount: Discount,
+            orderStatus: "Order Processing",
+            couponDiscount: CouponDiscount,
+            couponCode: couponCode,
+          };
+          console.log("this is for order creating ", myorder);
+           await Order.create(myorder)
+
+          //after that decrease the product quatity
+          const Carprodct = cartUser.products;
+
+          for (let data of Carprodct) {
+            try {
+              let dataId = data.productId;
+
+              const dataIddetail = await products.findOne({ _id: dataId });
+              console.log("this is for the dataIddetail", dataIddetail);
+
+              let oldQuantity = dataIddetail.AvailableQuantity;
+              let cartQuantity = data.quantity;
+
+              let newQuantity = oldQuantity - cartQuantity;
+              console.log(
+                "this is the new quantity of the products",
+                newQuantity
+              );
+
+              await products.updateOne(
+                { _id: dataId },
+                { $set: { AvailableQuantity: newQuantity } }
+              );
+
+              req.session.UsercartId = cartUser._id;
+            } catch (err) {
+              console.log(
+                "something problem in user update product quantity",
+                err
+              );
+            }
+          }
+          const userwalletHistory = await walletHistory.findOne({
+            userId: Userin._id,
+          });
+          if (userwalletHistory) {
+            console.log("user have alreay wallethistory");
+            const reason = "Product Purchase With Wallet Amount";
+            let type = "debit";
+            let date = new Date();
+
+            await walletHistory.updateOne(
+              { userId: Userin._id },
+              {
+                $push: {
+                  refund: {
+                    amount: Grandtotal,
+                    reason: reason,
+                    type: type,
+                    date: date,
+                  },
+                },
+              },
+              { new: true }
+            );
+          }else{
+            console.log('user have no wallet');
+            let reason = "Product Purchase With Wallet Amount";
+            let type='debit'
+            let date=new Date()
+            await walletHistory.create({userId:Userin._id},{refund:[{amount:amount,reason:reason,type:type,date:date}]})
+          }
+          await Cart.findByIdAndDelete(cartUser._id)
+          res.json({ payment: "wallet" });
+        } else {
+          res.json({ msg: "Insufficient Balance in Wallet" });
+          console.log("thsi not grater then but correct");
+        }
+        //find the user address and user cart
+      } else {
+        res.status(404);
+        console.log(
+          "something problem in check page or checkout page payment selecting side "
+        );
       }
     } catch (err) {
       console.log(err);
@@ -345,7 +493,7 @@ module.exports = {
       ]);
 
       const totalPages = Math.ceil(MyorderCount / ITEMS_PER_PAGE); // Calculate total pages
-      console.log(Myorder.length,'user order is empty');
+      console.log(Myorder.length, "user order is empty");
 
       res.render("user/Myorder", {
         Myorder,
@@ -376,7 +524,6 @@ module.exports = {
       // console.log(Orderdetail);
     } catch (err) {
       console.log(err);
-      
     }
   },
   //----------------------------------------------------------------------------------SingleOrdercancel----------------------------------------------------
@@ -498,19 +645,18 @@ module.exports = {
     }
   },
   //The function for payment option for online payment failed order
-  RazorpayFaledOrder:async(req,res)=>{
-    try{
-      console.log('req.params',req.params);
-      const {OrderId}=req.params
+  RazorpayFaledOrder: async (req, res) => {
+    try {
+      console.log("req.params", req.params);
+      const { OrderId } = req.params;
 
-      const OrderFailed=await Order.findOne({_id:OrderId})
-      console.log('this is for Failed razorpay',OrderFailed);
-      const Grandtotal=OrderFailed.totalAmount
-      console.log('this is for grand total amount',Grandtotal);
-      CreateRazorpayOrder(res,OrderFailed._id,Grandtotal)
-
-    }catch(err){
-      console.log('Problem with your logic',err);
+      const OrderFailed = await Order.findOne({ _id: OrderId });
+      console.log("this is for Failed razorpay", OrderFailed);
+      const Grandtotal = OrderFailed.totalAmount;
+      console.log("this is for grand total amount", Grandtotal);
+      CreateRazorpayOrder(res, OrderFailed._id, Grandtotal);
+    } catch (err) {
+      console.log("Problem with your logic", err);
     }
-  }
+  },
 };

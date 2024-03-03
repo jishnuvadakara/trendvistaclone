@@ -1,4 +1,4 @@
-//user address delete
+//user address delete 
 function deleteAddress(id) {
   Swal.fire({
     title: "Are you sure?",
@@ -57,7 +57,7 @@ function addTocart(productid) {
       //set the time relod again and again
       setTimeout(() => {
         window.location.reload();
-      }, 3000);
+      }, 1000);
     },
     error: function (err) {
       Toastify({
@@ -330,7 +330,7 @@ function confirmOrder(type) {
         duration: 3000,
         gravity: "center",
         position: "center",
-        backgroundColor: "blue",
+        backgroundColor: "red",
         stopOnFocus: true,
       }).showToast();
 
@@ -345,6 +345,8 @@ function confirmOrder(type) {
         createRazorpay(response.order);
 
         console.log("After CreateRazorpayOrder");
+      }else if(response.payment=='wallet'){
+        window.location.href = "/PayementSuccesspage";
       }
     },
     error: function (err) {
@@ -542,4 +544,54 @@ function AgainPayement(OrderId) {
       }
     },
   });
+}
+
+//user image for deleted
+function removeuserImage(id,userImage){
+  console.log('function is working ',id,userImage);
+
+  Swal.fire({
+    title: "Remove this Order!",
+    text: "Are your sure",
+    icon: "warning",
+    showCancelButton: true,
+    showConfirmButton: "DD6B55",
+    showCancelButton: "#d33",
+
+    confirmButtonText: " Remove",
+  }).then((result)=>{
+    if(result.isConfirmed){
+      $.ajax({
+        url:'/DeletUerImage/'+`${id}/${userImage}`,
+        method:'get',
+        success:function(response){
+           Toastify({
+             text: response.msg,
+             duration: 3000,
+             gravity: "center",
+             position: "center",
+             backgroundColor: "blue",
+             stopOnFocus: true,
+           }).showToast()
+           setTimeout(() => {
+            window.location.reload()
+
+           }, 1000);
+
+        },
+        error:function(err){
+           Toastify({
+             text: 'Something Happen',
+             duration: 3000,
+             gravity: "center",
+             position: "center",
+             backgroundColor: "blue",
+             stopOnFocus: true,
+           }).showToast();
+        
+        }
+      })
+    }
+  })
+
 }
