@@ -102,6 +102,7 @@ const Fields = [
   { name: "images3", maxCount: 1 },
   { name: "images4", maxCount: 1 },
 ];
+console.log("🚀 ~ file: adminRouter.js:105 ~ Fields:", Fields)
 
 router.get("/product", middleman.verifyAdmin, admincontroller.getProduct);
 //----ADDP--

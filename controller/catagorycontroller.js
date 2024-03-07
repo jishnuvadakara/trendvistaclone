@@ -12,28 +12,36 @@ module.exports = {
   },
   postaddcatagory: async (req, res) => {
     try {
-      //  console.log(req.body.name)
-      let cat = req.body.catagoryname;
-      cat = cat.toUpperCase().trim();
-      console.log(cat, "htis is the ");
-      const catdata = await catagories.findOne({ catagoryname: cat });
-      let error = " ";
-      if (catdata) {
-        error = "this catagory already exists";
-        res.render("admin/addcatagory", { err: error });
+      let cat = req.body.categoryname;
+      console.log(req.body, "koko");
+      console.log(cat, "kokok");
+
+      if (cat) {
+        // Check if cat is not undefined or null
+        cat = cat.toUpperCase();
+        console.log(cat, "looo");
+        const catdata = await catagories.findOne({ catagoryname: cat });
+        let error = "";
+
+        if (catdata) {
+          error = "This category already exists";
+          res.render("admin/addcatagory", { err: error });
+        } else {
+          await catagories.create({ catagoryname: cat });
+          // const Categories = await catagories.find();
+          res.redirect("/admin/catagory");
+        }
       } else {
-        // const cat=req.body.catagoryname
-        // const cat=catdata
-        console.log("9898");
-        cat = cat.toUpperCase().trim();
-        await catagories.create({ catagoryname: cat });
-        const Categories = await catagories.find();
-        res.redirect("/admin/catagory");
+        // Handle the case where cat is undefined or null
+        console.log("Category name is not provided");
+        res.status(400).send("Category name is required");
       }
     } catch (err) {
-      console.log("yes come up catagorycontroller2", err);
+      console.log("Error in postaddcatagory:", err);
+      res.status(500).send("Internal Server Error");
     }
   },
+
   //eddit
   getEditcatagory: async (req, res) => {
     try {
@@ -73,7 +81,8 @@ module.exports = {
       if (data || cat == "" || /\d/.test(cat)) {
         const result = await catagories.find({ _id: req.body.id });
         console.log("this ", result);
-        req.session.Erromsg = "this catagory alredy taken || check enter the value string  ";
+        req.session.Erromsg =
+          "this catagory alredy taken || check enter the value string  ";
 
         console.log("yes wroking");
         //  res.redirect("/admin/catagory");

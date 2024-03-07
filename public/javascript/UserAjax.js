@@ -1,4 +1,4 @@
-//user address delete 
+//user address delete
 function deleteAddress(id) {
   Swal.fire({
     title: "Are you sure?",
@@ -77,23 +77,76 @@ function addTocart(productid) {
 
 function updateQuantity(count, prodId, qnt, crtId) {
   console.log("ajax is working ...");
+  const quantityInput = $(`#quantityInput-${prodId}`);
 
+  console.log(count, "count", qnt, "qntity");
+  const currentQuantity = parseInt(quantityInput.val());
+  console.log(
+    "🚀 ~ file: UserAjax.js:83 ~ updateQuantity ~ currentQuantity:",
+    currentQuantity
+  );
+
+  // Calculate the new quantity based on the button click
+  const newQuantity =
+    count === 1 ? currentQuantity + 1 : Math.max(currentQuantity - 1, 0);
+  console.log(
+    "🚀 ~ file: UserAjax.js:83 ~ updateQuantity ~ newQuantity:",
+    newQuantity
+  );
   $.ajax({
-    url: "/Updatequantity/" + `${count}/${prodId}/${qnt}/${crtId}`,
+    url: "/Updatequantity/" + `${count}/${prodId}/${newQuantity}/${crtId}`,
     method: "get",
     success: function (response) {
-      Toastify({
-        text: response.msg,
-        duration: 3000,
-        gravity: "top",
-        position: "center",
-        backgroundColor: "blue",
-        stopOnFocus: true,
-      }).showToast();
-      //set the time again reload
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+      if (response.success == true) {
+        const currentQuantity = parseInt(quantityInput.val());
+        console.log("this wroking ", response.Prdquantity);
+
+        if (response.count == 1) {
+          const newQuantity = currentQuantity + 1;
+
+          quantityInput.val(newQuantity);
+          if (response.Prdquantity <= newQuantity) {
+            Toastify({
+              text: "Product stock limit has reached",
+              duration: 3000,
+              gravity: "top",
+              position: "center",
+              backgroundColor: "red",
+              stopOnFocus: true,
+            }).showToast();
+            const plusButton = quantityInput.next("button");
+            plusButton.prop("disabled", true);
+            location.reload();
+          }
+
+          const minusButton = quantityInput.prev("button");
+          minusButton.prop("disabled", newQuantity === 1);
+        } else {
+          const newQuantity = Math.max(currentQuantity - 1, 1);
+
+          quantityInput.val(newQuantity);
+
+          const minusButton = quantityInput.prev("button");
+          const plusButton = quantityInput.next("button");
+          minusButton.prop("disabled", newQuantity === 1);
+          plusButton.prop("disabled", newQuantity === 3);
+        }
+        $("#total").text(`₹ ${response.total}`);
+        $("#grandtotal").text(`₹ ${response.grandtotal}`);
+        $("#totalDiscount").text(`₹ ${response.totalDiscount}`);
+      } else if (response.success == false) {
+        setTimeout(function () {
+          window.location.reload();
+        }, 500);
+        Toastify({
+          text: response.msg,
+          duration: 3000,
+          gravity: "top",
+          position: "center",
+          backgroundColor: "red",
+          stopOnFocus: true,
+        }).showToast();
+      }
     },
     error: function (err) {
       Toastify({
@@ -139,7 +192,7 @@ function removecartprodct(crtprdctId) {
           }).showToast();
           setTimeout(() => {
             window.location.reload();
-          }, 3000);
+          }, 1000);
         },
         error: function (err) {
           Toastify({
@@ -250,7 +303,7 @@ function selectAddress(addressId) {
         text: response.msg,
         duration: 3000,
         gravity: "center",
-        position: "right",
+        position: "center",
         backgroundColor: "green",
         stopOnFocus: true,
       }).showToast();
@@ -345,7 +398,7 @@ function confirmOrder(type) {
         createRazorpay(response.order);
 
         console.log("After CreateRazorpayOrder");
-      }else if(response.payment=='wallet'){
+      } else if (response.payment == "wallet") {
         window.location.href = "/PayementSuccesspage";
       }
     },
@@ -547,8 +600,8 @@ function AgainPayement(OrderId) {
 }
 
 //user image for deleted
-function removeuserImage(id,userImage){
-  console.log('function is working ',id,userImage);
+function removeuserImage(id) {
+  console.log("function is working ", id);
 
   Swal.fire({
     title: "Remove this Order!",
@@ -559,39 +612,81 @@ function removeuserImage(id,userImage){
     showCancelButton: "#d33",
 
     confirmButtonText: " Remove",
-  }).then((result)=>{
-    if(result.isConfirmed){
+  }).then((result) => {
+    if (result.isConfirmed) {
       $.ajax({
-        url:'/DeletUerImage/'+`${id}/${userImage}`,
-        method:'get',
-        success:function(response){
-           Toastify({
-             text: response.msg,
-             duration: 3000,
-             gravity: "center",
-             position: "center",
-             backgroundColor: "blue",
-             stopOnFocus: true,
-           }).showToast()
-           setTimeout(() => {
-            window.location.reload()
-
-           }, 1000);
-
+        url: "/DeletUerImage/" + `${id}`,
+        method: "delete",
+        success: function (response) {
+          Toastify({
+            text: response.msg,
+            duration: 3000,
+            gravity: "center",
+            position: "center",
+            backgroundColor: "green",
+            stopOnFocus: true,
+          }).showToast();
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
         },
-        error:function(err){
-           Toastify({
-             text: 'Something Happen',
-             duration: 3000,
-             gravity: "center",
-             position: "center",
-             backgroundColor: "blue",
-             stopOnFocus: true,
-           }).showToast();
-        
-        }
-      })
+        error: function (err) {
+          Toastify({
+            text: "Something Happen",
+            duration: 3000,
+            gravity: "center",
+            position: "center",
+            backgroundColor: "blue",
+            stopOnFocus: true,
+          }).showToast();
+        },
+      });
     }
-  })
-
+  });
 }
+
+// the fuction was working in user Response for the company
+function submitForm() {
+  // Collect form data
+  var formData = {
+    rating: $('input[name="rating"]:checked').val(),
+    feedbackresponse: $("#feedbackTextarea").val(),
+    UserId: $("#UserId").val(),
+  };
+  console.log("🚀 ~ file: UserAjax.js:607 ~ submitForm ~ formData:", formData);
+
+  // Send AJAX request
+  $.ajax({
+    url: "/UserResponse",
+    type: "POST",
+    contentType: "application/json",
+    data: JSON.stringify(formData),
+    success: function (response) {
+      $("#exampleModal").modal("hide");
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        iconHtml:
+          '<i class="fa-solid fa-handshake fa-bounce" style="color: #28a745;"></i>',
+        title: response.msg,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      console.log("Form data sent successfully");
+      // You can do something here like show a success message to the user
+    },
+    error: function (xhr, status, error) {
+      console.error("Form data failed to send");
+      // You can handle error cases here, such as displaying an error message to the user
+    },
+  });
+}
+
+// Function to count words in feedback textarea
+function countWords() {
+  var text = $("#feedbackTextarea").val();
+  var wordCount = text.trim().split(/\s+/).length;
+  $("#wordCount").text(wordCount + "/100 words");
+}
+//<i class="fas fa-check-circle" style="color: #28a745;"></i>

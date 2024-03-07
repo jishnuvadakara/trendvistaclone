@@ -390,3 +390,133 @@
     </script>
   </body>
 </html>
+<!-- <script>
+     
+      $(document).ready(function () {
+    var bs_modal = $("#modal");
+    var croppers = [];
+
+    // Function to handle file change and update preview image
+    function change(event, no) {
+        console.log("this is oke or ok");
+        document.getElementById(`imagePreview${no}`).src =
+            URL.createObjectURL(event.target.files[0]);
+        console.log(document.getElementById(`imagePreview${no}`).src);
+
+        // Show modal only if it's the first time the corresponding input file is changed
+        if (!croppers[no]) {
+            bs_modal.modal("show");
+        }
+    }
+
+    // Event listener for file input change
+    $("input[type=file]").change(function (e) {
+        var fileInput = $(this);
+        var file = e.target.files[0];
+        var reader = new FileReader();
+        var cropperId = fileInput.attr("id").slice(-1);
+
+        reader.onload = function (event) {
+            // Destroy the previous cropper instance if it exists
+            if (croppers[cropperId]) {
+                croppers[cropperId].destroy();
+            }
+            var image = document.getElementById("cropperImage");
+
+            image.onload = function () {
+                var cropper = new Cropper(image, {
+                    aspectRatio: 1,
+                    viewMode: 3,
+                    preview: ".preview",
+                });
+
+                // Handle cropping
+              $("#crop").click(function () {
+    var canvas = cropper.getCroppedCanvas({
+        width: 260,
+        height: 260,
+    });
+
+    if (canvas) {
+        canvas.toBlob(function (blob) {
+            if (blob) {
+                console.log("Blob created successfully:", blob);
+                var imageUrl = URL.createObjectURL(blob); // Convert blob to URL
+                console.log("Image URL:", imageUrl);
+                $("#imagePreview" + cropperId).attr("src", imageUrl);
+                bs_modal.modal("hide");
+            } else {
+                console.error("Blob is null or invalid.");
+            }
+        });
+    } else {
+        console.error("Canvas is null or invalid.");
+        bs_modal.modal("hide");
+    }
+});
+
+// Function to handle file change and update preview image
+function change(event, no) {
+    console.log("this is oke or ok");
+    var file = event.target.files[0];
+    var reader = new FileReader();
+
+    reader.onload = function (event) {
+        var image = document.createElement("img");
+
+        image.onload = function () {
+            // Create cropper instance
+            var cropper = new Cropper(image, {
+                aspectRatio: 1,
+                viewMode: 3,
+                preview: ".preview",
+            });
+
+            // Store cropper reference
+            croppers[no] = cropper;
+
+            // Destroy the previous cropper instance if it exists
+            if (croppers[no]) {
+                croppers[no].destroy();
+            }
+
+            // Update cropper with new image
+            croppers[no].replace(image);
+
+            // Show modal only if it's the first time the corresponding input file is changed
+            if (!croppers[no]) {
+                bs_modal.modal("show");
+            }
+        };
+
+        image.src = event.target.result;
+    };
+
+    reader.readAsDataURL(file);
+}
+
+
+                croppers[cropperId] = cropper;
+            };
+
+            image.src = event.target.result;
+        };
+
+        reader.readAsDataURL(file);
+
+        // Call change function to update preview image and show modal if necessary
+        change(e, cropperId);
+    });
+
+    // Function to handle closing modal
+    bs_modal.on("hidden.bs.modal", function () {
+        // Destroy all croppers
+        croppers.forEach(function (cropper) {
+            cropper.destroy();
+        });
+        croppers = []; // Reset croppers array
+    });
+
+});
+
+    </script> -->

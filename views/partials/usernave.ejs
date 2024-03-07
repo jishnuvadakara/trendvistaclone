@@ -61,7 +61,7 @@
     </div>
     <nav class="navbar navbar-expand-lg bg-white sticky-top navbar-light p-3 shadow-sm">
       <div class="container">
-        <a class="navbar-brand" href="#"><i class="fa-solid fa-shop me-2"></i> <strong>TREND-VISTA</strong></a>
+        <a class="navbar-brand" href="/userhome"><i class="fa-solid fa-shop me-2"></i> <strong>TREND-VISTA</strong></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -141,18 +141,29 @@
             <%}%>
           <ul class="navbar-nav ms-auto">
             <% if (locals.user){ %>
-            <li class="nav-item" style="display: flex;">
-              <a class="nav-link mx-2 text-uppercase" href="/Cartuser"><i class="fa-solid fa-cart-shopping me-1 fa-xl " style="color: #000000";>1</i>Cart</a>
-            </li>
-            <div class="dropdown">
+     <li class="nav-item" style="display: flex;">
+    <a class="nav-link mx-2 text-uppercase position-relative" href="/Cartuser">
+        <i class="fa-solid fa-cart-shopping me-1 fa-xl" style="color: #000000;"></i>
+       
+        <span class="badge bg-primary rounded-pill position-absolute top-0 start-100 translate-middle">
+            <!-- Cart Count Value Here -->
+            <%= locals.CartCount %><!-- Example Cart Count Value -->
+        </span>
+    </a>
+</li>
+          </ul>
+<br>
+<pre>    </pre>
+
+            <div class="dropdown" ">
   <a class="btn btn-dark dropdown-toggle btn-sm" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
  Hello.<%=user %>
   </a>
 
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-           <a class="nav-link text-uppercase" href="/userprofile" style="width: 115px;"><i class="fa-solid fa-user fa-xl" style="color:#000000;"></i>My Profile</a>
-           <a class="nav-link text-uppercase"   href="/Myorderpage" style="width: 115px;">  <i class="fa-solid fa-box fa-xl" style="color: #000000;"></i> My Order</a>
-           <a class="nav-link  text-uppercase" href="/logout" style="width: 115px;"><i class="fa-solid fa-right-from-bracket fa-xl" style="color: #000000;"></i>Logout</a>
+           <a class="nav-link text-uppercase" href="/userprofile" style="width: 131px;"><i class="fa-solid fa-user fa-xl" style="color:#000000;"></i>My Profile</a>
+           <a class="nav-link text-uppercase"   href="/Myorderpage" style="width: 131px;">  <i class="fa-solid fa-box fa-xl" style="color: #000000;"></i> My Order</a>
+           <a class="nav-link  text-uppercase" href="/logout" style="width: 131px;"><i class="fa-solid fa-right-from-bracket fa-xl" style="color: #000000;"></i>Logout</a>
      </ul>
 </div>
            

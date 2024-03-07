@@ -1,454 +1,529 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-
-
-  
- 
-  <script
+  <head>
+    <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
       crossorigin="anonymous"
     ></script>
-      <!-- header link -->
+    <!-- header link -->
 
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <link href="https://cdn.jsdelivr.net/npm/font-awesome@6.0.0/css/all.min.css" rel="stylesheet">
-        <script src="https://kit.fontawesome.com/65b842e152.js" crossorigin="anonymous"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/font-awesome@6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/65b842e152.js"
+      crossorigin="anonymous"
+    ></script>
 
-        <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
-        rel="stylesheet">
-        <title>U-Cart</title>
-
-    
-
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
+      rel="stylesheet"
+    />
+    <title>U-Cart</title>
 
     <script src="/javascript/UserAjax.js"></script>
 
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
-    
-        <style>
-   .gradient-custom {
-/* fallback for old browsers */
-background: #6a11cb;
+    <style>
+      .gradient-custom {
+        /* fallback for old browsers */
+        background: #6a11cb;
 
-/* Chrome 10-25, Safari 5.1-6 */
-background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: -webkit-linear-gradient(
+          to right,
+          rgba(106, 17, 203, 1),
+          rgba(37, 117, 252, 1)
+        );
 
-/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))
-}
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: linear-gradient(
+          to right,
+          rgba(106, 17, 203, 1),
+          rgba(37, 117, 252, 1)
+        );
+      }
 
-body {
-    background-color: #6a11cb;
-    font-family: 'Calibri', sans-serif !important;
-}
-.gradient-custom {
-/* fallback for old browsers */
-background: #6a11cb;
+      body {
+        background-color: #6a11cb;
+        font-family: "Calibri", sans-serif !important;
+      }
+      .gradient-custom {
+        /* fallback for old browsers */
+        background: #6a11cb;
 
-/* Chrome 10-25, Safari 5.1-6 */
-background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: -webkit-linear-gradient(
+          to right,
+          rgba(106, 17, 203, 1),
+          rgba(37, 117, 252, 1)
+        );
 
-/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))
-}
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: linear-gradient(
+          to right,
+          rgba(106, 17, 203, 1),
+          rgba(37, 117, 252, 1)
+        );
+      }
 
-.mt-100{
-   margin-top:100px;
+      .mt-100 {
+        margin-top: 100px;
+      }
 
-}
+      .card {
+        margin-bottom: 30px;
+        border: 0;
+        -webkit-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+        letter-spacing: 0.5px;
+        border-radius: 8px;
+        -webkit-box-shadow: 1px 5px 24px 0 rgba(68, 102, 242, 0.05);
+        box-shadow: 1px 5px 24px 0 rgba(68, 102, 242, 0.05);
+      }
 
+      .card .card-header {
+        background-color: #fff;
+        border-bottom: none;
+        padding: 24px;
+        border-bottom: 1px solid #f6f7fb;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+      }
 
-.card {
-    margin-bottom: 30px;
-    border: 0;
-    -webkit-transition: all .3s ease;
-    transition: all .3s ease;
-    letter-spacing: .5px;
-    border-radius: 8px;
-    -webkit-box-shadow: 1px 5px 24px 0 rgba(68,102,242,.05);
-    box-shadow: 1px 5px 24px 0 rgba(68,102,242,.05);
-}
+      .card-header:first-child {
+        border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
+      }
 
-.card .card-header {
-    background-color: #fff;
-    border-bottom: none;
-    padding: 24px;
-    border-bottom: 1px solid #f6f7fb;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-}
+      .card .card-body {
+        padding: 30px;
+        background-color: transparent;
+      }
 
-.card-header:first-child {
-    border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
-}
-
-
-
-.card .card-body {
-    padding: 30px;
-    background-color: transparent;
-}
-
-.btn-primary, .btn-primary.disabled, .btn-primary:disabled {
-    background-color: #4466f2!important;
-    border-color: #4466f2!important;
-}
-        </style>
-    </head>
-<body>
-  <!-- <%-include('../layout/user/header.ejs')-%> 
+      .btn-primary,
+      .btn-primary.disabled,
+      .btn-primary:disabled {
+        background-color: #4466f2 !important;
+        border-color: #4466f2 !important;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- <%-include('../layout/user/header.ejs')-%> 
     <%-include('../partials/usernave.ejs')-%>
 
     <!-- kokoko -->
-   <% if(total==0){ %>
-    <section >
-      <div class="container-fluid  mt-100">
-          <div class="row">
-          
-             <div class="col-md-12">
-             
-                     <div class="card gradient-custom">
-                 <div class="card-header">
-                 <h5>Cart</h5>
-                 </div>
-                 <div class="card-body cart">
-                         <div class="col-sm-12 empty-cart-cls text-center">
-                             <img src="https://i.imgur.com/dCdflKN.png" width="130" height="130" class="img-fluid mb-4 mr-3">
-                             <h3><strong>Your Cart is Empty</strong></h3>
-                             <h4>Add something to make me happy :)</h4>
-                            
-                             <a href="/allprodcuts" class="btn btn-primary cart-btn-transform m-3" data-abc="true">continue shopping</a>
-                             
-                         
-                         </div>
-                 </div>
-         </div>
-                 
-             
-             </div>
-          
+    <% if(total==0){ %>
+    <section>
+      <div class="container-fluid mt-100">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card gradient-custom">
+              <div class="card-header">
+                <h5>Cart</h5>
+              </div>
+              <div class="card-body cart">
+                <div class="col-sm-12 empty-cart-cls text-center">
+                  <img
+                    src="https://i.imgur.com/dCdflKN.png"
+                    width="130"
+                    height="130"
+                    class="img-fluid mb-4 mr-3"
+                  />
+                  <h3><strong>Your Cart is Empty</strong></h3>
+                  <h4>Add something to make me happy :)</h4>
+
+                  <a
+                    href="/allprodcuts"
+                    class="btn btn-primary cart-btn-transform m-3"
+                    data-abc="true"
+                    >continue shopping</a
+                  >
+                </div>
+              </div>
+            </div>
           </div>
-         
-         </div>
-      </section>
-      <%}else{%>
-  
+        </div>
+      </div>
+    </section>
+    <%}else{%>
 
     <section class="h-100 gradient-custom">
-        <div class="container py-5">
-          <div class="row d-flex justify-content-center my-4">
-            <div class="col-md-8">
-              <div class="card mb-4">
-                <div class="card-header py-3">
-                  <h5 class="mb-0"><%=prodctLength%>item </h5>
-                </div>
-                <% Carts.forEach(ele=>{ %>
-                <div class="card-body">
-                  <!-- Single item -->
-                  <div class="row">
-                    <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
-                      <!-- Image -->
-                      <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
-                       <a href=""> <img src="/productimages/<%=ele.productId.images[0]%>" 
-                          class="w-100" alt="Blue Jeans Jacket" /></a>
-                        <a href="#!">
-                          <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
-                        </a>
-                      </div>
-                      <!-- Image -->
+      <div class="container py-5">
+        <div class="row d-flex justify-content-center my-4">
+          <div class="col-md-8">
+            <div class="card mb-4">
+              <div class="card-header py-3">
+                <h5 class="mb-0"><%=prodctLength%>item</h5>
+              </div>
+              <% Carts.forEach(ele=>{ %>
+              <div class="card-body">
+                <!-- Single item -->
+                <div class="row">
+                  <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
+                    <!-- Image -->
+                    <div
+                      class="bg-image hover-overlay hover-zoom ripple rounded"
+                      data-mdb-ripple-color="light"
+                    >
+                      <a href="">
+                        <img
+                          src="/productimages/<%=ele.productId.images[0]%>"
+                          class="w-100"
+                          alt="Blue Jeans Jacket"
+                      /></a>
+                      <a href="#!">
+                        <div
+                          class="mask"
+                          style="background-color: rgba(251, 251, 251, 0.2)"
+                        ></div>
+                      </a>
                     </div>
-      
-                    <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
-                      <!-- Data -->
-                      <p><strong><%-ele.productId.productName-%></strong></p>
-                      <p><%-ele.productId.Specification1-%></p>
-                      <p><%-ele.productId.BrandName-%></p>
-                      <p><span class="h5">₹<%-ele.productId.DiscountAmount-%></span><del class="h7">₹<%-ele.productId.Price-%></del></p>
-                      <button type="button" onclick="removecartprodct('<%-ele.productId._id-%>')" class="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
-                        title="Remove item">
-                        <i class="fas fa-trash"></i>
-                      </button>
-                      <button type="button" class="btn btn-danger btn-sm mb-2" data-mdb-toggle="tooltip"
-                        title="Move to the wish list" onclick="addTowishlist('<%-ele.productId._id-%>')">
-                        <i class="fas fa-heart"></i>
-                      </button>
-                      <!-- Data -->
-                    </div>
-      
-                    
-                    <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
-                      <small id="msg"></small> 
-                      <!-- Quantity -->
-                      <div class="d-flex mb-4" style="max-width: 300px; margin-top: 91px;">
-                        
-                        <button class="btn btn-primary px-3 me-2"  style="height: 38px;"  onclick="updateQuantity(-1,'<%-ele.productId._id-%>','<%-ele.quantity-%>','<%-ele._id-%>')"
-                         
-                          <% if (ele.quantity===1) { %>disabled<% } %>>-
-                          
-                        </button>
-                    
-                        <div class="form-outline">
-                          <input id="quantityInput" min="1" name="quantity" value="<%-ele.quantity-%>" type="number" class="form-control" />
-                          <label class="form-label" for="quantityInput">Quantity</label>
-                        </div>
-                    
-                        <button class="btn btn-primary px-3 ms-2" style="height: 38px;"   onclick="updateQuantity(+1,'<%-ele.productId._id-%>','<%-ele.quantity-%>','<%-ele._id-%>')"
-                          <% if (ele.quantity===3) { %>disabled<% } %>>+
-                         
-                        </button>
-                      </div>
-                      <!-- Quantity -->
-                      <!-- Quantity -->
-      
-                      <!-- Price -->
-                      <p class="text-start text-md-center">
-                        <strong></strong>
-                      </p>
-                      <!-- Price -->
-                    </div>
+                    <!-- Image -->
                   </div>
-                  <!-- Single item -->
-      
-                  <hr class="my-4" />
-      
-                  <!-- Single item -->
-                
-                  <!-- Single item -->
+
+                  <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
+                    <!-- Data -->
+                    <p><strong><%-ele.productId.productName-%></strong></p>
+                    <p><%-ele.productId.Specification1-%></p>
+                    <p><%-ele.productId.BrandName-%></p>
+                    <p>
+                      <span class="h5">₹<%-ele.productId.DiscountAmount-%></span
+                      ><del class="h7">₹<%-ele.productId.Price-%></del>
+                    </p>
+                    <button
+                      type="button"
+                      onclick="removecartprodct('<%-ele.productId._id-%>')"
+                      class="btn btn-primary btn-sm me-1 mb-2"
+                      data-mdb-toggle="tooltip"
+                      title="Remove item"
+                    >
+                      <i class="fas fa-trash"></i>
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-danger btn-sm mb-2"
+                      data-mdb-toggle="tooltip"
+                      title="Move to the wish list"
+                      onclick="addTowishlist('<%-ele.productId._id-%>')"
+                    >
+                      <i class="fas fa-heart"></i>
+                    </button>
+                    <!-- Data -->
+                  </div>
+
+                  <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                    <small id="msg"></small>
+                    <!-- Quantity -->
+                    <div
+                      class="d-flex mb-4"
+                      style="max-width: 300px; margin-top: 91px"
+                    >
+                      <button
+                        class="btn btn-primary px-3 me-2"
+                        style="height: 38px"
+                        onclick="updateQuantity(-1,'<%-ele.productId._id-%>','<%-ele.quantity-%>','<%-ele._id-%>')"
+                      >
+                        -
+                      </button>
+
+                      <div class="form-outline">
+                        <input
+                          id="quantityInput-<%-ele.productId._id-%>"
+                          min="1"
+                          name="quantity"
+                          value="<%-ele.quantity-%>"
+                          type="number"
+                          class="form-control"
+                          readonly
+                        />
+                        <label class="form-label" for="quantityInput"
+                          >Quantity</label
+                        >
+                      </div>
+
+                      <button
+                        class="btn btn-primary px-3 ms-2"
+                        style="height: 38px"
+                        onclick="updateQuantity(+1,'<%-ele.productId._id-%>','<%-ele.quantity-%>','<%-ele._id-%>')"
+                      >
+                        +
+                      </button>
+                    </div>
+                    <!-- Quantity -->
+                    <!-- Quantity -->
+
+                    <!-- Price -->
+                    <p class="text-start text-md-center">
+                      <strong></strong>
+                    </p>
+                    <!-- Price -->
+                  </div>
                 </div>
-                <% }) %>
-               
+                <!-- Single item -->
+
+                <hr class="my-4" />
+
+                <!-- Single item -->
+
+                <!-- Single item -->
               </div>
-              <div class="card mb-4">
-                <div class="card-body">
-                  <p><strong>Expected shipping delivery</strong></p>
-                  <p class="mb-0">12.10.2020 - 14.10.2020</p>
-                </div>
-              </div>
-              <div class="card mb-4 mb-lg-0">
-                <div class="card-body">
-                  <p><strong>We accept</strong></p>
-                  <img class="me-2" width="45px"
-                    src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/visa.svg"
-                    alt="Visa" />
-                  <img class="me-2" width="45px"
-                    src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/amex.svg"
-                    alt="American Express" />
-                  <img class="me-2" width="45px"
-                    src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/mastercard.svg"
-                    alt="Mastercard" />
-                  <img class="me-2" width="45px"
-                    src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce/includes/gateways/paypal/assets/images/paypal.webp"
-                    alt="PayPal acceptance mark" />
-                </div>
+              <% }) %>
+            </div>
+            <div class="card mb-4">
+              <div class="card-body">
+                <p><strong>Expected shipping delivery</strong></p>
+                <p class="mb-0">12.10.2020 - 14.10.2020</p>
               </div>
             </div>
-            <div class="col-md-4">
-              <div class="card mb-4">
-                <div class="card-header py-3">
-                  <h5 class="mb-0">Summary</h5>
-                </div>
-                <div class="card-body">
-                  <ul class="list-group list-group-flush">
-                    <li
-                      class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-                      Price (1 item)
-                      <span><%=total%></span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                      Dicount
-                      <span>-<%=totalDiscount%></span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                      Delivery charge
-                      <span>40</span>
-                    </li>
+            <div class="card mb-4 mb-lg-0">
+              <div class="card-body">
+                <p><strong>We accept</strong></p>
+                <img
+                  class="me-2"
+                  width="45px"
+                  src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/visa.svg"
+                  alt="Visa"
+                />
+                <img
+                  class="me-2"
+                  width="45px"
+                  src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/amex.svg"
+                  alt="American Express"
+                />
+                <img
+                  class="me-2"
+                  width="45px"
+                  src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/mastercard.svg"
+                  alt="Mastercard"
+                />
+                <img
+                  class="me-2"
+                  width="45px"
+                  src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce/includes/gateways/paypal/assets/images/paypal.webp"
+                  alt="PayPal acceptance mark"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card mb-4">
+              <div class="card-header py-3">
+                <h5 class="mb-0">Summary</h5>
+              </div>
+              <div class="card-body">
+                <ul class="list-group list-group-flush">
+                  <li
+                    class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0"
+                  >
+                    Price (1 item)
+                    <span id="total"><%=total%></span>
+                  </li>
+                  <li
+                    class="list-group-item d-flex justify-content-between align-items-center px-0"
+                  >
+                    Dicount
+                    <span id="totalDiscount">-<%=totalDiscount%></span>
+                  </li>
+                  <li
+                    class="list-group-item d-flex justify-content-between align-items-center px-0"
+                  >
+                    Delivery charge
+                    <span>40</span>
+                  </li>
 
                   <li
-                      class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
-                      <div>
-                        <strong>Total amount</strong>
-                        <strong>
-                          <!-- <p class="mb-0">(including VAT)</p> -->
-                        </strong>
-                      </div>
-                      <span><strong><%=grandtotal%></strong></span>
-                    </li>
-                  </ul>
-                 
-                  <a href="/checkoutpage"><button type="button" class="btn btn-primary btn-lg btn-block">
-                    Go to checkout
-                  </button></a>
-                </div>
+                    class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3"
+                  >
+                    <div>
+                      <strong>Total amount</strong>
+                      <strong>
+                        <!-- <p class="mb-0">(including VAT)</p> -->
+                      </strong>
+                    </div>
+                    <span
+                      ><strong id="grandtotal"><%=grandtotal%></strong></span
+                    >
+                  </li>
+                </ul>
+
+                <a
+                  href="/checkoutpage"
+                  class="btn btn-primary btn-lg btn-block"
+                  id="placeOrderBtn"
+                >
+                  Go to checkout</a
+                >
               </div>
             </div>
           </div>
         </div>
-        <!-- </section> -->
-      </section>
-      <% }%>
-      <br>
-      
-      
-    
-
-   <!-- Remove the container if you want to extend the Footer to full width. -->
-<div class="container-fluid my-5" >
-  <!-- Footer -->
-  <footer
-          class="text-center text-lg-start text-dark"
-          style="background-color: #ECEFF1"
-          >
-    <!-- Section: Social media -->
-    <section
-             class="d-flex justify-content-between p-4 text-white"
-             style="background-color: #ffc107"
-             >
-      <!-- Left -->
-      <div class="me-5">
-        <span>Get connected with us on social networks:</span>
       </div>
-      <!-- Left -->
-
-      <!-- Right -->
-      <div>
-        <a href="" class="text-white me-4">
-          <i class="fab fa-facebook-f"></i>
-        </a>
-        <a href="" class="text-white me-4">
-          <i class="fab fa-twitter"></i>
-        </a>
-        <a href="" class="text-white me-4">
-          <i class="fab fa-google"></i>
-        </a>
-        <a href="" class="text-white me-4">
-          <i class="fab fa-instagram"></i>
-        </a>
-        <a href="" class="text-white me-4">
-          <i class="fab fa-linkedin"></i>
-        </a>
-        <a href="" class="text-white me-4">
-          <i class="fab fa-github"></i>
-        </a>
-      </div>
-      <!-- Right -->
+      <!-- </section> -->
     </section>
-    <!-- Section: Social media -->
+    <% }%>
+    <br />
 
-    <!-- Section: Links  -->
-    <section class="">
-      <div class="container text-center text-md-start mt-5">
-        <!-- Grid row -->
-        <div class="row mt-3">
-          <!-- Grid column -->
-          <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
-            <!-- Content -->
-            <h6 class="text-uppercase fw-bold">Trend-Vista</h6>
-            <hr
-                class="mb-4 mt-0 d-inline-block mx-auto"
-                style="width: 60px; background-color: #7c4dff; height: 2px"
-                />
-            <p>
-              Here, assistance is available, so please use it appropriately and contact our customer care for further support.
-            </p>
-          </div>
-          <!-- Grid column -->
-
-          <!-- Grid column -->
-          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-            <!-- Links -->
-            <h6 class="text-uppercase fw-bold">Products</h6>
-            <hr
-                class="mb-4 mt-0 d-inline-block mx-auto"
-                style="width: 60px; background-color: #7c4dff; height: 2px"
-                />
-            <p>
-              <a href="#!" class="text-dark">I Phone</a>
-            </p>
-            <p>
-              <a href="#!" class="text-dark">Redmi</a>
-            </p>
-            <p>
-              <a href="#!" class="text-dark">Realme</a>
-            </p>
-            <p>
-              <a href="#!" class="text-dark">Oppo </a>
-            </p>
-          </div>
-          <!-- Grid column -->
-
-          <!-- Grid column -->
-          <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-            <!-- Links -->
-            <h6 class="text-uppercase fw-bold">Useful links</h6>
-            <hr
-                class="mb-4 mt-0 d-inline-block mx-auto"
-                style="width: 60px; background-color: #7c4dff; height: 2px"
-                />
-            <p>
-              <a href="#!" class="text-dark">Your Account</a>
-            </p>
-            <p>
-              <a href="#!" class="text-dark">Become an Affiliate</a>
-            </p>
-            <p>
-              <a href="#!" class="text-dark">Shipping Rates</a>
-            </p>
-            <p>
-              <a href="#!" class="text-dark">Help</a>
-            </p>
-          </div>
-          <!-- Grid column -->
-
-          <!-- Grid column -->
-          <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
-            <!-- Links -->
-            <h6 class="text-uppercase fw-bold">Contact</h6>
-            <hr
-                class="mb-4 mt-0 d-inline-block mx-auto"
-                style="width: 60px; background-color: #7c4dff; height: 2px"
-                />
-            <p><i class="fas fa-home mr-3"></i> New York, NY 10012, US</p>
-            <p><i class="fas fa-envelope mr-3"></i> trendvista.com</p>
-            <p><i class="fas fa-phone mr-3"></i> + 01 234 567 88</p>
-            <p><i class="fas fa-print mr-3"></i> + 01 234 567 89</p>
-          </div>
-          <!-- Grid column -->
-        </div>
-        <!-- Grid row -->
-      </div>
-    </section>
-    <!-- Section: Links  -->
-
-    <!-- Copyright -->
-    <div
-         class="text-center p-3"
-         style="background-color: rgba(0, 0, 0, 0.2)"
-         >
-      © 2020 Copyright:
-      <a class="text-dark" href="#"
-         >Trend-Vista.com</a
+    <!-- Remove the container if you want to extend the Footer to full width. -->
+    <div class="container-fluid my-5">
+      <!-- Footer -->
+      <footer
+        class="text-center text-lg-start text-dark"
+        style="background-color: #eceff1"
+      >
+        <!-- Section: Social media -->
+        <section
+          class="d-flex justify-content-between p-4 text-white"
+          style="background-color: #ffc107"
         >
+          <!-- Left -->
+          <div class="me-5">
+            <span>Get connected with us on social networks:</span>
+          </div>
+          <!-- Left -->
+
+          <!-- Right -->
+          <div>
+            <a href="" class="text-white me-4">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="" class="text-white me-4">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="" class="text-white me-4">
+              <i class="fab fa-google"></i>
+            </a>
+            <a href="" class="text-white me-4">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="" class="text-white me-4">
+              <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="" class="text-white me-4">
+              <i class="fab fa-github"></i>
+            </a>
+          </div>
+          <!-- Right -->
+        </section>
+        <!-- Section: Social media -->
+
+        <!-- Section: Links  -->
+        <section class="">
+          <div class="container text-center text-md-start mt-5">
+            <!-- Grid row -->
+            <div class="row mt-3">
+              <!-- Grid column -->
+              <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                <!-- Content -->
+                <h6 class="text-uppercase fw-bold">Trend-Vista</h6>
+                <hr
+                  class="mb-4 mt-0 d-inline-block mx-auto"
+                  style="width: 60px; background-color: #7c4dff; height: 2px"
+                />
+                <p>
+                  Here, assistance is available, so please use it appropriately
+                  and contact our customer care for further support.
+                </p>
+              </div>
+              <!-- Grid column -->
+
+              <!-- Grid column -->
+              <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                <!-- Links -->
+                <h6 class="text-uppercase fw-bold">Products</h6>
+                <hr
+                  class="mb-4 mt-0 d-inline-block mx-auto"
+                  style="width: 60px; background-color: #7c4dff; height: 2px"
+                />
+                <p>
+                  <a href="#!" class="text-dark">I Phone</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-dark">Redmi</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-dark">Realme</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-dark">Oppo </a>
+                </p>
+              </div>
+              <!-- Grid column -->
+
+              <!-- Grid column -->
+              <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                <!-- Links -->
+                <h6 class="text-uppercase fw-bold">Useful links</h6>
+                <hr
+                  class="mb-4 mt-0 d-inline-block mx-auto"
+                  style="width: 60px; background-color: #7c4dff; height: 2px"
+                />
+                <p>
+                  <a href="#!" class="text-dark">Your Account</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-dark">Become an Affiliate</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-dark">Shipping Rates</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-dark">Help</a>
+                </p>
+              </div>
+              <!-- Grid column -->
+
+              <!-- Grid column -->
+              <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                <!-- Links -->
+                <h6 class="text-uppercase fw-bold">Contact</h6>
+                <hr
+                  class="mb-4 mt-0 d-inline-block mx-auto"
+                  style="width: 60px; background-color: #7c4dff; height: 2px"
+                />
+                <p><i class="fas fa-home mr-3"></i> New York, NY 10012, US</p>
+                <p><i class="fas fa-envelope mr-3"></i> trendvista.com</p>
+                <p><i class="fas fa-phone mr-3"></i> + 01 234 567 88</p>
+                <p><i class="fas fa-print mr-3"></i> + 01 234 567 89</p>
+              </div>
+              <!-- Grid column -->
+            </div>
+            <!-- Grid row -->
+          </div>
+        </section>
+        <!-- Section: Links  -->
+
+        <!-- Copyright -->
+        <div
+          class="text-center p-3"
+          style="background-color: rgba(0, 0, 0, 0.2)"
+        >
+          © 2020 Copyright:
+          <a class="text-dark" href="#">Trend-Vista.com</a>
+        </div>
+        <!-- Copyright -->
+      </footer>
+      <!-- Footer -->
     </div>
-    <!-- Copyright -->
-  </footer>
-  <!-- Footer -->
-</div>
-<!-- End of .container -->
+    <!-- End of .container -->
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-
-
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-<!-- 
+    <!-- 
 <% if (locals.logout) { %>
   <script>
       alert("Log out succesfully")
@@ -463,17 +538,15 @@ background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 
           </script>
           <% } %> -->
 
+    <!-- jQuery -->
+    <!-- <script src="/js/jquery-2.1.0.min.js"></script>  -->
 
-
-              <!-- jQuery -->
-              <!-- <script src="/js/jquery-2.1.0.min.js"></script>  -->
-
-              <!-- Bootstrap -->
-              <!-- <script src="/js/popper.js"></script>
+    <!-- Bootstrap -->
+    <!-- <script src="/js/popper.js"></script>
               <script src="/js/bootstrap.min.js"></script> -->
 
-              <!-- Plugins -->
-              <!-- <script src="/js/owl-carousel.js"></script>
+    <!-- Plugins -->
+    <!-- <script src="/js/owl-carousel.js"></script>
               <script src="/js/accordions.js"></script>
               <script src="/js/datepicker.js"></script>
               <script src="/js/scrollreveal.min.js"></script>
@@ -484,70 +557,67 @@ background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 
               <script src="/js/lightbox.js"></script>
               <script src="/js/isotope.js"></script> -->
 
-              Global Init
-              <script src="/js/custom.js"></script>
+    Global Init
+    <script src="/js/custom.js"></script>
 
-              <script>
+    <script>
+      $(function () {
+        var selectedClass = "";
+        $("p").click(function () {
+          selectedClass = $(this).attr("data-rel");
+          $("#portfolio").fadeTo(50, 0.1);
+          $("#portfolio div")
+            .not("." + selectedClass)
+            .fadeOut();
+          setTimeout(function () {
+            $("." + selectedClass).fadeIn();
+            $("#portfolio").fadeTo(50, 1);
+          }, 500);
+        });
+      });
 
-                  $(function () {
-                      var selectedClass = "";
-                      $("p").click(function () {
-                          selectedClass = $(this).attr("data-rel");
-                          $("#portfolio").fadeTo(50, 0.1);
-                          $("#portfolio div").not("." + selectedClass).fadeOut();
-                          setTimeout(function () {
-                              $("." + selectedClass).fadeIn();
-                              $("#portfolio").fadeTo(50, 1);
-                          }, 500);
+      $(document).ready(function () {
+        $("#placeOrderBtn").click(function (event) {
+          event.preventDefault(); // Prevent default behavior of the link
 
-                      });
-                  });
+          // Reload the current page
+          // location.reload();
 
-              </script>
-                  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-                  <script>
-                      function confirmLogout() {
-                          Swal.fire({
-                              title: 'Are you sure you want to logout?',
-                              icon: 'question',
-                              showCancelButton: true,
-                              confirmButtonColor: '#3085d6',
-                              cancelButtonColor: '#d33',
-                              confirmButtonText: 'Yes, logout!',
-                          }).then((result) => {
-                              if (result.isConfirmed) {
-                                  window.location.href = '/logout';
-                              }
-                          });
-                      }
-                  </script>
-               
-                
-                  
-              
+          // Redirect to /checkout after a short delay
+          setTimeout(function () {
+            location.href = "/checkoutpage";
+          }, 100); // Adjust delay as needed
+        });
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-
-
-
-
-              <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-                  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-                  crossorigin="anonymous"></script>
-              <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-                  integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
-                  crossorigin="anonymous"></script>
-              <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-                  integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
-                  crossorigin="anonymous"></script>
-
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+      integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+      integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+      crossorigin="anonymous"
+    ></script>
 
     <!-- Bootstrap JavaScript and Popper.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-    integrity="sha384-sZBJY3n9QFiOfj0z8wA54PzxN+FdoZ9wea4z+9rrpJKY1cZ3gWAg7jPV6BD1KqVd"
-    crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-    integrity="sha384-A1DlJ1RQyZR6WjqJOQoKsU97A1HAj/poo/n8mzKbkgsQPZsJ8B9z9xgv76fqcQ1"
-    crossorigin="anonymous"></script>
-
-</body>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-sZBJY3n9QFiOfj0z8wA54PzxN+FdoZ9wea4z+9rrpJKY1cZ3gWAg7jPV6BD1KqVd"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+      integrity="sha384-A1DlJ1RQyZR6WjqJOQoKsU97A1HAj/poo/n8mzKbkgsQPZsJ8B9z9xgv76fqcQ1"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>

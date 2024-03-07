@@ -12,7 +12,12 @@ module.exports = {
 
       const data = {
         customize: {},
-        images: {},
+        images: {
+          logo: fs.readFileSync(
+            path.join(__dirname, "..", "public", "assets", "logoname.jpg"),
+            "base64"
+          ),
+        },
         sender: {
           company: "Trend-Vista",
           address: "1650 Khan Market,New Delhi,FL 33160, India",

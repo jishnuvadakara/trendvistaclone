@@ -11,11 +11,15 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
     />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <style>
       #myBtn {
         display: none;
@@ -36,66 +40,6 @@
       #myBtn:hover {
         background-color: #555;
       }
-
-      .modal-content {
-        border-radius: 0;
-        border: none;
-        min-height: 337px;
-      }
-
-      .modal.left .modal-dialog {
-        position: fixed;
-        right: 0;
-        margin: auto;
-        width: 320px;
-        height: 100%;
-        -webkit-transform: translate3d(0%, 0, 0);
-        -ms-transform: translate3d(0%, 0, 0);
-        -o-transform: translate3d(0%, 0, 0);
-        transform: translate3d(0%, 0, 0);
-      }
-
-      .modal.left .modal-content {
-        height: 100%;
-        overflow-y: auto;
-      }
-
-      .modal.right .modal-body {
-        padding: 15px 15px 80px;
-      }
-
-      .modal.right.fade .modal-dialog {
-        left: -320px;
-        -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
-        -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
-        -o-transition: opacity 0.3s linear, left 0.3s ease-out;
-        transition: opacity 0.3s linear, left 0.3s ease-out;
-      }
-
-      .modal.right.fade.show .modal-dialog {
-        right: 0;
-      }
-
-      body {
-        background-color: #78909c;
-      }
-
-      .demo {
-        padding-top: 60px;
-        padding-bottom: 110px;
-      }
-
-      .btn-demo {
-        margin: 15px;
-        padding: 10px 15px;
-        border-radius: 0;
-        font-size: 16px;
-        background-color: #ffffff;
-      }
-
-      .btn-demo:focus {
-        outline: 0;
-      }
     </style>
   </head>
   <body>
@@ -105,11 +49,10 @@
       title="Go to top"
       type="button"
       class="btn btn-demo"
-      style="display: none"
+      style="display: block"
     >
-      Top
+      Feedback
     </button>
-
     <div style="height: 1000px">
       <h1>
         <div>
@@ -117,81 +60,166 @@
         </div>
       </h1>
     </div>
-
-    <div
-      class="modal left fade"
-      id="exampleModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-      data-bs-backdrop="static"
-      data-bs-keyboard="false"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-body">
-            <div class="nav flex-sm-column flex-row">
-              <a class="nav-item nav-link active" href="#">Home</a>
-              <a href="#" class="nav-item nav-link">Link</a>
-              <a href="#" class="nav-item nav-link">Link</a>
-              <a href="#" class="nav-item nav-link">Link</a>
+    <div class="container demo">
+      <div
+        class="modal right fade"
+        id="exampleModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content" style="background-color: gainsboro;">
+            <div class="modal-body">
+              <h5>Feedback Form</h5>
+              <form>
+                <div
+                  id="panelsStayOpen-collapseFive"
+                  class="accordion-collapse collapse show"
+                  aria-labelledby="headingThree"
+                >
+                  <div class="accordion-body">
+              
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="rating"
+                        id="flexRadioDefault1"
+                        value="5"
+                      />
+                      <label class="form-check-label" for="flexRadioDefault1">
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                      </label>
+                    </div>
+             
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="rating"
+                        id="flexRadioDefault2"
+                        value="4"
+                      />
+                      <label class="form-check-label" for="flexRadioDefault2">
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-secondary"></i>
+                      </label>
+                    </div>
+               
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="rating"
+                        id="flexRadioDefault3"
+                        value="3"
+                      />
+                      <label class="form-check-label" for="flexRadioDefault3">
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-secondary"></i>
+                        <i class="fas fa-star text-secondary"></i>
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="rating"
+                        id="flexRadioDefault4"
+                        value="2"
+                      />
+                      <label class="form-check-label" for="flexRadioDefault4">
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-secondary"></i>
+                        <i class="fas fa-star text-secondary"></i>
+                        <i class="fas fa-star text-secondary"></i>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="feedbackTextarea" class="form-label"
+                    >Your Feedback</label
+                  >
+                  <textarea
+                    class="form-control"
+                    id="feedbackTextarea"
+                    rows="3"
+                  ></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              onclick="closeModal()"
-            >
-              Close
-            </button>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                onclick="closeModal()"
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
-   
     <script>
-     function openModal() {
-    var buttonPosition = $("#myBtn").offset();
-    var modalHeight = 337;
-    $("#exampleModal").css({
-      top: buttonPosition.top + "px",
-      left: buttonPosition.left + "px",
-      height: modalHeight + "px",
-    });
-    $("#exampleModal").modal("show");
-  }
+      function openModal() {
+        $("#exampleModal").modal("show");
+      }
+      function closeModal() {
+        $("#exampleModal").modal("hide");
+      }
 
-  function closeModal() {
-    $("#exampleModal").modal("hide");
-  }
+      window.addEventListener("scroll", function () {
+        var mybutton = document.getElementById("myBtn");
+        if (window.scrollY > 100) {
+          mybutton.style.display = "block";
+        } else {
+          mybutton.style.display = "none";
+        }
+      });
 
-  window.addEventListener("scroll", function () {
-    var mybutton = document.getElementById("myBtn");
-    if (window.scrollY > 100) {
-      mybutton.style.display = "block";
-    } else {
-      mybutton.style.display = "none";
-    }
-  });
-
-  function topFunction() {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
+      function topFunction() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
     </script>
   </body>
 </html> -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+    crossorigin="anonymous"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
   <style>
@@ -214,6 +242,10 @@
     #myBtn:hover {
       background-color: #555;
     }
+
+    #wordCount {
+      color: red;
+    }
   </style>
 </head>
 <body>
@@ -225,7 +257,7 @@
     class="btn btn-demo"
     style="display: block"
   >
-    Top
+    Feedback
   </button>
   <div style="height: 1000px">
     <h1>
@@ -236,27 +268,89 @@
   </div>
   <div class="container demo">
     <div
-      class="modal left fade"
+      class="modal right fade"
       id="exampleModal"
       tabindex="-1"
       role="dialog"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
-      data-bs-backdrop="static"
+      data-bs-backdrop="static" 
       data-bs-keyboard="false"
     >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="background-color: gainsboro;">
           <div class="modal-body">
-            <div class="nav flex-sm-column flex-row">
-              <a class="nav-item nav-link active" href="#">Home</a>
-              <a href="#" class="nav-item nav-link">Link</a>
-              <a href="#" class="nav-item nav-link">Link</a>
-              <a href="#" class="nav-item nav-link">Link</a>
-            </div>
+            <h5>Feedback Form</h5>
+            <form>
+              <div
+                id="panelsStayOpen-collapseFive"
+                class="accordion-collapse collapse show"
+                aria-labelledby="headingThree"
+              >
+                <div class="accordion-body">
+                  <!-- Default radio buttons -->
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="rating" id="flexRadioDefault1" value="5">
+                    <label class="form-check-label" for="flexRadioDefault1">
+                      <i class="fas fa-star text-warning"></i>
+                      <i class="fas fa-star text-warning"></i>
+                      <i class="fas fa-star text-warning"></i>
+                      <i class="fas fa-star text-warning"></i>
+                      <i class="fas fa-star text-warning"></i>
+                    </label>
+                  </div>
+                  <!-- Default radio buttons -->
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="rating" id="flexRadioDefault2" value="4">
+                    <label class="form-check-label" for="flexRadioDefault2">
+                      <i class="fas fa-star text-warning"></i>
+                      <i class="fas fa-star text-warning"></i>
+                      <i class="fas fa-star text-warning"></i>
+                      <i class="fas fa-star text-warning"></i>
+                      <i class="fas fa-star text-secondary"></i>
+                    </label>
+                  </div>
+                  <!-- Default radio buttons -->
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="rating" id="flexRadioDefault3" value="3">
+                    <label class="form-check-label" for="flexRadioDefault3">
+                      <i class="fas fa-star text-warning"></i>
+                      <i class="fas fa-star text-warning"></i>
+                      <i class="fas fa-star text-warning"></i>
+                      <i class="fas fa-star text-secondary"></i>
+                      <i class="fas fa-star text-secondary"></i>
+                    </label>
+                  </div>
+                  <!-- Default radio buttons -->
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="rating" id="flexRadioDefault4" value="2">
+                    <label class="form-check-label" for="flexRadioDefault4">
+                      <i class="fas fa-star text-warning"></i>
+                      <i class="fas fa-star text-warning"></i>
+                      <i class="fas fa-star text-secondary"></i>
+                      <i class="fas fa-star text-secondary"></i>
+                      <i class="fas fa-star text-secondary"></i>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="feedbackTextarea" class="form-label"
+                  >Your Feedback (Limit: 100 words)</label
+                >
+                <textarea
+                  class="form-control"
+                  id="feedbackTextarea"
+                  rows="3"
+                  oninput="countWords()"
+                ></textarea>
+                <div id="wordCount">0/100 words</div>
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
           </div>
           <div class="modal-footer">
-           <button
+            <button
               type="button"
               class="btn btn-secondary"
               onclick="closeModal()"
@@ -268,17 +362,33 @@
       </div>
     </div>
   </div>
-   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     function openModal() {
-      $('#exampleModal').modal('show');
+      $("#exampleModal").modal("show");
     }
     function closeModal() {
-    $("#exampleModal").modal("hide");
-  }
+      $("#exampleModal").modal("hide");
+    }
 
-    window.addEventListener("scroll", function() {
+    // Close modal when clicking outside of it
+    window.addEventListener('click', function (event) {
+      var modal = document.getElementById('exampleModal');
+      if (event.target === modal) {
+        closeModal();
+      }
+    });
+
+    function countWords() {
+      var words = document.getElementById("feedbackTextarea").value.trim().split(/\s+/).length;
+      var wordCountElement = document.getElementById("wordCount");
+      if (words <= 100) {
+        wordCountElement.textContent = words + "/100 words";
+      } else {
+        document.getElementById("feedbackTextarea").value = document.getElementById("feedbackTextarea").value.split(/\s+/).slice(0, 100).join(" ");
+      }
+    }
+
+    window.addEventListener("scroll", function () {
       var mybutton = document.getElementById("myBtn");
       if (window.scrollY > 100) {
         mybutton.style.display = "block";

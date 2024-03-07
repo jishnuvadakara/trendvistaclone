@@ -3,7 +3,7 @@
 
  
 
-<form action="/admin/addproducts" method="post" enctype="multipart/form-data">
+<form action="/admin/addproducts" method="post" enctype="multipart/form-data"   id="productForm">
     <div class="container">
     <div class="row p-3 d-flex justify-content-center align-items-center shadow-sm mt-4" style="border-radius: 15px;">
        
@@ -86,11 +86,11 @@
   
             <div class="d-flex justify-content-center align-items-center" >
                
-                <!-- <input type="file" name="images1" id="imageInput1" accept="image/*" onchange="change(event,1)"
-                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" oninput="validateImage('imageInput1',1)" required> -->
-                <!-- <input type="file" name="images2" id="imageInput2" accept="image/*" onchange="change(event,2)"
-                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" oninput="validateImage('imageInput2',2)" required> -->
-                     <input
+                <input type="file" name="images1" id="imageInput1" accept="image/*" onchange="change(event,1)"
+                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" oninput="validateImage('imageInput1',1)" required>
+                <input type="file" name="images2" id="imageInput2" accept="image/*" onchange="change(event,2)"
+                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" oninput="validateImage('imageInput2',2)" required>
+                     <!-- <input
                 type="file"
                 name="images1"
                 id="images1"
@@ -118,16 +118,16 @@
                   padding-left: 5px;
                 "
                 required
-              />
+              /> -->
             </div>
             <br>
             <div class="d-flex justify-content-center align-items-center">
-                <!-- <input type="file" name="images3" id="imageInput3" accept="image/*" oninput="validateImage('imageInput3',3)" onchange="change(event,3)"
+                <input type="file" name="images3" id="imageInput3" accept="image/*" oninput="validateImage('imageInput3',3)" onchange="change(event,3)"
                     style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px; margin-right: 4%;" required>
                 
                 <input type="file" name="images4" id="imageInput4" accept="image/*" oninput="validateImage('imageInput4',4)" onchange="change(event,4)"
-                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" required> -->
-                     <input
+                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" required>
+                     <!-- <input
                 type="file"
                 name="images3"
                 id="images3"
@@ -155,7 +155,7 @@
                   padding-left: 5px;
                 "
                 required
-              />
+              /> -->
             </div>
             <div class="d-flex justify-content-center p-3">
                <div
@@ -295,14 +295,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
 
   <script>
-    // function change(event,no){
-    //     console.log("this is oke or ok");
-    //     document.getElementById(`imagePreview${no}`).src=URL.createObjectURL(event.target.files[0])
-    // }
+    function change(event,no){
+        console.log("this is oke or ok");
+        document.getElementById(`imagePreview${no}`).src=URL.createObjectURL(event.target.files[0])
+    }
 
     function validation(id){
-        console.log("yes workign");
-        console.log(id);
+        // console.log("yes workign");
+        // console.log(id);
         const submitButton=document.getElementById('submit')
         const errorMsg=document.getElementById('err1')
         var val=document.getElementById(''+id).value
@@ -357,165 +357,514 @@
 
     })
 
-    //  $(document).ready(function () {
-    //     var bs_modal = $("#modal");
-    //     var image = document.getElementById("cropperImage");
-    //     var cropper;
-
-    //     $("#image").change(function (e) {
-    //       var file = e.target.files[0];
-    //       var reader = new FileReader();
-
-    //       reader.onload = function (event) {
-    //         image.src = event.target.result;
-    //         bs_modal.modal("show");
-    //       };
-
-    //       reader.readAsDataURL(file);
-    //     });
-
-    //     bs_modal
-    //       .on("shown.bs.modal", function () {
-    //         cropper = new Cropper(image, {
-    //           aspectRatio: 1,
-    //           viewMode: 3,
-    //           preview: ".preview",
-    //         });
-    //       })
-    //       .on("hidden.bs.modal", function () {
-    //         cropper.destroy();
-    //         cropper = null;
-    //       });
-
-    //     $("#crop").click(function () {
-    //       var canvas = cropper.getCroppedCanvas({
-    //         width: 160,
-    //         height: 160,
-    //       });
-
-    //       canvas.toBlob(function (blob) {
-    //         var formData = new FormData();
-    //         formData.append("image", blob, "cropped_image.png");
-
-    //         $.ajax({
-    //           type: "POST",
-    //           processData: false,
-    //           contentType: false,
-    //           url: "/upload",
-    //           data: formData,
-    //           success: function (response, data) {
-    //             // console.log("Success: ", data);
-    //             Toastify({
-    //               text: response.msg,
-    //               duration: 3000,
-    //               gravity: "top",
-    //               postion: "center",
-    //               backgroundColor: "green",
-    //               stopOnFocus: true,
-    //             }).showToast();
-    //             setTimeout(() => {
-    //               window.location.reload();
-    //             }, 1000);
-
-    //             bs_modal.modal("hide");
-    //           },
-    //           error: function (xhr, status, error) {
-    //             console.error("Error: ", xhr.responseText);
-    //             bs_modal.modal("hide");
-    //           },
-    //         });
-    //       });
-    //     });
-    //   });
+   
   </script>
   
-    <script>
-      $(document).ready(function () {
-        var bs_modal = $("#modal");
-        var croppers = []; 
+    
+<!-- 
+ <script>
 
-        // Function to handle file change and update preview image
-        function change(event, no) {
-          console.log("this is oke or ok");
-          document.getElementById(`imagePreview${no}`).src =
+
+
+
+
+// newwwwww-------------------------------------------------------------------------------------------------------------
+$(document).ready(function () {
+    var bs_modal = $("#modal");
+    var croppers = [];
+
+    // Function to handle file change and update preview image
+    function change(event, no) {
+        console.log("this is oke or ok");
+        document.getElementById(`imagePreview${no}`).src =
             URL.createObjectURL(event.target.files[0]);
-         console.log( document.getElementById(`imagePreview${no}`).src =
-            URL.createObjectURL(event.target.files[0]));
+        console.log(document.getElementById(`imagePreview${no}`).src);
 
-          // Show modal only if it's the first time the corresponding input file is changed
-          if (!croppers[no]) {
+        // Show modal only if it's the first time the corresponding input file is changed
+        if (!croppers[no]) {
             bs_modal.modal("show");
-          }
         }
+    }
 
-        // Event listener for file input change
-        $("input[type=file]").change(function (e) {
-          var fileInput = $(this);
-          var file = e.target.files[0];
-          var reader = new FileReader();
-          var cropperId = fileInput.attr("id").slice(-1);
+    // Event listener for file input change
+    $("input[type=file]").change(function (e) {
+        var fileInput = $(this);
+        var file = e.target.files[0];
+        var reader = new FileReader();
+        var cropperId = fileInput.attr("id").slice(-1);
 
-          reader.onload = function (event) {
+        reader.onload = function (event) {
             // Destroy the previous cropper instance if it exists
             if (croppers[cropperId]) {
-              croppers[cropperId].destroy();
+                croppers[cropperId].destroy();
             }
             var image = document.getElementById("cropperImage");
 
             image.onload = function () {
-              var cropper = new Cropper(image, {
-                aspectRatio: 1,
-                viewMode: 3,
-                preview: ".preview",
-              });
-
-              // Handle cropping
-              $("#crop").click(function () {
-                var canvas = cropper.getCroppedCanvas({
-                  width: 260,
-                  height: 260,
+                var cropper = new Cropper(image, {
+                    aspectRatio: 1,
+                    viewMode: 3,
+                    preview: ".preview",
                 });
 
-                if (canvas) {
-                  canvas.toBlob(function (blob) {
-                    $("#imagePreview" + cropperId).attr(
-                      "src",
-                      URL.createObjectURL(blob)
-                    );
-                     
-                    bs_modal.modal("hide");
-                  });
-                } else {
-                  console.error("Canvas is null or invalid.");
-                  bs_modal.modal("hide");
-                }
-              });
+                // Handle cropping
+               $("#crop").click(function () {
+    var canvas = cropper.getCroppedCanvas({
+        width: 260,
+        height: 260,
+    });
 
-              croppers[cropperId] = cropper;
+    if (canvas) {
+        canvas.toBlob(function (blob) {
+            if (blob) {
+                console.log("Blob created successfully:", blob);
+                // Append the cropped image blob to FormData
+                formData.append(`cropped_image_${cropperId}`, blob, `cropped_image_${cropperId}.png`);
+                bs_modal.modal("hide");
+            } else {
+                console.error("Blob is null or invalid.");
+            }
+        });
+    } else {
+        console.error("Canvas is null or invalid.");
+        bs_modal.modal("hide");
+    }
+});
+
+
+                croppers[cropperId] = cropper;
             };
 
             image.src = event.target.result;
-          };
+            
+        };
 
-          reader.readAsDataURL(file);
+        reader.readAsDataURL(file);
 
-          // Call change function to update preview image and show modal if necessary
-          change(e, cropperId);
+        // Call change function to update preview image and show modal if necessary
+        change(e, cropperId);
+    });
+
+    // Function to handle closing modal
+    bs_modal.on("hidden.bs.modal", function () {
+        // Destroy all croppers
+        croppers.forEach(function (cropper) {
+            cropper.destroy();
+        });
+        croppers = []; // Reset croppers array
+    });
+
+    // Function to handle form submission
+// Function to handle form submission
+// Function to handle form submission
+$("#productForm").submit(function(event) {
+    console.log('Form submitted');
+    event.preventDefault();
+
+    // Create FormData object to collect form data
+    var formData = new FormData(this);
+
+    // Array to hold all Promise objects
+    var promises = [];
+
+    // Loop through croppers and create a Promise for each
+    for (var i = 0; i < croppers.length; i++) {
+        var cropper = croppers[i];
+        var canvas = cropper.getCroppedCanvas();
+        if (canvas) {
+            // Convert canvas to Blob and append the URL to formData
+            promises.push(new Promise(function(resolve, reject) {
+                canvas.toBlob(function(blob) {
+                    if (blob) {
+                        var imageUrl = URL.createObjectURL(blob);
+                        formData.append(`images${i + 1}`, imageUrl);
+                        resolve(); // Resolve the Promise
+                    } else {
+                        reject("Blob is null or invalid."); // Reject if blob is null
+                    }
+                });
+            }));
+        }
+    }
+
+    // Wait for all Promises to resolve
+    Promise.all(promises)
+        .then(function() {
+            console.log("🚀 ~ file: addproduct.ejs:478 ~ formData:", formData);
+
+            // Send AJAX request
+            $.ajax({
+                url: '/admin/addproducts', // Replace with your endpoint URL
+                type: 'POST',
+                data: formData,
+                processData: false, // Prevent jQuery from processing the data
+                contentType: false, // Prevent jQuery from setting the content type
+                success: function(response) {
+                    // Handle successful response
+                    console.log('Success:', response.data);
+                    // Redirect or show a success message as needed
+                },
+                error: function(xhr, status, error) {
+                    // Handle errors
+                    console.error('Error:', error);
+                }
+            });
+        })
+        .catch(function(error) {
+            console.error('Error:', error);
+        });
+});
+
+
+});
+
+
+// $(document).ready(function () {
+//     var bs_modal = $("#modal");
+//     var croppers = [];
+//     var formData = new FormData(); // Initialize FormData object
+
+//     // Function to handle file change and update preview image
+//     function change(event, no) {
+//         console.log("this is oke or ok");
+//         document.getElementById(`imagePreview${no}`).src =
+//             URL.createObjectURL(event.target.files[0]);
+//         console.log(document.getElementById(`imagePreview${no}`).src);
+
+//         // Show modal only if it's the first time the corresponding input file is changed
+//         if (!croppers[no]) {
+//             bs_modal.modal("show");
+//         }
+//     }
+
+//     // Event listener for file input change
+//     $("input[type=file]").change(function (e) {
+//         var fileInput = $(this);
+//         var file = e.target.files[0];
+//         var reader = new FileReader();
+//         var cropperId = fileInput.attr("id").slice(-1);
+
+//         reader.onload = function (event) {
+//             // Destroy the previous cropper instance if it exists
+//             if (croppers[cropperId]) {
+//                 croppers[cropperId].destroy();
+//             }
+//             var image = document.getElementById("cropperImage");
+
+//             image.onload = function () {
+//                 var cropper = new Cropper(image, {
+//                     aspectRatio: 1,
+//                     viewMode: 3,
+//                     preview: ".preview",
+//                 });
+
+//                 // Handle cropping
+//                 $("#crop").click(function () {
+//                     var canvas = cropper.getCroppedCanvas({
+//                         width: 260,
+//                         height: 260,
+//                     });
+
+//                     if (canvas) {
+//                         canvas.toBlob(function (blob) {
+//                             if (blob) {
+//                                 console.log("Blob created successfully:", blob);
+//                                 var imageUrl = URL.createObjectURL(blob); // Convert blob to URL
+//                                 console.log("Image URL:", imageUrl);
+//                                 $("#imagePreview" + cropperId).attr("src", imageUrl);
+                                
+//                                 // Append cropped image URL to FormData
+//                                 formData.append('croppedImage', blob, 'cropped_image.png');
+
+//                                 bs_modal.modal("hide");
+//                             } else {
+//                                 console.error("Blob is null or invalid.");
+//                             }
+//                         });
+//                     } else {
+//                         console.error("Canvas is null or invalid.");
+//                         bs_modal.modal("hide");
+//                     }
+//                 });
+
+//                 croppers[cropperId] = cropper;
+//             };
+
+//             image.src = event.target.result;
+            
+//         };
+
+//         reader.readAsDataURL(file);
+
+//         // Call change function to update preview image and show modal if necessary
+//         change(e, cropperId);
+//     });
+
+//     // Function to handle closing modal
+//     bs_modal.on("hidden.bs.modal", function () {
+//         // Destroy all croppers
+//         croppers.forEach(function (cropper) {
+//             cropper.destroy();
+//         });
+//         croppers = []; // Reset croppers array
+//     });
+
+//     // Event listener for form submission
+//     $('#productForm').submit(function(event) {
+//         console.log('Form submission initiated');
+//         event.preventDefault();
+
+//         // Serialize form data and append it to FormData
+//         var formDataSerialized = $(this).serializeArray();
+//         $.each(formDataSerialized, function (index, item) {
+//             formData.append(item.name, item.value);
+//         });
+
+//         // Send AJAX request
+//         $.ajax({
+//             url: '/admin/addproducts', // Replace with your endpoint URL
+//             type: 'POST',
+//             data: formData,
+//             processData: false,
+//             contentType: false,
+//             success: function(response,data) {
+//            Toastify({
+//         text: response.msg,
+//         duration: 3000,
+//         gravity: "center",
+//         position: "right",
+//         backgroundColor: "green",
+//         stopOnFocus: true,
+//       }).showToast();
+//                 // Handle success
+//             },
+//             error: function(xhr, status, error) {
+//                 console.error('Error:', error);
+//                 // Handle error
+//             }
+//         });
+//     });
+
+// });
+</script> -->
+<!-- <script>
+    $(document).ready(function () {
+        var bs_modal = $("#modal");
+        var croppers = [];
+        var formData = new FormData(); // Initialize FormData object
+
+        // Function to handle file change and update preview image
+        function change(event, no) {
+            console.log("this is oke or ok");
+            document.getElementById(`imagePreview${no}`).src =
+                URL.createObjectURL(event.target.files[0]);
+            console.log(document.getElementById(`imagePreview${no}`).src);
+
+            // Show modal only if it's the first time the corresponding input file is changed
+            if (!croppers[no]) {
+                bs_modal.modal("show");
+            }
+        }
+
+        // Event listener for file input change
+        $("input[type=file]").change(function (e) {
+            var fileInput = $(this);
+            var file = e.target.files[0];
+            var reader = new FileReader();
+            var cropperId = fileInput.attr("id").slice(-1);
+
+            reader.onload = function (event) {
+                // Destroy the previous cropper instance if it exists
+                if (croppers[cropperId]) {
+                    croppers[cropperId].destroy();
+                }
+                var image = document.getElementById("cropperImage");
+
+                image.onload = function () {
+                    var cropper = new Cropper(image, {
+                        aspectRatio: 1,
+                        viewMode: 3,
+                        preview: ".preview",
+                    });
+
+                    // Handle cropping
+                    $("#crop").click(function () {
+                        var canvas = cropper.getCroppedCanvas({
+                            width: 260,
+                            height: 260,
+                        });
+
+                        if (canvas) {
+                            canvas.toBlob(function (blob) {
+                                if (blob) {
+                                    console.log("Blob created successfully:", blob);
+                                    var imageUrl = URL.createObjectURL(blob); // Convert blob to URL
+                                    console.log("Image URL:", imageUrl);
+                                    $("#imagePreview" + cropperId).attr("src", imageUrl);
+                                    
+                                    // Append cropped image blob with the desired name to FormData
+                                    formData.append('croppedImage', blob, 'cropped_image.png');
+
+                                    bs_modal.modal("hide");
+                                } else {
+                                    console.error("Blob is null or invalid.");
+                                }
+                            });
+                        } else {
+                            console.error("Canvas is null or invalid.");
+                            bs_modal.modal("hide");
+                        }
+                    });
+
+                    croppers[cropperId] = cropper;
+                };
+
+                image.src = event.target.result;
+                
+            };
+
+            reader.readAsDataURL(file);
+
+            // Call change function to update preview image and show modal if necessary
+            change(e, cropperId);
         });
 
         // Function to handle closing modal
         bs_modal.on("hidden.bs.modal", function () {
-          // Destroy all croppers
-          croppers.forEach(function (cropper) {
-            cropper.destroy();
-          });
-          croppers = []; // Reset croppers array
+            // Destroy all croppers
+            croppers.forEach(function (cropper) {
+                cropper.destroy();
+            });
+            croppers = []; // Reset croppers array
         });
-      });
-    </script>
+
+        // Event listener for form submission
+        $('#productForm').submit(function(event) {
+            console.log('Form submission initiated');
+            event.preventDefault();
+
+            // Serialize form data and append it to FormData
+            var formDataSerialized = $(this).serializeArray();
+            $.each(formDataSerialized, function (index, item) {
+                console.log("🚀 ~ file: addproduct.ejs:718 ~ item:", item)
+                console.log("🚀 ~ file: addproduct.ejs:718 ~ index:", index)
+                formData.append(item.name, item.value);
+                
+            });
+
+            // Send AJAX request
+            $.ajax({
+                url: '/admin/addproducts', // Replace with your endpoint URL
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    Toastify({
+                        text: response.msg,
+                        duration: 3000,
+                        gravity: "center",
+                        position: "right",
+                        backgroundColor: "green",
+                        stopOnFocus: true,
+                    }).showToast();
+                    // Handle success
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                    // Handle error
+                }
+            });
+        });
+
+    });
+</script> -->
 
 
- 
 
 
 <%-include('../layout/admin/footer.ejs')-%>
+
+
+ <!-- // $(document).ready(function () {
+      //   var bs_modal = $("#modal");
+      //   var croppers = []; 
+
+      //   // Function to handle file change and update preview image
+      //   function change(event, no) {
+      //     console.log("this is oke or ok");
+      //     document.getElementById(`imagePreview${no}`).src =
+      //       URL.createObjectURL(event.target.files[0]);
+      //    console.log( document.getElementById(`imagePreview${no}`).src =
+      //       URL.createObjectURL(event.target.files[0]));
+
+      //     // Show modal only if it's the first time the corresponding input file is changed
+      //     if (!croppers[no]) {
+      //       bs_modal.modal("show");
+      //     }
+      //   }
+
+      //   // Event listener for file input change
+      //   $("input[type=file]").change(function (e) {
+      //     var fileInput = $(this);
+      //     var file = e.target.files[0];
+      //     var reader = new FileReader();
+      //     var cropperId = fileInput.attr("id").slice(-1);
+
+      //     reader.onload = function (event) {
+      //       // Destroy the previous cropper instance if it exists
+      //       if (croppers[cropperId]) {
+      //         croppers[cropperId].destroy();
+      //       }
+      //       var image = document.getElementById("cropperImage");
+
+      //       image.onload = function () {
+      //         var cropper = new Cropper(image, {
+      //           aspectRatio: 1,
+      //           viewMode: 3,
+      //           preview: ".preview",
+      //         });
+
+      //         // Handle cropping
+      //         $("#crop").click(function () {
+      //           var canvas = cropper.getCroppedCanvas({
+      //             width: 260,
+      //             height: 260,
+      //           });
+
+      //           if (canvas) {
+      //             canvas.toBlob(function (blob) {
+      //               $("#imagePreview" + cropperId).attr(
+      //                 "src",
+      //                 URL.createObjectURL(blob)
+      //               );
+                     
+      //               bs_modal.modal("hide");
+      //             });
+      //           } else {
+      //             console.error("Canvas is null or invalid.");
+      //             bs_modal.modal("hide");
+      //           }
+      //         });
+
+      //         croppers[cropperId] = cropper;
+      //       };
+
+      //       image.src = event.target.result;
+      //     };
+
+      //     reader.readAsDataURL(file);
+
+      //     // Call change function to update preview image and show modal if necessary
+      //     change(e, cropperId);
+      //   });
+
+      //   // Function to handle closing modal
+      //   bs_modal.on("hidden.bs.modal", function () {
+      //     // Destroy all croppers
+      //     croppers.forEach(function (cropper) {
+      //       cropper.destroy();
+      //     });
+      //     croppers = []; // Reset croppers array
+      //   });
+      // }); -->

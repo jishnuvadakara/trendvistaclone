@@ -43,6 +43,8 @@ router.get(
 //get page--------------------------------------------------------
 router.get("/", middleman.userExist, Usercontroller.getGustpage);
 router.get("/userhome", middleman.verifyUser, Usercontroller.getUserpage);
+
+router.post('/UserResponse',middleman.verifyUser,usercontroller.FeedbackResponse)
 //------User home
 
 //-----list the product page------
@@ -122,6 +124,7 @@ router.post(
 );
 
 router.post("/upload", UserMalter.single("image"), usercontroller.UserImage);
+router.delete("/DeletUerImage/:id", middleman.verifyUser,usercontroller.DeleteUserImag);
 //----------------------------------------------------------------------------------------------------------------CART-------------------------------------
 router.get("/Cartuser", middleman.verifyUser, CartController.GetCart);
 router.get(

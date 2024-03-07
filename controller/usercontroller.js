@@ -7,6 +7,7 @@ const Cart = require("../models/cartModel");
 const wallet = require("../models/walletModal");
 const walletHistory = require("../models/walletHistory");
 const Banner = require("../models/bannerModel");
+const feedback = require("../models/feedbackModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { sendEmail } = require("../auth/nodemailerRePas");
@@ -44,16 +45,22 @@ module.exports = {
       const [product, allproduct, user] = await Promise.all([
         products.find({ status: "active" }).populate("catagory"),
         products.find({ status: "active" }),
-        User.find({ email: req.session.email }),
+        User.findOne({ email: req.session.email }),
       ]);
       //  console.log(req.session.user_Id,"ajith id");
       console.log(req.session.usertime);
       console.log("username:", req.session.user);
       console.log(req.session.email);
+      const userId = user._id;
+      console.log(
+        "🚀 ~ file: usercontroller.js:54 ~ getUserpage: ~ userId:",
+        userId
+      );
 
       res.render("user/userhome", {
         product,
         user: req.session.user,
+        userId: userId,
         allproduct,
       });
     } catch (err) {
@@ -399,7 +406,7 @@ module.exports = {
         wallet.findOne({ userId: req.session.user_Id }),
         walletHistory.findOne({ userId: req.session.user_Id }),
       ]);
-      WalletUserHist.refund.forEach((element) => {
+      WalletUserHist?.refund?.forEach((element) => {
         console.log(element, "thi sis is sis is sis is si si isisi");
       });
       console.log("userWallet", WalletUser);
@@ -411,6 +418,7 @@ module.exports = {
   },
   //this funtionality for user image
   UserImage: async (req, res) => {
+    console.log("thsi is the image", req.file);
     try {
       console.log("File uploaded:", req.file.path, "this is oke");
       const userImage = await User.findOne({ email: req.session.email });
@@ -421,18 +429,81 @@ module.exports = {
           "user have add image folder "
         );
         let files = req?.file;
-        let images=files.filename
-        
+        let images = files.filename;
+
         console.log("this is for user image ", files, "////");
         console.log("this is for user image ", images, "////");
-        await User.updateOne({ email: req.session.email },{$set:{Userimage:images}});
+        await User.updateOne(
+          { email: req.session.email },
+          { $set: { Userimage: images } }
+        );
       } else {
         console.log("no user no request ");
       }
 
-      res.json({ msg: "oke " });
+      res.json({ msg: "Successfully ADD " });
     } catch (err) {
       console.log("UserImage is something problem ", err);
+    }
+  },
+  DeleteUserImag: async (req, res) => {
+    try {
+      console.log(req.params);
+      const usrdetail = await User.findOne({ _id: req.params.id });
+      console.log(usrdetail);
+      if (usrdetail) {
+        await User.updateOne(
+          { _id: req.params.id },
+          { $set: { Userimage: null } }
+        );
+        res.json({ msg: "Deleted Successfully" });
+      } else {
+        res.json({ msg: "no valid user" });
+      }
+    } catch (err) {
+      console.log("something problem in deletimage for usercontroller", err);
+    }
+  },
+  FeedbackResponse: async (req, res) => {
+    try {
+      console.log("the response:", req.body);
+      const { rating, feedbackresponse, UserId } = req.body;
+      console.log(feedbackresponse);
+      const Usertdetails = await User.findOne({ _id: UserId });
+      if (Usertdetails) {
+        const userfeedback = await feedback.findOne({ userId: Usertdetails });
+        if (userfeedback) {
+          let data = {
+            userId: UserId,
+            Userresponse: feedbackresponse,
+            feedbackStar: rating,
+          };
+          await feedback.updateOne(
+            { userId: UserId },
+            { $set: { Userresponse: feedbackresponse, feedbackStar: rating } }
+          );
+          res.json({ msg: "Thanks for the coorperation " });
+        } else {
+          console.log("user have not response before days");
+          let data = {
+            userId: UserId,
+            Userresponse: feedbackresponse,
+            feedbackStar: rating,
+          };
+          console.log(
+            "🚀 ~ file: usercontroller.js:488 ~ FeedbackResponse: ~ data:",
+            data
+          );
+
+          await feedback.create(data);
+          res.json({ msg: "Thank Your for your response" });
+        }
+      } else {
+        console.log("user cannot here");
+        res.json({ msg: "No User " });
+      }
+    } catch (err) {
+      console.log("the problem was FeedbackResponse", err);
     }
   },
 };

@@ -38,7 +38,7 @@
 
     <%-include('../partials/usernave.ejs')-%>
 
-   <% if(Wishlength==0){%>
+   <% if(Wishlength==0||Wishlistdata==null){%>
     <section >
         <div class="container-fluid  mt-100">
             <div class="row">
@@ -83,7 +83,7 @@
                                         <div class="col-lg-5">
                                             <div class="me-lg-5">
                                                 <div class="d-flex">
-                                                  <a href=""> <img src="/productimages/<%=ele.productId.images[0]%>"
+                                                  <a href=""> <img src="/productimages/<%=ele?.productId?.images[0]%>"
                                                         alt=""
                                                         class="border rounded me-3"
                                                         style="width: 80px; height: 96px" />
@@ -91,7 +91,7 @@
                                                     <div class="">
                                                         <a href="#" class="nav-link"
                                                             style="text-decoration: none; color: #000000; font-weight: 500;">
-                                                           <h6><%-ele.productId.productName-%></h6>
+                                                           <h6><%-ele?.productId?.productName-%></h6>
                                                        
                                                         </a>
                                                     </div>
@@ -99,7 +99,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg col-sm-2">
-                                            <div class="text-primary"><b> Rs.<%-ele.productId.Price-%></b>
+                                            <div class="text-primary"><b> Rs.<%-ele?.productId?.Price-%></b>
                                             </div>
                                         </div>
                                         <div class="col-lg col-sm-4 d-flex">
@@ -121,14 +121,14 @@
                                                    
                                                     <button class="text-white btn-secondary" 
                                                             style="width: 120px;height: 40px;border-radius: 5px;border: 0;margin-right: 5px;"
-                                                            onclick="addTocart('<%-ele.productId._id-%>')">Add
+                                                            onclick="addTocart('<%-ele?.productId?._id-%>')">Add
                                                             
                                                            Cart</button>
                                                       <%}%>
 
                                                             <button
                                                                 class="btn btn-light border text-danger icon-hover-danger ml-2"
-                                                                onclick="removeFromWish('<%-ele.productId._id-%>')"
+                                                                onclick="removeFromWish('<%-ele?.productId?._id-%>')"
                                                                 style="width: 120px;height: 40px;border-radius: 5px;border: 0;margin-right: 5px;">Remove</button>
                                                    
                                             </div>

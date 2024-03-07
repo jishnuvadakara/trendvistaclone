@@ -14,10 +14,10 @@
     <img src="/assets/wallet.png" style="width: 50px" alt="" />
     <div class="balance text-dark" style="margin-left: 20px">
       <h5>Balance:</h5>
-      <span style="font-weight: bold">₹ <%=WalletUser.wallet %></span>
+      <span style="font-weight: bold">₹ <%=WalletUser?.wallet %></span>
     </div>
   </div>
-  <% if(WalletUserHist.length===0) {%>
+  <% if(WalletUserHist?.length===0) {%>
   <div>
     <h5>No Wallet History</h5>
   </div>
@@ -34,13 +34,13 @@
       </tr>
     </thead>
     <tbody>
-     <%   WalletUserHist.refund.forEach((ele, index) => { %>
+     <%   WalletUserHist?.refund?.forEach((ele, index) => { %>
   <tr>
     <th scope="row"><%- index + 1 %></th> <!-- Displaying the correct index -->
-    <td ><%- ele.date.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', dateStyle: 'short', timeStyle: 'short' })-%></td>
-    <td><%- ele.amount -%></td>
-    <td><%- ele.type -%></td> <!-- Accessing nested property -->
-    <td><%- ele.reason -%></td>
+    <td ><%- ele?.date?.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', dateStyle: 'short', timeStyle: 'short' })-%></td>
+    <td><%- ele?.amount -%></td>
+    <td><%- ele?.type -%></td> <!-- Accessing nested property -->
+    <td><%- ele?.reason -%></td>
   </tr>
 <% }) %>
 

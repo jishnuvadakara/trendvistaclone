@@ -1,7 +1,7 @@
 const products = require("../models/productModel");
 const catagory = require("../models/catagoryModel");
 const Brand = require("../models/brandModel");
-const sharp=require('sharp')
+const sharp = require("sharp");
 
 module.exports = {
   getAddproduct: async (req, res) => {
@@ -16,23 +16,37 @@ module.exports = {
     }
   },
   postAddproduct: async (req, res) => {
-    try{
-            const productdetails=req.body
-         let files=req?.files
-         console.log(files);
-          let images=[files.images1[0].filename,files.images2[0].filename,files.images3[0].filename,files.images4[0].filename]
-          
-          const uploaddeatils={
-            ...productdetails,
-            images
-          }
-          await products.create(uploaddeatils)
-          res.redirect('/admin/product')
+    console.log("ajax reached");
+    try {
+      if (req.fileValidationError) {
+        return res.status(400).json({ error: req.fileValidationError });
+      } else if (!req.files) {
+        return res.status(400).json({ error: "No files uploaded" });
+      }
 
-         }catch(err){
-            console.log("come up productcontroller-2",err);
-         }
-    },
+      console.log(req.files, req.body,'this is this ');
+      const productdetails = req.body;
+      let files = req?.files;
+      console.log(files);
+      let images = [
+        files.images1[0].filename,
+        files.images2[0].filename,
+        files.images3[0].filename,
+        files.images4[0].filename,
+      ];
+
+      const uploaddeatils = {
+        ...productdetails,
+        images,
+      };
+      await products.create(uploaddeatils);
+
+      // res.json({ msg: "oke" });
+      res.redirect("/admin/product");
+    } catch (err) {
+      console.log("come up productcontroller-2", err);
+    }
+  },
 
   Updateproduct: async (req, res) => {
     try {

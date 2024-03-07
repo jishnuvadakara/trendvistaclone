@@ -12,27 +12,27 @@ module.exports = {
         Wishlist.findOne({ userId: userId }).populate("products.productId"),
         Cart.findOne({ userId: userId }).populate("products.productId"),
       ]);
-      console.log("wishlist data",Wishlistdata,"this is user wishlist");
-      const Wishproduct = Wishlistdata.products;
-      const Wishlength = Wishlistdata.products.length;
+      console.log("wishlist data", Wishlistdata, "this is user wishlist");
+      // const Wishproduct = Wishlistdata.products;
+      // const Wishlength = Wishlistdata.products.length;
 
       if (Wishlistdata != null) {
         let checkproduct = []; // crtprduc=wishlist prdt this used to controlle the buttons
-
+ const Wishproduct = Wishlistdata.products;
+ const Wishlength = Wishlistdata.products.length;
         if (cartdata && cartdata.products) {
           //  console.log(Wishlistdata);
-         checkproduct = Wishlistdata.products.map((wishlistProduct) => {
-           // Check if the wishlist product is in the cart
-           wishlistProduct.inCart = cartdata.products.some(
-             (cartProduct) =>
-               cartProduct.productId &&
-               wishlistProduct.productId &&
-               cartProduct.productId._id.equals(wishlistProduct.productId._id)
-           );
+          checkproduct = Wishlistdata.products.map((wishlistProduct) => {
+            // Check if the wishlist product is in the cart
+            wishlistProduct.inCart = cartdata.products.some(
+              (cartProduct) =>
+                cartProduct.productId &&
+                wishlistProduct.productId &&
+                cartProduct.productId._id.equals(wishlistProduct.productId._id)
+            );
 
-           return wishlistProduct.inCart;
-         });
-
+            return wishlistProduct.inCart;
+          });
         } else {
           checkproduct = Array(Wishlistdata.products.length).fill(false);
           console.log("not work ");
@@ -49,8 +49,9 @@ module.exports = {
         res.render("user/wishlist", {
           Wishlistdata,
           cartdata,
-          Wishproduct,
-          checkproduct,
+          Wishproduct:null,
+        
+          Wishlength:0,
         });
       }
     } catch (err) {
@@ -79,7 +80,7 @@ module.exports = {
             },
           ],
         };
-        console.log(Wishdata,"wihshdata");
+        console.log(Wishdata, "wihshdata");
         await Wishlist.create(Wishdata);
         res.json({ productExist: false, userExist: true });
       } else {
