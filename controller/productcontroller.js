@@ -10,7 +10,7 @@ module.exports = {
         catagory.find(),
         Brand.find(),
       ]);
-      res.render("admin/addproduct", { catagories, Brands });
+      res.render("Admin/addproduct", { catagories, Brands });
     } catch (err) {
       console.log("come up productcontroller-1", err);
     }
@@ -88,7 +88,7 @@ module.exports = {
         catagory.find(),
         Brand.find(),
       ]);
-      res.render("admin/editproduct", {
+      res.render("Admin/editproduct", {
         product: product[0],
         catagories,
         Brands,
