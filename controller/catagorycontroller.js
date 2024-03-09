@@ -5,7 +5,7 @@ const products = require("../models/productModel");
 module.exports = {
   getaddcatagory: async (req, res) => {
     try {
-      res.render("admin/addcatagory");
+      res.render("Admin/addcatagory");
     } catch (err) {
       console.log("yes come up catagorycontroller 1", err);
     }
@@ -25,7 +25,7 @@ module.exports = {
 
         if (catdata) {
           error = "This category already exists";
-          res.render("admin/addcatagory", { err: error });
+          res.render("Admin/addcatagory", { err: error });
         } else {
           await catagories.create({ catagoryname: cat });
           // const Categories = await catagories.find();
@@ -50,7 +50,7 @@ module.exports = {
 
       if (data) {
         console.log("tusgjskdfsgjf", data[0]);
-        res.render("admin/editcatagory", {
+        res.render("Admin/editcatagory", {
           catagories: data[0],
           err: req.session.Erromsg,
         });
@@ -87,7 +87,7 @@ module.exports = {
         console.log("yes wroking");
         //  res.redirect("/admin/catagory");
         // res.redirect("/admin/editcatagoryes");
-        res.render("admin/editcatagory", {
+        res.render("Admin/editcatagory", {
           catagories: result[0],
           err: req.session.Erromsg,
         });
@@ -116,7 +116,7 @@ module.exports = {
   //---------------------------------------------------BRAND-----------------------------------------------------
   getAddBrand: async (req, res) => {
     try {
-      res.render("admin/addbrand");
+      res.render("Admin/addbrand");
     } catch (err) {
       console.log("BRAND", err);
     }
@@ -128,7 +128,7 @@ module.exports = {
       bran = bran.toUpperCase();
       const brandata = await Brand.findOne({ Brandname: bran });
       if (brandata) {
-        res.render("admin/addbrand", { err: "this data already exists" });
+        res.render("Admin/addbrand", { err: "this data already exists" });
       } else {
         console.log("tyr2", req.body.Brandname);
         let bran = req.body.Brandname;
@@ -148,7 +148,7 @@ module.exports = {
       const id = req.params.id;
       const data = await Brand.find({ _id: id });
       if (data) {
-        res.render("admin/editbrand", { Brands: data[0] });
+        res.render("Admin/editbrand", { Brands: data[0] });
       }
     } catch (err) {
       console.log("come up BRAND-3");
@@ -162,7 +162,7 @@ module.exports = {
       const data = await Brand.findOne({ Brandname: bran });
       if (data) {
         let result = await Brand.findOne({ _id: req.body.id });
-        res.render("admin/editbrand", {
+        res.render("Admin/editbrand", {
           err: "this data already exists",
           Brands: result,
         });

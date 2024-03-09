@@ -604,7 +604,7 @@ function removeuserImage(id) {
   console.log("function is working ", id);
 
   Swal.fire({
-    title: "Remove this Order!",
+    title: "Remove this image !",
     text: "Are your sure",
     icon: "warning",
     showCancelButton: true,

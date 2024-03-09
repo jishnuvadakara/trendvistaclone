@@ -70,7 +70,7 @@ module.exports = {
         Brand.find(),
       ]);
       // console.log("server is ok ",catagories);
-      res.render("admin/catagory", { catagory, Brands });
+      res.render("Admin/catagory", { catagory, Brands });
     } catch (err) {
       console.log("come up catagory", err);
     }
@@ -79,7 +79,7 @@ module.exports = {
   getProduct: async (req, res) => {
     try {
       const data = await products.find().populate("catagory");
-      res.render("admin/product", { data });
+      res.render("Admin/product", { data });
     } catch (Err) {
       console.log(Err);
     }
