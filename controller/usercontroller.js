@@ -269,7 +269,7 @@ module.exports = {
         };
         const token = jwt.sign(payload, secret, { expiresIn: "5m" });
 
-        const link = `http://localhost:8000/reset-password/${IsmatchMail._id}/${token}`;
+        const link = `http://trend-vista.shop/reset-password/${IsmatchMail._id}/${token}`;
 
         sendEmail(IsmatchMail.email, link);
 
@@ -388,7 +388,7 @@ module.exports = {
       const userdetail = await User.findOne({ _id: userId });
       console.log("this is user id", userdetail);
       if (userdetail) {
-        const link = `http://localhost:8000/signup2/?refer=${userdetail._id}`;
+        const link = `http://trend-vista.shop/signup2/?refer=${userdetail._id}`;
         console.log("refference link for include user mail", link);
         //  SendRefMail(email, link);
         res.json({ msg: "Share the link for your friend email" });
