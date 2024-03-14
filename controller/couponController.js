@@ -17,16 +17,23 @@ module.exports = {
       const CouponDeataials = req.body;
       const offer = req.body.discountAmount;
       const acutal = req.body.minimumPurachaseAmount;
-      console.log((offer/acutal)*100,'this is orginal percengaes');
-      const offerPercentage = Math.floor((offer / acutal) * 100)
-      console.log(offer, "this", acutal, "total", offerPercentage,'coupon discount for percentage');
+      console.log((offer / acutal) * 100, "this is orginal percengaes");
+      const offerPercentage = Math.floor((offer / acutal) * 100);
+      console.log(
+        offer,
+        "this",
+        acutal,
+        "total",
+        offerPercentage,
+        "coupon discount for percentage"
+      );
       console.log(CouponDeataials);
       const Incoupon = await Coupon.findOne({
         couponCode: req.body.couponCode,
       });
       console.log(Incoupon, "this is coupon");
       if (Incoupon) {
-        res.json({msg:'This coupon already add another admin'})
+        res.json({ msg: "This coupon already add another admin" });
       } else {
         await Coupon.create({ ...CouponDeataials, offerPercentage });
         res.json({ msg: "Succussfully Add " });
@@ -168,5 +175,25 @@ module.exports = {
     } catch (err) {
       console.log(err);
     }
+  },
+  DeleteCoupon:async(req,res)=>{
+    console.log(req.session.CouponCode,'This is the User Apply the current coupon');
+    let RemoveCoupon =req.session.CouponCode
+     const Grandtotal = req.session.Grandamnt;
+    const CouponDetail = await Coupon.findOne({couponCode:RemoveCoupon})
+    console.log(CouponDetail,'this is wanted to remove click user ');
+    if(CouponDetail){
+        req.session.Grandamnt = Grandtotal + CouponDetail.discountAmount;
+        req.session.CouponCode=undefined
+        req.session.discountAmount=undefined
+
+        res.json({msg:'Remove The Coupon Successfully'})
+
+    }else{
+      res.json({msg:'This coupon is Not Valid'})
+    }
+
+
+
   },
 };

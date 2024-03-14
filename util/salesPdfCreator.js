@@ -192,7 +192,7 @@ const generateSalesPDF = async (Orders, StartDate, EndDate) => {
         doc,
         invoiceTableTop,
         "SL No",
-        "Order ID",
+        
         "User Name",
         "Order Date",
         "Payment Method",
@@ -210,7 +210,7 @@ const generateSalesPDF = async (Orders, StartDate, EndDate) => {
           doc,
           position,
           i + 1,
-          x._id,
+        
           x.address.name,
           moment(x.orderDate).format("YYYY-MM-DD HH:mm:ss"),
           x.payementMethod,

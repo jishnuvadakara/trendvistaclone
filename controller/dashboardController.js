@@ -47,7 +47,7 @@ module.exports = {
           },
           {
             $lookup: {
-              from: "productcollections", 
+              from: "productcollections",
               localField: "_id",
               foreignField: "_id",
               as: "productDetail",
@@ -121,28 +121,25 @@ module.exports = {
         ]),
       ]);
 
-     const result = await Promise.all(
-       topsellingCat.map(async (item) => {
-         try {
-           const category = await Catagory.findById(item._id);
-           return {
-             categoryName: category.catagoryname, 
-             totalQuantity: item.TotalQuantity,
-           };
-         } catch (error) {
-           console.error("Error finding category:", error);
-           return null; 
-         }
-       })
-     );
-
-  
-
-        console.log('this is for topselling brand',TopsellingBarnd,'this is ');
+      const result = await Promise.all(
+        topsellingCat.map(async (item) => {
+          try {
+            const category = await Catagory.findById(item._id);
+            return {
+              categoryName: category.catagoryname,
+              totalQuantity: item.TotalQuantity,
+            };
+          } catch (error) {
+            console.error("Error finding category:", error);
+            return null;
+          }
+        })
+      );
 
       console.log("this is ", result, "this tish ");
 
       console.log(topsellingCat, "this for top selling catagory -2");
+      console.log("this is for topselling brand", TopsellingBarnd, "this is ");
 
       console.log(Topselling, "this is toselling products ");
 
@@ -310,18 +307,45 @@ module.exports = {
   Salesrepot: async (req, res) => {
     try {
       console.log(req.body);
-      const { StartDate, EndDate, downloadFormat } = req.body;
+      const { StartDate, EndDate, downloadFormat, Year } = req.body;
+      let StartDates = 0;
+      let EndDates = 0;
+      console.log("staring Date", StartDates, "ending Date", EndDates);
 
-      // Check if StartDate and EndDate are provided
-      if (!StartDate || !EndDate) {
-        return res.status(400).send("StartDate and EndDate are required.");
+      if (Year == "Today") {
+        let currentDate = new Date().toISOString().split("T")[0];
+        console.log(
+          "🚀 ~ file: dashboardController.js:321 ~ Salesrepot: ~ currentDate:",
+          currentDate
+        );
+        StartDates = currentDate;
+        EndDates = currentDate;
+        console.log(
+          "🚀 ~ file: dashboardController.js:325 ~ Salesrepot: ~ EndDate:",
+          EndDate
+        );
+      } else if (Year != null) {
+        console.log("the year is ", Year);
+        StartDates=`${Year}-01-01`
+        EndDates=`${Year}-12-31`
+        console.log("🚀 ~ file: dashboardController.js:331 ~ Salesrepot: ~ StartDates:", StartDates)
+        console.log("🚀 ~ file: dashboardController.js:332 ~ Salesrepot: ~ EndDates:", EndDates)
+
+      }else{
+        StartDates = StartDate;
+        EndDates=EndDate
+
       }
 
       // Find orders within the specified date range
       const orders = await Order.find({
         payementStatus: "Paid",
-        orderDate: { $gte: StartDate, $lte: EndDate },
+        orderDate: { $gte: StartDates, $lte: EndDates },
       }).populate("products.productId");
+      console.log(
+        "🚀 ~ file: dashboardController.js:340 ~ Salesrepot: ~ orders:",
+        orders
+      );
 
       // Check if Orders are found
       if (orders.length === 0) {
@@ -338,7 +362,7 @@ module.exports = {
 
       if (downloadFormat.toLowerCase() === "pdf") {
         // Generate PDF report
-        const pdfBuffer = await generateSalesPDF(orders, StartDate, EndDate);
+        const pdfBuffer = await generateSalesPDF(orders, StartDates, EndDates);
 
         res.setHeader("Content-Type", "application/pdf");
         res.setHeader(

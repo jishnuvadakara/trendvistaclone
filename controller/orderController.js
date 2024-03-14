@@ -7,6 +7,7 @@ const Return = require("../models/returnModel");
 const products = require("../models/productModel");
 const wallet = require("../models/walletModal");
 const walletHistory = require("../models/walletHistory");
+const Coupon=require('../models/couponModel')
 const { disconnect } = require("mongoose");
 const { CreateRazorpayOrder } = require("../controller/razorpayController");
 const { generateInvoice } = require("../util/InvoiceCreator");
@@ -16,13 +17,16 @@ require("dotenv").config();
 module.exports = {
   GetCheckoutpage: async (req, res) => {
     try {
-      const [Orderdetail, Addressdetail, Cartdata] = await Promise.all([
+      const [Orderdetail, Addressdetail, Cartdata,CouponData] = await Promise.all([
         Order.findOne({ userId: req.session.user_Id }),
         Address.find({ userId: req.session.user_Id }),
         Cart.findOne({ userId: req.session.user_Id }),
+        Coupon.find()
       ]);
 
       const TotalPrice = req.session.Totalamnt;
+  
+    
       const Grandtotal = req.session.Grandamnt;
       const Discount = req.session.Discount;
       const CouponDiscount = req.session.discountAmount;
@@ -46,6 +50,7 @@ module.exports = {
           Grandtotal,
           Discount,
           CouponDiscount,
+          CouponData,
         });
       }
     } catch (err) {

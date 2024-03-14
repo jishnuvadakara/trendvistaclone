@@ -516,7 +516,7 @@ function ApplyFormCoupon() {
           title: "Coupon applied",
           text: response.msg,
           showConfirmButton: false,
-          timer: 3000,
+          timer: 1000,
         });
       } else if (response.errMsg) {
         Swal.fire({
@@ -530,7 +530,7 @@ function ApplyFormCoupon() {
 
       setTimeout(() => {
         window.location.reload();
-      }, 3000);
+      }, 1000);
     },
     error: function (err) {
       Toastify({
@@ -542,6 +542,44 @@ function ApplyFormCoupon() {
       }).showToast();
     },
   });
+}
+
+//Delete Coupon
+function RemoveFormCoupon(){
+  console.log('its working ');
+  
+  $.ajax({
+    url:'/DeleteCoupon',
+    method:'Delete',
+    success:function(response){
+      Toastify({
+        text: response.msg,
+        duration: 3000,
+        gravity: "center",
+        position: "center",
+        backgroundColor:"green",
+        stopOnFocus: true,
+      }).showToast();
+       setTimeout(() => {
+         window.location.reload();
+       }, 1000);
+
+    },
+    error:function(err){
+        Toastify({
+          text: "Something went wrong",
+          duration: 3000,
+          gravity: "center",
+          position: "center",
+          backgroundColor:'red',
+          stopOnFocus: true,
+        }).showToast();
+    }
+
+  })
+
+
+  
 }
 
 //Refference for the user

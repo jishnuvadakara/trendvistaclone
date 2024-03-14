@@ -267,39 +267,51 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <form id="salesreport" action="/Admin/Salesreport" method="post">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-          <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Strat-Datae:</label>
-            <input type="date" class="form-control" id="StartDate" name="StartDate" oninput="Formvalid()">
-            <small class="text-danger" id="StartError"></small>
-          </div>
-          <div class="form-group">
-            <label for="recipient-name" class="col-form-label">End-Date:</label>
-            <input type="date" class="form-control" id="EndDate" name="EndDate" oninput="Formvalid()">
-            <small class="text-danger" id="EndError"></small>
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div>
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label for="recipient-name" class="col-form-label">Start-Date:</label>
+                <input type="date" class="form-control" id="StartDate" name="StartDate" >
+             
+              </div>
+              <div class="form-group col-md-4">
+                <label for="recipient-name" class="col-form-label">End-Date:</label>
+                <input type="date" class="form-control" id="EndDate" name="EndDate">
+             
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label for="recipient-name" class="col-form-label">Yearly Based:</label>
+                <select name="Year" class="form-select" id="Year">
+                  <option value="">Options</option>
+                  <option value="Today">Today</option>
+                  <option value="2023">2023</option>
+                  <option value="2024">2024</option>
+                </select>
+              
+              </div>
+            </div>
           </div>
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">Download Format</label>
-            <select name="downloadFormat" class="form-select" id="downloadFormat" oninput="Formvalid()">
+            <select name="downloadFormat" class="form-select" id="downloadFormat">
               <option value="">Select Format</option>
               <option value="pdf">Pdf</option>
-              <!-- <option value="Excel">Excel</option> -->
-
             </select>
-            <small class="text-danger" id="DownloadFormatError"></small>
-
+           
           </div>
-          
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary" id="Downnload" disabled>Download</button>
+          <button type="submit" class="btn btn-primary" id="Download" disabled>Download</button>
         </div>
       </form>
     </div>
@@ -1050,53 +1062,74 @@
 
     
     });
-    function Formvalid() {
-  const StartDate = document.getElementById('StartDate').value;
-  const EndDate = document.getElementById('EndDate').value;
-  const DownloadReport = document.getElementById('downloadFormat').value; 
-  const StartDateError = document.getElementById('StartError');
-  const EndDateError = document.getElementById('EndError');
-  const DownloadError = document.getElementById('DownloadFormatError'); 
-  const SubmitButton = document.getElementById('Downnload');
 
-  //  error messages
-  StartDateError.innerHTML = '';
-  EndDateError.innerHTML = '';
-  DownloadError.innerHTML = '';
+   
+  document.addEventListener("DOMContentLoaded", function() {
+    const startDate = document.getElementById("StartDate");
+    const endDate = document.getElementById("EndDate");
+    const yearSelect = document.getElementById("Year");
+    const downloadFormat = document.getElementById("downloadFormat");
+    const downloadBtn = document.getElementById("Download");
+    const form = document.getElementById("salesreport");
 
-  // Current date
-  const currentDate = new Date().toISOString().split('T')[0];
+    // Function to enable or disable download button based on form validation
+    function toggleDownloadButton() {
+      if ((startDate.value && endDate.value && !yearSelect.value && downloadFormat.value) ||
+          (!startDate.value && !endDate.value && yearSelect.value && downloadFormat.value)) {
+        downloadBtn.removeAttribute("disabled");
+      } else {
+        downloadBtn.setAttribute("disabled", true);
+      }
+    }
 
-  // Check Start Date
-  if (StartDate === '') {
-    StartDateError.innerHTML = 'Start Date is required';
-  } else if (StartDate > currentDate) {
-    StartDateError.innerHTML = 'Start Date must be less than or equal to the current date';
-  }
+    // Function to check if date is past the current date
+    function isPastDate(dateString) {
+      const selectedDate = new Date(dateString)
+      console.log("🚀 ~ file: dashboard.ejs:1088 ~ isPastDate ~ selectedDate:", selectedDate)
+      const currentDate = new Date().toISOString().split('T')[0];;
+      console.log("🚀 ~ file: dashboard.ejs:1089 ~ isPastDate ~ currentDate:", currentDate)
+      return selectedDate < currentDate;
+    }
 
-  // Check End Date
-  if (EndDate === '') {
-    EndDateError.innerHTML = 'End Date is required';
-  } else if (EndDate > currentDate) {
-    EndDateError.innerHTML = 'End Date must be less than or equal to the current date';
-  } else if (EndDate < StartDate) {
-    EndDateError.innerHTML = 'End Date cannot be less than Start Date';
-  }
+    // Event listeners for form inputs
+    startDate.addEventListener("change", function() {
+      if (isPastDate(this.value)) {
+        alert("Start date cannot be in the past.");
+        this.value = ""; // Clear invalid date
+      }
+      toggleDownloadButton();
+      yearSelect.disabled = this.value !== "" || endDate.value !== "";
+    });
 
-  // Check Download Format
-  if (DownloadReport === '') {
-    DownloadError.innerHTML = 'Download Format is required';
-  }
+    endDate.addEventListener("change", function() {
+      if (isPastDate(this.value)) {
+        alert("End date cannot be in the past.");
+        this.value = ""; // Clear invalid date
+      }
+      toggleDownloadButton();
+      yearSelect.disabled = this.value !== "" || startDate.value !== "";
+    });
 
-  // Enable or disable the Submit button
-  console.log(StartDateError.innerHTML,"thishishish",EndDateError.innerHTML,"enddate",DownloadError.innerHTML,"download");
-  if(!StartDateError.innerHTML && !EndDateError.innerHTML&& !DownloadError.innerHTML){
-     SubmitButton.disabled = false
-  }else{
-     SubmitButton.disabled = true
-  }
-}
+    yearSelect.addEventListener("change", function() {
+      toggleDownloadButton();
+      startDate.disabled = endDate.disabled = this.value !== "";
+    });
 
+    downloadFormat.addEventListener("change", function() {
+      toggleDownloadButton();
+    });
+
+    // Form submission
+    form.addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent form submission
+      // Perform further validation if needed
+      // Then submit the form
+      this.submit();
+    });
+
+    // Initial state of the download button
+    toggleDownloadButton();
+  });
     </script>
           
           <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -1112,4 +1145,3 @@
   </body>
 </html>
    
-

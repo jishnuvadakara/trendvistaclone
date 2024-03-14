@@ -213,6 +213,7 @@ router.get("/RazorpayFaledOrder/:OrderId", orderController.RazorpayFaledOrder);
 //------------------------------------------------------------------------------------Coupon--------------------------------------------------------------------
 router.get('/UserCoupon',middleman.verifyUser,couponController.GetUserCoupon)
 router.post("/applyCoupon",middleman.verifyUser,couponController.ApplyedCoupon);
+router.delete("/DeleteCoupon",middleman.verifyUser,couponController.DeleteCoupon);
 
 //------------------------------------------------------------------------------------Invoice--------------------------------------------------------------------------
 router.get("/generateinvoice/:orderId/:index",orderController.getInvoice);

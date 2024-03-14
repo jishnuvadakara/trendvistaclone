@@ -24,7 +24,6 @@
   <% } else{ %>
   <table class="table">
     <thead>
-   
       <tr>
         <th scope="col">Index</th>
         <th scope="col">Date</th>
@@ -34,16 +33,20 @@
       </tr>
     </thead>
     <tbody>
-     <%   WalletUserHist?.refund?.forEach((ele, index) => { %>
-  <tr>
-    <th scope="row"><%- index + 1 %></th> <!-- Displaying the correct index -->
-    <td ><%- ele?.date?.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', dateStyle: 'short', timeStyle: 'short' })-%></td>
-    <td><%- ele?.amount -%></td>
-    <td><%- ele?.type -%></td> <!-- Accessing nested property -->
-    <td><%- ele?.reason -%></td>
-  </tr>
-<% }) %>
-
+      <% WalletUserHisto.forEach((doc, index) => { %> <%
+      doc.refund.forEach((refund, refundIndex) => { %>
+      <tr>
+        <th scope="row"><%- refundIndex + 1 %></th>
+        <!-- Displaying the document index -->
+        <td>
+          <%- refund?.date.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata',
+          dateStyle: 'short', timeStyle: 'short' }) %>
+        </td>
+        <td><%- refund?.amount %></td>
+        <td><%- refund?.type %></td>
+        <td><%- refund?.reason %></td>
+      </tr>
+      <% }) %> <% }) %>
     </tbody>
   </table>
   <% } %>

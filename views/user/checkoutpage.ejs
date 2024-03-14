@@ -144,7 +144,7 @@
                             border-radius: 10px;
                             height: 25px;
                             font-size: 12px;
-                            color: black;
+                            color: rgb(255, 255, 255);
                           "
                         >
                           <%-ele.addressType-%></button
@@ -290,16 +290,39 @@
                       name="couponCode"
                       required
                     />
-                    <a href="/UserCoupon" style="float: right"
-                      >Available Coupon</a
-                    >
+                    <!-- <a href="/UserCoupon" style="float: right"
+                      >Available Coupon</a -->
+                    <% if (CouponDiscount == undefined) { %>
                     <button
+                      onclick="openModalcoupon()"
+                      id="myBtn"
+                      title="Go to top"
                       type="button"
-                      class="btn btn-success rounded-pill mt-4"
-                      onclick="ApplyFormCoupon()"
+                      class="btn btn-demo"
+                      style="display: block; color: green"
                     >
-                      Apply
+                      Available Coupon
                     </button>
+                    <% } %>
+
+                    <div style="display: flex; justify-content: space-between">
+                      <button
+                        type="button"
+                        class="btn btn-success rounded-pill mt-4"
+                        onclick="ApplyFormCoupon()"
+                      >
+                        Apply
+                      </button>
+                      <% if (CouponDiscount !== undefined) { %>
+                      <button
+                        type="button"
+                        class="btn btn-success rounded-pill mt-4"
+                        onclick="RemoveFormCoupon()"
+                      >
+                        Remove
+                      </button>
+                      <% } %>
+                    </div>
                   </div>
                 </form>
               </div>
@@ -334,9 +357,8 @@
                 <div class="d-flex justify-content-between">
                   <p class="mb-2">Delivery charges:</p>
                   <span style="font-size: small; color: rgb(255, 0, 0)"></span>
-              
-                    ₹ 40
-                  
+
+                  ₹ 40
                 </div>
                 <hr />
                 <div class="d-flex justify-content-between">
@@ -355,7 +377,108 @@
         </div>
       </div>
     </section>
-    <!-- cart + summary -->
+    <!-- Coupon  + summary -->
+    <div
+      class="modal right fade"
+      id="CouponApply"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+    >
+      <div
+        class="modal-dialog modal-dialog-centered"
+        role="document"
+        style="width: 900px"
+      >
+        <div class="modal-content" style="background-color: rgb(255, 255, 255)">
+          <div class="modal-body">
+            <section>
+              <div class="container">
+                <div class="row">
+                  <% CouponData.forEach((ele,index)=> { %>
+                  <div class="col-md-6 mb-4">
+                    <!-- Adjust column size as needed -->
+                    <div class="card">
+                      <div class="card-header red lighten-1 white-text">
+                        <p class="heading animate-charcter">
+                          Discount offer:
+                          <strong><%- ele.offerPercentage %>% off</strong>
+                        </p>
+                      </div>
+
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-3">
+                            <p></p>
+                            <p class="text-center">
+                              <i
+                                class="fas fa-gift fa-lg"
+                                style="color: rgb(71 67 125 / 92%)"
+                              ></i>
+                            </p>
+                          </div>
+                          <div class="col-9">
+                            <h4>
+                              <span
+                                class="badge"
+                                style="background-color: #206d6d"
+                                >PAmnt:<%-ele.minimumPurachaseAmount-%></span
+                              >
+                            </h4>
+                            <p>
+                              <strong
+                                >Date Valid until:
+                                <span
+                                  ><%-ele.validTo.toLocaleString('en-IN', {
+                                  timeZone: 'Asia/Kolkata', dateStyle: 'short',
+                                  timeStyle: 'short' }) %></span
+                                >.</strong
+                              >
+                            </p>
+                            <h4>
+                              <span
+                                class="badge"
+                                style="background-color: #423f53"
+                                >Code:<%-ele.couponCode-%></span
+                              >
+                            </h4>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="card-footer">
+                        <div class="text-center">
+                          <button
+                            class="btn btn-danger copyButton"
+                            data-coupon="<%-ele.couponCode-%>"
+                          >
+                            Copy <i class="far fa-gem ml-1 white-text"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <% }) %>
+                </div>
+              </div>
+            </section>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                onclick="closeModalCoupon()"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- address-modal -->
     <!-- address-modal -->
     <div
@@ -569,7 +692,48 @@
         </div>
       </div>
     </div>
+    <script>
+      function openModalcoupon() {
+        $("#CouponApply").modal("show");
+      }
+      function closeModalCoupon() {
+        $("#CouponApply").modal("hide");
+      }
 
+      document.addEventListener("DOMContentLoaded", function () {
+        const copyButtons = document.querySelectorAll(".copyButton");
+
+        copyButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            const couponCode = this.getAttribute("data-coupon");
+            console.log(
+              "🚀 ~ file: checkoutpage.ejs:696 ~ couponCode:",
+              couponCode
+            );
+
+            // Reset all buttons to their original state
+            copyButtons.forEach((btn) => {
+              btn.textContent = "Copy";
+              btn.disabled = false;
+            });
+
+            copyToClipboard(couponCode);
+            this.textContent = "Copied";
+            this.disabled = true;
+          });
+        });
+        function copyToClipboard(text) {
+          navigator.clipboard
+            .writeText(text)
+            .then(() => {
+              console.log("Text copied to clipboard:", text);
+            })
+            .catch((error) => {
+              console.error("Error copying text to clipboard:", error);
+            });
+        }
+      });
+    </script>
     <!-- 
     <script>
       $(document).ready(function () {

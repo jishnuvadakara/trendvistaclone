@@ -404,14 +404,41 @@ module.exports = {
     try {
       const [WalletUser, WalletUserHist] = await Promise.all([
         wallet.findOne({ userId: req.session.user_Id }),
-        walletHistory.findOne({ userId: req.session.user_Id }),
+        walletHistory
+          .findOne({ userId: req.session.user_Id })
+          .sort({ "refund._id": -1 }),
+
+        // walletHistory.aggregate([
+        //   { $match: { userId: req.session.user_Id } },
+        //   { $unwind: "$refund" },
+        //   { $sort: { "refund._id": -1 } },
+
+        // ]),
       ]);
-      WalletUserHist?.refund?.forEach((element) => {
-        console.log(element, "thi sis is sis is sis is si si isisi");
-      });
+      const IsuserwalletId=WalletUserHist._id
+    const WalletUserHisto = await walletHistory.aggregate([
+      { $match: {_id:IsuserwalletId } }, // Match documents with the specified userId
+      { $unwind: "$refund" }, // Unwind the refund array
+      { $sort: { "refund._id": -1 } }, // Sort the refund array based on _id in descending order
+      {
+        $group: {
+          _id: "$_id", // Group by document _id
+          userId: { $first: "$userId" }, // Preserve the userId
+          refund: { $push: "$refund" }, // Push sorted refund objects into an array
+        },
+      },
+    ]);
+
+    console.log("🚀 ~ WalletUserHisto:", WalletUserHisto);
+
+
       console.log("userWallet", WalletUser);
       console.log("userHistory for wallet", WalletUserHist);
-      res.render("user/MyWallet", { WalletUser, WalletUserHist });
+      res.render("user/MyWallet", {
+        WalletUser,
+        WalletUserHist,
+        WalletUserHisto,
+      });
     } catch (err) {
       console.log("This mistake for the User walletcontrolling :", err);
     }
