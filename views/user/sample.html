@@ -1,98 +1,290 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin</title>
-    <link rel="stylesheet" href="css/admin.css" type="text/css" />
-   <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-      crossorigin="anonymous"
-    />
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+z8NHIe0sIhV5P1wx9KlTAy0GfF1H3nY8fsB1Q6"
-      crossorigin="anonymous"
-    ></script>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
-    />
-    <link
-      href="https://demo.dashboardpack.com/architectui-html-free/main.css"
-      rel="stylesheet"
-    />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
-    />
-      <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-    <script src="
-    https://code.jquery.com/jquery-3.6.0.min.js"></script>
-     <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css"
-    />
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <script src="/javascript/customerAjax.js"></script>
- 
-  </head>
-  <!--Section: Contact v.2-->
-<div class="modal-body">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-4">.col-md-4</div>
-      <div class="col-md-4 ml-auto">.col-md-4 .ml-auto</div>
-    </div>
-    <div class="row">
-      <div class="col-md-3 ml-auto">.col-md-3 .ml-auto</div>
-      <div class="col-md-2 ml-auto">.col-md-2 .ml-auto</div>
-    </div>
-    <div class="row">
-      <div class="col-md-6 ml-auto">.col-md-6 .ml-auto</div>
-    </div>
-    <div class="row">
-      <div class="col-sm-9">
-        Level 1: .col-sm-9
-        <div class="row">
-          <div class="col-8 col-sm-6">
-            Level 2: .col-8 .col-sm-6
-          </div>
-          <div class="col-4 col-sm-6">
-            Level 2: .col-4 .col-sm-6
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!--Section: Contact v.2-->
-  </body>
-</html>
+// newwwwww-------------------------------------------------------------------------------------------------------------
+// $(document).ready(function () {
+//     var bs_modal = $("#modal");
+//     var croppers = [];
+
+//     // Function to handle file change and update preview image
+//     function change(event, no) {
+//         console.log("this is oke or ok");
+//         document.getElementById(`imagePreview${no}`).src =
+//             URL.createObjectURL(event.target.files[0]);
+//         console.log(document.getElementById(`imagePreview${no}`).src);
+
+//         // Show modal only if it's the first time the corresponding input file is changed
+//         if (!croppers[no]) {
+//             bs_modal.modal("show");
+//         }
+//     }
+
+//     // Event listener for file input change
+//     $("input[type=file]").change(function (e) {
+//         var fileInput = $(this);
+//         var file = e.target.files[0];
+//         var reader = new FileReader();
+//         var cropperId = fileInput.attr("id").slice(-1);
+
+//         reader.onload = function (event) {
+//             // Destroy the previous cropper instance if it exists
+//             if (croppers[cropperId]) {
+//                 croppers[cropperId].destroy();
+//             }
+//             var image = document.getElementById("cropperImage");
+
+//             image.onload = function () {
+//                 var cropper = new Cropper(image, {
+//                     aspectRatio: 1,
+//                     viewMode: 3,
+//                     preview: ".preview",
+//                 });
+
+//                 // Handle cropping
+//                $("#crop").click(function () {
+//     var canvas = cropper.getCroppedCanvas({
+//         width: 260,
+//         height: 260,
+//     });
+
+//     if (canvas) {
+//         canvas.toBlob(function (blob) {
+//             if (blob) {
+//                 console.log("Blob created successfully:", blob);
+//                 // Append the cropped image blob to FormData
+//                 formData.append(`cropped_image_${cropperId}`, blob, `cropped_image_${cropperId}.png`);
+//                 bs_modal.modal("hide");
+//             } else {
+//                 console.error("Blob is null or invalid.");
+//             }
+//         });
+//     } else {
+//         console.error("Canvas is null or invalid.");
+//         bs_modal.modal("hide");
+//     }
+// });
+
+
+//                 croppers[cropperId] = cropper;
+//             };
+
+//             image.src = event.target.result;
+            
+//         };
+
+//         reader.readAsDataURL(file);
+
+//         // Call change function to update preview image and show modal if necessary
+//         change(e, cropperId);
+//     });
+
+//     // Function to handle closing modal
+//     bs_modal.on("hidden.bs.modal", function () {
+//         // Destroy all croppers
+//         croppers.forEach(function (cropper) {
+//             cropper.destroy();
+//         });
+//         croppers = []; // Reset croppers array
+//     });
+
+//     // Function to handle form submission
+// // Function to handle form submission
+// // Function to handle form submission
+// $("#productForm").submit(function(event) {
+//     console.log('Form submitted');
+//     event.preventDefault();
+
+//     // Create FormData object to collect form data
+//     var formData = new FormData(this);
+
+//     // Array to hold all Promise objects
+//     var promises = [];
+
+//     // Loop through croppers and create a Promise for each
+//     for (var i = 0; i < croppers.length; i++) {
+//         var cropper = croppers[i];
+//         var canvas = cropper.getCroppedCanvas();
+//         if (canvas) {
+//             // Convert canvas to Blob and append the URL to formData
+//             promises.push(new Promise(function(resolve, reject) {
+//                 canvas.toBlob(function(blob) {
+//                     if (blob) {
+//                         var imageUrl = URL.createObjectURL(blob);
+//                         formData.append(`images${i + 1}`, imageUrl);
+//                         resolve(); // Resolve the Promise
+//                     } else {
+//                         reject("Blob is null or invalid."); // Reject if blob is null
+//                     }
+//                 });
+//             }));
+//         }
+//     }
+
+//     // Wait for all Promises to resolve
+//     Promise.all(promises)
+//         .then(function() {
+//             console.log("🚀 ~ file: addproduct.ejs:478 ~ formData:", formData);
+
+//             // Send AJAX request
+//             $.ajax({
+//                 url: '/admin/addproducts', // Replace with your endpoint URL
+//                 type: 'POST',
+//                 data: formData,
+//                 processData: false, // Prevent jQuery from processing the data
+//                 contentType: false, // Prevent jQuery from setting the content type
+//                 success: function(response) {
+//                     // Handle successful response
+//                     console.log('Success:', response.data);
+//                     // Redirect or show a success message as needed
+//                 },
+//                 error: function(xhr, status, error) {
+//                     // Handle errors
+//                     console.error('Error:', error);
+//                 }
+//             });
+//         })
+//         .catch(function(error) {
+//             console.error('Error:', error);
+//         });
+// });
+
+
+// });
+
+
+
+
+ <!-- <script>
+
+
+
+
+
+
+
+$(document).ready(function () {
+    var bs_modal = $("#modal");
+    var croppers = [];
+    var formData = new FormData(); // Initialize FormData object
+
+    // Function to handle file change and update preview image
+    function change(event, no) {
+        console.log("this is oke or ok");
+        document.getElementById(`imagePreview${no}`).src =
+            URL.createObjectURL(event.target.files[0]);
+        console.log(document.getElementById(`imagePreview${no}`).src);
+
+        // Show modal only if it's the first time the corresponding input file is changed
+        if (!croppers[no]) {
+            bs_modal.modal("show");
+        }
+    }
+
+    // Event listener for file input change
+    $("input[type=file]").change(function (e) {
+        var fileInput = $(this);
+        var file = e.target.files[0];
+        var reader = new FileReader();
+        var cropperId = fileInput.attr("id").slice(-1);
+
+        reader.onload = function (event) {
+            // Destroy the previous cropper instance if it exists
+            if (croppers[cropperId]) {
+                croppers[cropperId].destroy();
+            }
+            var image = document.getElementById("cropperImage");
+
+            image.onload = function () {
+                var cropper = new Cropper(image, {
+                    aspectRatio: 1,
+                    viewMode: 3,
+                    preview: ".preview",
+                });
+
+                // Handle cropping
+                $("#crop").click(function () {
+                    var canvas = cropper.getCroppedCanvas({
+                        width: 260,
+                        height: 260,
+                    });
+
+                    if (canvas) {
+                        canvas.toBlob(function (blob) {
+                            if (blob) {
+                                console.log("Blob created successfully:", blob);
+                                var imageUrl = URL.createObjectURL(blob); // Convert blob to URL
+                                console.log("Image URL:", imageUrl);
+                                $("#imagePreview" + cropperId).attr("src", imageUrl);
+                                
+                                // Append cropped image URL to FormData
+                                formData.append('croppedImage', blob, 'cropped_image.png');
+
+                                bs_modal.modal("hide");
+                            } else {
+                                console.error("Blob is null or invalid.");
+                            }
+                        });
+                    } else {
+                        console.error("Canvas is null or invalid.");
+                        bs_modal.modal("hide");
+                    }
+                });
+
+                croppers[cropperId] = cropper;
+            };
+
+            image.src = event.target.result;
+            
+        };
+
+        reader.readAsDataURL(file);
+
+        // Call change function to update preview image and show modal if necessary
+        change(e, cropperId);
+    });
+
+    // Function to handle closing modal
+    bs_modal.on("hidden.bs.modal", function () {
+        // Destroy all croppers
+        croppers.forEach(function (cropper) {
+            cropper.destroy();
+        });
+        croppers = []; // Reset croppers array
+    });
+
+    // Event listener for form submission
+    $('#productForm').submit(function(event) {
+        console.log('Form submission initiated');
+        event.preventDefault();
+
+        // Serialize form data and append it to FormData
+        var formDataSerialized = $(this).serializeArray();
+        $.each(formDataSerialized, function (index, item) {
+            formData.append(item.name, item.value);
+        });
+
+        // Send AJAX request
+        $.ajax({
+            url: '/admin/addproducts', // Replace with your endpoint URL
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response,data) {
+           Toastify({
+        text: response.msg,
+        duration: 3000,
+        gravity: "center",
+        position: "right",
+        backgroundColor: "green",
+        stopOnFocus: true,
+      }).showToast();
+                // Handle success
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+                // Handle error
+            }
+        });
+    });
+
+});
+</script> -->

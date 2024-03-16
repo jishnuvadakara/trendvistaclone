@@ -12,10 +12,12 @@ const cartModel = new Schema({
         ref: "productcollection",
       },
       quantity: { type: Number },
-      Price: { type: Number },
+      
     },
   ],
 });
 
 const  cart=mongoose.model('CartCollection',cartModel)
 module.exports=cart
+
+// Price: { type: Number },

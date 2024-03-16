@@ -15,36 +15,76 @@ module.exports = {
       console.log("come up productcontroller-1", err);
     }
   },
+  // postAddproduct: async (req, res) => {
+  //   console.log("ajax reached");
+  //   try {
+  //     if (req.fileValidationError) {
+  //       return res.status(400).json({ error: req.fileValidationError });
+  //     } else if (!req.files) {
+  //       return res.status(400).json({ error: "No files uploaded" });
+  //     }
+
+  //     console.log(req.files, req.body,'this is this ');
+  //     const productdetails = req.body;
+  //     let files = req?.files;
+  //     console.log(files);
+  //     let images = [
+  //       files.images1[0].filename,
+  //       files.images2[0].filename,
+  //       files.images3[0].filename,
+  //       files.images4[0].filename,
+  //     ];
+
+  //     const uploaddeatils = {
+  //       ...productdetails,
+  //       images,
+  //     };
+  //     console.log("🚀 ~ file: productcontroller.js:39 ~ postAddproduct: ~ uploaddeatils:", uploaddeatils)
+  //     // await products.create(uploaddeatils);
+
+  //     // res.json({ msg: "oke" });
+  //     res.redirect("/admin/product");
+  //   } catch (err) {
+  //     console.log("come up productcontroller-2", err);
+  //   }
+  // },
   postAddproduct: async (req, res) => {
-    console.log("ajax reached");
+    console.log("AJAX request reached");
+
     try {
       if (req.fileValidationError) {
         return res.status(400).json({ error: req.fileValidationError });
-      } else if (!req.files) {
-        return res.status(400).json({ error: "No files uploaded" });
+      } else if (!req.files || !req.body) {
+        return res
+          .status(400)
+          .json({ error: "No files or form data uploaded" });
       }
 
-      console.log(req.files, req.body,'this is this ');
+      console.log(req.files, req.body);
+
       const productdetails = req.body;
-      let files = req?.files;
-      console.log(files);
-      let images = [
+      console.log("🚀 ~ file: productcontroller.js:66 ~ postAddproduct: ~ productdetails:", productdetails)
+      const files = req.files;
+      console.log("🚀 ~ file: productcontroller.js:68 ~ postAddproduct: ~ files:", files)
+
+      // Extract filenames from uploaded images
+      const images = [
         files.images1[0].filename,
         files.images2[0].filename,
         files.images3[0].filename,
         files.images4[0].filename,
       ];
 
-      const uploaddeatils = {
-        ...productdetails,
-        images,
-      };
+      const uploaddeatils = { ...productdetails, images };
+      
       await products.create(uploaddeatils);
+      // Perform database operations or other processing with uploaddeatils
 
-      // res.json({ msg: "oke" });
+      // Redirect to another page after processing
       res.redirect("/admin/product");
     } catch (err) {
-      console.log("come up productcontroller-2", err);
+      console.log("Error occurred:", err);
+      res.status(500).json({ error: "Internal Server Error" });
     }
   },
 

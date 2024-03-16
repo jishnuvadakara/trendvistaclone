@@ -20,9 +20,7 @@ const orderSchema = new Schema({
         type: String,
         default: "Order Processing",
       },
-      Price: {
-        type: Number,
-      },
+      
     },
   ],
   address: {
@@ -54,3 +52,8 @@ const orderSchema = new Schema({
 const Order = mongoose.model("OrderCollection", orderSchema);
 
 module.exports = Order;
+
+
+// Price: {
+//         type: Number,
+//       }

@@ -1,9 +1,60 @@
-<%-include('../layout/admin/header.ejs')-%>
-<%-include('../partials/adminnave.ejs')-%>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>u-Profile</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
 
+    <script></script>
+    <script
+      src="https://kit.fontawesome.com/65b842e152.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css"
+    />
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+
+    <link rel="stylesheet" type="text/css" href="/css/font-awesome.css" />
+
+    <link rel="stylesheet" href="/css/templatemo-hexashop.css" />
+
+    <link rel="stylesheet" href="/css/owl-carousel.css" />
+  
+
+
+    <link rel="stylesheet" href="/css/lightbox.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+      
+  
+
+
+  </head>
+
+
+
+ <!-- action="/admin/addproducts" method="post" -->
  
 
-<form action="/admin/addproducts" method="post" enctype="multipart/form-data"   id="productForm">
+<form  action="/admin/addproducts" method="post" enctype="multipart/form-data"   id="productForm" style="height: 1000px;">
     <div class="container">
     <div class="row p-3 d-flex justify-content-center align-items-center shadow-sm mt-4" style="border-radius: 15px;">
        
@@ -86,11 +137,11 @@
   
             <div class="d-flex justify-content-center align-items-center" >
                
-                <input type="file" name="images1" id="imageInput1" accept="image/*" onchange="change(event,1)"
-                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" oninput="validateImage('imageInput1',1)" required>
-                <input type="file" name="images2" id="imageInput2" accept="image/*" onchange="change(event,2)"
-                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" oninput="validateImage('imageInput2',2)" required>
-                     <!-- <input
+                <!-- <input type="file" name="images1" id="imageInput1" accept="image/*" onchange="change(event,1)"
+                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;margin-right: 4%;" oninput="validateImage('imageInput1',1)" required> -->
+                <!-- <input type="file" name="images2" id="imageInput2" accept="image/*" onchange="change(event,2)"
+                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" oninput="validateImage('imageInput2',2)" required> -->
+                     <input
                 type="file"
                 name="images1"
                 id="images1"
@@ -118,16 +169,16 @@
                   padding-left: 5px;
                 "
                 required
-              /> -->
+              />
             </div>
             <br>
             <div class="d-flex justify-content-center align-items-center">
-                <input type="file" name="images3" id="imageInput3" accept="image/*" oninput="validateImage('imageInput3',3)" onchange="change(event,3)"
-                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px; margin-right: 4%;" required>
+                <!-- <input type="file" name="images3" id="imageInput3" accept="image/*" oninput="validateImage('imageInput3',3)" onchange="change(event,3)"
+                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px; margin-right: 4%;" required> -->
                 
-                <input type="file" name="images4" id="imageInput4" accept="image/*" oninput="validateImage('imageInput4',4)" onchange="change(event,4)"
-                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" required>
-                     <!-- <input
+                <!-- <input type="file" name="images4" id="imageInput4" accept="image/*" oninput="validateImage('imageInput4',4)" onchange="change(event,4)"
+                    style="width: 38%;height: 35px;border-radius: 5px;padding-left: 5px;" required> -->
+                     <input
                 type="file"
                 name="images3"
                 id="images3"
@@ -155,7 +206,7 @@
                   padding-left: 5px;
                 "
                 required
-              /> -->
+              />
             </div>
             <div class="d-flex justify-content-center p-3">
                <div
@@ -227,7 +278,7 @@
                     style="width: 80%;height: 35px;border-radius: 5px;padding-left: 5px;" id="tag" oninput="validation('tags')"  required></input>
             </div>
             <div class="d-flex justify-content-center mt-4">
-                <a href="/admin/product" class="btn btn-danger me-2 shadow-sm">Cancel</a>  <button type="submit" id="submit" class="shadow-sm btn" style="background-color: rgb(0, 189, 0);color: white;">Add Product</button>
+                <a href="/admin/product" class="btn btn-danger me-2 shadow-sm">Cancel</a>  <button type="submit" id="submit" class="shadow-sm btn" style="background-color: rgb(0, 189, 0);color: white;" >Add Product</button>
             </div>
             <br><br>
         </div>
@@ -242,6 +293,7 @@
       role="dialog"
       aria-labelledby="modalLabel"
       aria-hidden="true"
+      
     >
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -258,7 +310,7 @@
           </div>
           <div class="modal-body">
             <div class="img-container">
-              <div class="row">
+              <div class="row" >
                 <div class="col-md-8">
                   <img id="cropperImage" class="img-fluid" />
                 </div>
@@ -295,6 +347,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
 
   <script>
+
+  
+
     function change(event,no){
         console.log("this is oke or ok");
         document.getElementById(`imagePreview${no}`).src=URL.createObjectURL(event.target.files[0])
@@ -361,24 +416,17 @@
   </script>
   
     
-<!-- 
- <script>
 
-
-
-
-
-// newwwwww-------------------------------------------------------------------------------------------------------------
-$(document).ready(function () {
+<script>
+ $(document).ready(function () {
     var bs_modal = $("#modal");
     var croppers = [];
 
     // Function to handle file change and update preview image
     function change(event, no) {
-        console.log("this is oke or ok");
+        console.log("File changed, updating preview image...");
         document.getElementById(`imagePreview${no}`).src =
             URL.createObjectURL(event.target.files[0]);
-        console.log(document.getElementById(`imagePreview${no}`).src);
 
         // Show modal only if it's the first time the corresponding input file is changed
         if (!croppers[no]) {
@@ -408,29 +456,33 @@ $(document).ready(function () {
                 });
 
                 // Handle cropping
-               $("#crop").click(function () {
-    var canvas = cropper.getCroppedCanvas({
-        width: 260,
-        height: 260,
-    });
+                $("#crop").click(function () {
+                    var canvas = cropper.getCroppedCanvas({
+                        width: 260,
+                        height: 260,
+                    });
 
-    if (canvas) {
-        canvas.toBlob(function (blob) {
-            if (blob) {
-                console.log("Blob created successfully:", blob);
-                // Append the cropped image blob to FormData
-                formData.append(`cropped_image_${cropperId}`, blob, `cropped_image_${cropperId}.png`);
-                bs_modal.modal("hide");
-            } else {
-                console.error("Blob is null or invalid.");
-            }
-        });
-    } else {
-        console.error("Canvas is null or invalid.");
-        bs_modal.modal("hide");
-    }
-});
+                    if (canvas) {
+                        canvas.toBlob(function (blob) {
+                            if (blob) {
+                                console.log("Blob created successfully:", blob);
+                                var imageUrl = URL.createObjectURL(blob); // Convert blob to URL
+                                console.log("Image URL:", imageUrl);
+                                $("#imagePreview" + cropperId).attr("src", imageUrl);
 
+                                // Store cropped image URL for sending it along with the form data
+                                fileInput.data("croppedImage", blob);
+
+                                bs_modal.modal("hide");
+                            } else {
+                                console.error("Blob is null or invalid.");
+                            }
+                        });
+                    } else {
+                        console.error("Canvas is null or invalid.");
+                        bs_modal.modal("hide");
+                    }
+                });
 
                 croppers[cropperId] = cropper;
             };
@@ -454,331 +506,49 @@ $(document).ready(function () {
         croppers = []; // Reset croppers array
     });
 
-    // Function to handle form submission
-// Function to handle form submission
-// Function to handle form submission
-$("#productForm").submit(function(event) {
-    console.log('Form submitted');
-    event.preventDefault();
+    // Event listener for form submission
+    $("#productForm").submit(function (e) {
+        e.preventDefault(); // Prevent default form submission
 
-    // Create FormData object to collect form data
-    var formData = new FormData(this);
-
-    // Array to hold all Promise objects
-    var promises = [];
-
-    // Loop through croppers and create a Promise for each
-    for (var i = 0; i < croppers.length; i++) {
-        var cropper = croppers[i];
-        var canvas = cropper.getCroppedCanvas();
-        if (canvas) {
-            // Convert canvas to Blob and append the URL to formData
-            promises.push(new Promise(function(resolve, reject) {
-                canvas.toBlob(function(blob) {
-                    if (blob) {
-                        var imageUrl = URL.createObjectURL(blob);
-                        formData.append(`images${i + 1}`, imageUrl);
-                        resolve(); // Resolve the Promise
-                    } else {
-                        reject("Blob is null or invalid."); // Reject if blob is null
-                    }
-                });
-            }));
-        }
-    }
-
-    // Wait for all Promises to resolve
-    Promise.all(promises)
-        .then(function() {
-            console.log("🚀 ~ file: addproduct.ejs:478 ~ formData:", formData);
-
-            // Send AJAX request
-            $.ajax({
-                url: '/admin/addproducts', // Replace with your endpoint URL
-                type: 'POST',
-                data: formData,
-                processData: false, // Prevent jQuery from processing the data
-                contentType: false, // Prevent jQuery from setting the content type
-                success: function(response) {
-                    // Handle successful response
-                    console.log('Success:', response.data);
-                    // Redirect or show a success message as needed
-                },
-                error: function(xhr, status, error) {
-                    // Handle errors
-                    console.error('Error:', error);
-                }
-            });
+        // Serialize form data
+        var formData = new FormData();
+        console.log("🚀 ~ file: addproduct.ejs:460 ~ formData:", formData)
+         var formDataSerialized = $(this).serializeArray();
+        $.each(formDataSerialized, function (index, item) {
+            console.log("🚀 ~ file: addproduct.ejs:463 ~ item:", item)
+            formData.append(item.name, item.value);
         })
-        .catch(function(error) {
-            console.error('Error:', error);
-        });
-});
 
-
-});
-
-
-// $(document).ready(function () {
-//     var bs_modal = $("#modal");
-//     var croppers = [];
-//     var formData = new FormData(); // Initialize FormData object
-
-//     // Function to handle file change and update preview image
-//     function change(event, no) {
-//         console.log("this is oke or ok");
-//         document.getElementById(`imagePreview${no}`).src =
-//             URL.createObjectURL(event.target.files[0]);
-//         console.log(document.getElementById(`imagePreview${no}`).src);
-
-//         // Show modal only if it's the first time the corresponding input file is changed
-//         if (!croppers[no]) {
-//             bs_modal.modal("show");
-//         }
-//     }
-
-//     // Event listener for file input change
-//     $("input[type=file]").change(function (e) {
-//         var fileInput = $(this);
-//         var file = e.target.files[0];
-//         var reader = new FileReader();
-//         var cropperId = fileInput.attr("id").slice(-1);
-
-//         reader.onload = function (event) {
-//             // Destroy the previous cropper instance if it exists
-//             if (croppers[cropperId]) {
-//                 croppers[cropperId].destroy();
-//             }
-//             var image = document.getElementById("cropperImage");
-
-//             image.onload = function () {
-//                 var cropper = new Cropper(image, {
-//                     aspectRatio: 1,
-//                     viewMode: 3,
-//                     preview: ".preview",
-//                 });
-
-//                 // Handle cropping
-//                 $("#crop").click(function () {
-//                     var canvas = cropper.getCroppedCanvas({
-//                         width: 260,
-//                         height: 260,
-//                     });
-
-//                     if (canvas) {
-//                         canvas.toBlob(function (blob) {
-//                             if (blob) {
-//                                 console.log("Blob created successfully:", blob);
-//                                 var imageUrl = URL.createObjectURL(blob); // Convert blob to URL
-//                                 console.log("Image URL:", imageUrl);
-//                                 $("#imagePreview" + cropperId).attr("src", imageUrl);
-                                
-//                                 // Append cropped image URL to FormData
-//                                 formData.append('croppedImage', blob, 'cropped_image.png');
-
-//                                 bs_modal.modal("hide");
-//                             } else {
-//                                 console.error("Blob is null or invalid.");
-//                             }
-//                         });
-//                     } else {
-//                         console.error("Canvas is null or invalid.");
-//                         bs_modal.modal("hide");
-//                     }
-//                 });
-
-//                 croppers[cropperId] = cropper;
-//             };
-
-//             image.src = event.target.result;
-            
-//         };
-
-//         reader.readAsDataURL(file);
-
-//         // Call change function to update preview image and show modal if necessary
-//         change(e, cropperId);
-//     });
-
-//     // Function to handle closing modal
-//     bs_modal.on("hidden.bs.modal", function () {
-//         // Destroy all croppers
-//         croppers.forEach(function (cropper) {
-//             cropper.destroy();
-//         });
-//         croppers = []; // Reset croppers array
-//     });
-
-//     // Event listener for form submission
-//     $('#productForm').submit(function(event) {
-//         console.log('Form submission initiated');
-//         event.preventDefault();
-
-//         // Serialize form data and append it to FormData
-//         var formDataSerialized = $(this).serializeArray();
-//         $.each(formDataSerialized, function (index, item) {
-//             formData.append(item.name, item.value);
-//         });
-
-//         // Send AJAX request
-//         $.ajax({
-//             url: '/admin/addproducts', // Replace with your endpoint URL
-//             type: 'POST',
-//             data: formData,
-//             processData: false,
-//             contentType: false,
-//             success: function(response,data) {
-//            Toastify({
-//         text: response.msg,
-//         duration: 3000,
-//         gravity: "center",
-//         position: "right",
-//         backgroundColor: "green",
-//         stopOnFocus: true,
-//       }).showToast();
-//                 // Handle success
-//             },
-//             error: function(xhr, status, error) {
-//                 console.error('Error:', error);
-//                 // Handle error
-//             }
-//         });
-//     });
-
-// });
-</script> -->
-<!-- <script>
-    $(document).ready(function () {
-        var bs_modal = $("#modal");
-        var croppers = [];
-        var formData = new FormData(); // Initialize FormData object
-
-        // Function to handle file change and update preview image
-        function change(event, no) {
-            console.log("this is oke or ok");
-            document.getElementById(`imagePreview${no}`).src =
-                URL.createObjectURL(event.target.files[0]);
-            console.log(document.getElementById(`imagePreview${no}`).src);
-
-            // Show modal only if it's the first time the corresponding input file is changed
-            if (!croppers[no]) {
-                bs_modal.modal("show");
+        // Add cropped image blobs to formData
+        $("input[type=file]").each(function () {
+            var croppedImage = $(this).data("croppedImage");
+            if (croppedImage) {
+                formData.append($(this).attr("name"), croppedImage);
             }
-        }
-
-        // Event listener for file input change
-        $("input[type=file]").change(function (e) {
-            var fileInput = $(this);
-            var file = e.target.files[0];
-            var reader = new FileReader();
-            var cropperId = fileInput.attr("id").slice(-1);
-
-            reader.onload = function (event) {
-                // Destroy the previous cropper instance if it exists
-                if (croppers[cropperId]) {
-                    croppers[cropperId].destroy();
-                }
-                var image = document.getElementById("cropperImage");
-
-                image.onload = function () {
-                    var cropper = new Cropper(image, {
-                        aspectRatio: 1,
-                        viewMode: 3,
-                        preview: ".preview",
-                    });
-
-                    // Handle cropping
-                    $("#crop").click(function () {
-                        var canvas = cropper.getCroppedCanvas({
-                            width: 260,
-                            height: 260,
-                        });
-
-                        if (canvas) {
-                            canvas.toBlob(function (blob) {
-                                if (blob) {
-                                    console.log("Blob created successfully:", blob);
-                                    var imageUrl = URL.createObjectURL(blob); // Convert blob to URL
-                                    console.log("Image URL:", imageUrl);
-                                    $("#imagePreview" + cropperId).attr("src", imageUrl);
-                                    
-                                    // Append cropped image blob with the desired name to FormData
-                                    formData.append('croppedImage', blob, 'cropped_image.png');
-
-                                    bs_modal.modal("hide");
-                                } else {
-                                    console.error("Blob is null or invalid.");
-                                }
-                            });
-                        } else {
-                            console.error("Canvas is null or invalid.");
-                            bs_modal.modal("hide");
-                        }
-                    });
-
-                    croppers[cropperId] = cropper;
-                };
-
-                image.src = event.target.result;
+        });
+          console.log(formData,'this is the data');
+        // Perform AJAX request
+        $.ajax({
+            url: $(this).attr("action"), // Form action URL
+            type: $(this).attr("method"), // Form method (POST)
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                // Handle success response
                 
-            };
-
-            reader.readAsDataURL(file);
-
-            // Call change function to update preview image and show modal if necessary
-            change(e, cropperId);
+            },
+            error: function (xhr, status, error) {
+                // Handle error
+                console.error("Error:", error);
+            }
         });
-
-        // Function to handle closing modal
-        bs_modal.on("hidden.bs.modal", function () {
-            // Destroy all croppers
-            croppers.forEach(function (cropper) {
-                cropper.destroy();
-            });
-            croppers = []; // Reset croppers array
-        });
-
-        // Event listener for form submission
-        $('#productForm').submit(function(event) {
-            console.log('Form submission initiated');
-            event.preventDefault();
-
-            // Serialize form data and append it to FormData
-            var formDataSerialized = $(this).serializeArray();
-            $.each(formDataSerialized, function (index, item) {
-                console.log("🚀 ~ file: addproduct.ejs:718 ~ item:", item)
-                console.log("🚀 ~ file: addproduct.ejs:718 ~ index:", index)
-                formData.append(item.name, item.value);
-                
-            });
-
-            // Send AJAX request
-            $.ajax({
-                url: '/admin/addproducts', // Replace with your endpoint URL
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    Toastify({
-                        text: response.msg,
-                        duration: 3000,
-                        gravity: "center",
-                        position: "right",
-                        backgroundColor: "green",
-                        stopOnFocus: true,
-                    }).showToast();
-                    // Handle success
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', error);
-                    // Handle error
-                }
-            });
-        });
-
     });
-</script> -->
+});
+
+
+
+</script>
 
 
 
