@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>u-Profile</title>
+    <title>Add-Product</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -312,7 +312,8 @@
             <div class="img-container">
               <div class="row" >
                 <div class="col-md-8">
-                  <img id="cropperImage" class="img-fluid" />
+                  <!-- <img id="cropperImage" class="img-fluid" style="width: 100%;height: auto;" /> -->
+                  <img id="cropperImage" class="img-fluid" style="width: 100%; height: auto;" />
                 </div>
                 <div class="col-md-4">
                   <div class="preview"></div>
@@ -418,6 +419,7 @@
     
 
 <script>
+  
  $(document).ready(function () {
     var bs_modal = $("#modal");
     var croppers = [];
@@ -514,6 +516,7 @@
         var formData = new FormData();
         console.log("🚀 ~ file: addproduct.ejs:460 ~ formData:", formData)
          var formDataSerialized = $(this).serializeArray();
+
         $.each(formDataSerialized, function (index, item) {
             console.log("🚀 ~ file: addproduct.ejs:463 ~ item:", item)
             formData.append(item.name, item.value);
@@ -536,6 +539,9 @@
             contentType: false,
             success: function (response) {
                 // Handle success response
+                if(response.msg=='ADD'){
+                  location.href="/admin/product"
+                }
                 
             },
             error: function (xhr, status, error) {

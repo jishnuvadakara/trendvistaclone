@@ -67,7 +67,7 @@ module.exports = {
       const files = req.files;
       console.log("🚀 ~ file: productcontroller.js:68 ~ postAddproduct: ~ files:", files)
 
-      // Extract filenames from uploaded images
+      //? Extract filenames from uploaded images
       const images = [
         files.images1[0].filename,
         files.images2[0].filename,
@@ -78,10 +78,10 @@ module.exports = {
       const uploaddeatils = { ...productdetails, images };
       
       await products.create(uploaddeatils);
-      // Perform database operations or other processing with uploaddeatils
-
-      // Redirect to another page after processing
-      res.redirect("/admin/product");
+      res.json({msg:'ADD'})
+      //*Image croping done 
+     
+      
     } catch (err) {
       console.log("Error occurred:", err);
       res.status(500).json({ error: "Internal Server Error" });
