@@ -324,17 +324,46 @@ module.exports = {
           "🚀 ~ file: dashboardController.js:325 ~ Salesrepot: ~ EndDate:",
           EndDate
         );
+      } else if (Year == "Month") {
+        let currentDate = new Date();
+        let currentMonthIndex = currentDate.getMonth(); // Get the current month index (0-11)
+        let currentMonth = currentMonthIndex + 1; //* find the current month index
+        let IndexOfMonth = [1, 3, 5, 7, 8, 10, 12];
+        if (IndexOfMonth.includes(currentMonth)) {
+          console.log("working-31");
+          StartDates=`2024-0${currentMonth}-01`
+          EndDates=`2024-0${currentMonth}-31`
+        } else {
+          console.log("working -30");
+             StartDates = `2024-0${currentMonth}-01`;
+             EndDates = `2024-0${currentMonth}-30`;
+        }
+      }else if(Year=='Week'){
+        // Get the current date
+        let currentDate = new Date();
+
+        // Subtract 6 days from the current date
+        let previousDate = new Date(currentDate);
+        previousDate.setDate(currentDate.getDate() - 6);
+        StartDates = previousDate.toISOString().split("T")[0];
+        EndDates=new Date().toISOString().split("T")[0]
+
+        
       } else if (Year != null) {
         console.log("the year is ", Year);
-        StartDates=`${Year}-01-01`
-        EndDates=`${Year}-12-31`
-        console.log("🚀 ~ file: dashboardController.js:331 ~ Salesrepot: ~ StartDates:", StartDates)
-        console.log("🚀 ~ file: dashboardController.js:332 ~ Salesrepot: ~ EndDates:", EndDates)
-
-      }else{
+        StartDates = `${Year}-01-01`;
+        EndDates = `${Year}-12-31`;
+        console.log(
+          "🚀 ~ file: dashboardController.js:331 ~ Salesrepot: ~ StartDates:",
+          StartDates
+        );
+        console.log(
+          "🚀 ~ file: dashboardController.js:332 ~ Salesrepot: ~ EndDates:",
+          EndDates
+        );
+      } else {
         StartDates = StartDate;
-        EndDates=EndDate
-
+        EndDates = EndDate;
       }
 
       // Find orders within the specified date range
